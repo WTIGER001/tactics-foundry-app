@@ -1,1 +1,83 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+@import 'app/styles/forms.css';
+
+
+:root {
+    --lock-color : rgb(127, 0, 0);
+    --primary-color : white;
+    --highlight-color : #9ed485;
+    --muted-color: #515558;
+    --form-bg: #6969692b;
+    --form-focus-bg: #cab7b75c;
+    --muted-text: #d7d7d8;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato';
+}
+
+/* -------------------------------------------- */
+/* Typography                                   */
+/* -------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.2;
+    display: block;
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin-top: .75em;
+}
+
+h3 {
+    font-size: 1.1rem;
+}
+
+h4 {
+    font-size: 1rem;
+}
+
+.muted {
+    color: var(--muted-color)
+}
+
+
+.page-area {
+    height: 100vh;
+    width: 100vw;
+    padding: 0.5em;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#97b8ff+0,bfd2ff+50,dfe8ff+100 */
+    background: #97b8ff; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  #97b8ff 0%, #bfd2ff 50%, #dfe8ff 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  #97b8ff 0%,#bfd2ff 50%,#dfe8ff 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  #97b8ff 0%,#bfd2ff 50%,#dfe8ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#97b8ff', endColorstr='#dfe8ff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+.centered {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+    justify-items: center;
+}
+.centered-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.m-1 {
+    margin: .25em;
+}

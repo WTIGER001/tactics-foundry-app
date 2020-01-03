@@ -1,0 +1,29 @@
+button.btn {
+    border-radius: 5px;
+    cursor: pointer;
+    padding: .25em 0.5em;
+    border: 0px;
+    font-size: 1.5em;
+}
+
+button.btn-secondary {
+    color: white;
+    background: rgb(96,131,203);
+    background: linear-gradient(90deg, rgba(96,131,203,1) 0%, rgba(62,112,202,1) 50%, rgba(46,97,186,1) 100%);
+}
+
+input {
+    border-radius: 5px;
+    border: 0px;
+    padding: .25em 0.5em;
+    font-size: 1.5em;
+}
+
+input.joined {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.clickable {
+    cursor: pointer;
+}
