@@ -1,0 +1,23 @@
+<p>test-binding-container works!</p>
+
+<hr>
+<app-test-binding [data]="data">
+
+
+</app-test-binding>
+<hr>
+<app-test-binding-parent [data]="data" [mgr]="dbmgr">
+    
+</app-test-binding-parent>
+<!-- 
+<ng-container *ngFor="let item of data.annotations" #parent>
+    ADDING ANNOTATION
+    <app-test-binding-child [item]="item"></app-test-binding-child>
+</ng-container> -->
+<hr>
+
+<button (click)="changename()">Change Name</button>
+<button (click)="addAnnotation()">Add Annotation</button>
+<button (click)="deleteAnnotation()">Remove Annotation</button>
+<button (click)="changeAnnotation()">Change Annotation</button>
+<button (click)="changeAnnotationCenter()">Change Annotation Center</button>

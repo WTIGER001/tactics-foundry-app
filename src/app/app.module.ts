@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,9 @@ import { environment } from '../environments/environment';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { Icons } from './icon-library';
 import { CoreModule } from './core/core.module';
+import { StorageModule } from '@ngx-pwa/local-storage';
+import { ScratchModule } from './scratch/scratch.module';
+import * as shortid from 'shortid';
 
 
 @NgModule({
@@ -17,10 +21,13 @@ import { CoreModule } from './core/core.module';
   ],
   imports: [
     BrowserModule,
+    FormsModule,      
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FontAwesomeModule,
-    CoreModule
+    CoreModule,
+    StorageModule.forRoot({ IDBNoWrap: true }), 
+    ScratchModule
   ],
   providers: [],
   bootstrap: [AppComponent]

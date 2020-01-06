@@ -1,0 +1,19 @@
+
+<h1>TEST BINDING LIVEFIND</h1>
+<div *ngIf="data">
+
+    MAP NAME : {{data.name}}
+
+    <div *ngFor="let a of items">
+        <div>
+            Name: {{a.name}}, Color: {{a.color}}
+        </div>
+
+    </div>
+
+</div>
+<div *ngIf="!data">
+
+    NO DATA YET
+
+</div>

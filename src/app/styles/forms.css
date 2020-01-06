@@ -6,10 +6,20 @@ button.btn {
     font-size: 1.5em;
 }
 
+button.btn-primary {
+    color: white;
+    background-color: green;
+}
+
 button.btn-secondary {
     color: white;
     background: rgb(96,131,203);
     background: linear-gradient(90deg, rgba(96,131,203,1) 0%, rgba(62,112,202,1) 50%, rgba(46,97,186,1) 100%);
+}
+
+button.btn-big {
+    padding: .5em 1.5em;
+    font-size: 2em;
 }
 
 input {

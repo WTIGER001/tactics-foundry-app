@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChangeplayeridComponent } from './changeplayerid.component';
+import { TestBindingParentComponent } from './test-binding-parent.component';
 
-describe('ChangeplayeridComponent', () => {
-  let component: ChangeplayeridComponent;
-  let fixture: ComponentFixture<ChangeplayeridComponent>;
+describe('TestBindingParentComponent', () => {
+  let component: TestBindingParentComponent;
+  let fixture: ComponentFixture<TestBindingParentComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangeplayeridComponent ]
+      declarations: [ TestBindingParentComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChangeplayeridComponent);
+    fixture = TestBed.createComponent(TestBindingParentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
