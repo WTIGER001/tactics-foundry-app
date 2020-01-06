@@ -34,4 +34,8 @@ import { ContenteditableModule } from '@ng-stack/contenteditable';
     DataService
   ]
 })
-export class CoreModule { }
+export class CoreModule { 
+  root(environment) {
+
+  }
+}

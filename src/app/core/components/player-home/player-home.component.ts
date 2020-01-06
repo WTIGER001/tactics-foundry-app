@@ -3,6 +3,7 @@ import { DataService } from '../../data.service';
 import { Observable } from 'rxjs';
 import { Player } from '../../model';
 import { FormControl } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-player-home',
@@ -16,8 +17,9 @@ export class PlayerHomeComponent implements OnInit {
   displayname : string = ""
   newuser: boolean = true
   editingName = false
-
+  address
   constructor(private data : DataService) {
+    this.address = environment.remoteAddress
     this.newuser = this.data.newUser
     this.data.player$.subscribe( p => {
       console.log("Recieved New Player Object", p)

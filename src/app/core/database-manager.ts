@@ -7,7 +7,7 @@ import { ObjectType } from './model/object-type';
 import * as converter from './model/object-converter'
 import { from } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-
+import { environment } from 'src/environments/environment';
 
 export class DatabaseManager<T extends ObjectType> {
 
@@ -19,7 +19,7 @@ export class DatabaseManager<T extends ObjectType> {
   private syncHandler: PouchDB.Replication.Sync<{}>
   private changes$: Subject<any> = new Subject()
 
-  constructor(public dbname: string, filteredIds: string[] = [], remoteAddressPrefix: string = 'http://localhost:5984/') {
+  constructor(public dbname: string, filteredIds: string[] = [], remoteAddressPrefix: string = environment?environment.remoteAddress:'http://69.133.98.109:5984/') {
     this.syncFilterIds = [...filteredIds]
 
     // Register Plugins
