@@ -30,3 +30,7 @@ export abstract class ObjectType {
       })
     }
   }
+
+  export interface IMultiDatabaseItem {
+    sourceDB : string
+  }

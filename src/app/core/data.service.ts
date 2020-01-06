@@ -4,21 +4,22 @@
 
 import { Injectable } from '@angular/core';
 import { DatabaseManager } from './database-manager';
-import { Player, MapData, Game, Annotation } from './model';
+import { Player, MapData, Game, Annotation, ObjectType } from './model';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import * as modelutil from './model/modelutil';
 import { StorageMap } from '@ngx-pwa/local-storage';
 
 const PLAYER_DB = 'players'
+const TOKEN_DB = 'tokens'
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   public newUser = true
-  private playerDB: DatabaseManager<Player>
-  private gameDBs: Map<string, DatabaseManager<Game | Annotation | MapData>> = new Map()
-
+  public playerDB: DatabaseManager<Player>
+  public gameDBs: Map<string, DatabaseManager<Game | Annotation | MapData>> = new Map()
+  public DBs: Map<string, DatabaseManager<any>> = new Map()
 
   /** Holds the player Id in an observable object. Defaults to a new id */
   public playerId$: BehaviorSubject<string> = new BehaviorSubject(modelutil.genid())
@@ -120,6 +121,7 @@ export class DataService {
   private loadPlayer(playerid: string) {
     // Create and sync to the player database
     this.playerDB = new DatabaseManager<Player>(PLAYER_DB, [playerid])
+    this.DBs.set(PLAYER_DB, this.playerDB)
 
     // Retrieves the player (and all changes). The returned object is a Player object
     this.playerDB.get$(playerid).subscribe(player => {
@@ -137,6 +139,23 @@ export class DataService {
   }
 
   private handleError(err: Error, attemptedAction: string) {
+
+  }
+
+  public store(item : ObjectType) {
+    // Atempt to use the database that created this object (if we know what it is)
+    if (item['sourceDB']) {
+      let sourceDB = item['sourceDB']
+      let db = this.DBs.get(sourceDB)
+      if (db) {
+        db.store(item)
+        return;
+      }
+    }
+
+    if (item.type == Player.TYPE) {
+      this.playerDB.store(<Player>item)
+    }
 
   }
 }

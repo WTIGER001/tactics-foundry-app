@@ -1,3 +1,6 @@
 .playerid {
     font-family: 'Courier New', Courier, monospace;
 }
+.id {
+    font-weight: 200;
+}

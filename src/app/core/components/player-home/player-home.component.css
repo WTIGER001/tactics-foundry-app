@@ -1,0 +1,36 @@
+.hdr {
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-end;
+    align-items: center;
+}
+
+.hdr h1 {
+    color: white;
+    text-shadow: 1px 1px black;
+    margin: 0 .25em;
+    font-size: 2rem;
+    padding: 0;
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    padding: 2em;
+    align-items:  center;
+}
+
+.hdr-edit {
+    width: 100%;
+}
+
+.editting {
+    width: 100%;
+    margin: 0 1em;
+    border: 1px solid white;
+    border-radius: 3px;
+}
+
+.border {
+    border: 1px solid yellow;
+}

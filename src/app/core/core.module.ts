@@ -10,6 +10,8 @@ import { JoingameComponent } from './components/joingame/joingame.component';
 import { PlayeridComponent } from './components/playerid/playerid.component';
 import { DisplaynameComponent } from './components/displayname/displayname.component';
 import { DataService } from './data.service';
+import { DetailPageComponent } from './components/detail-page/detail-page.component';
+import { ContenteditableModule } from '@ng-stack/contenteditable';
 
 
 @NgModule({
@@ -18,12 +20,15 @@ import { DataService } from './data.service';
     JoingameComponent, 
     PlayeridComponent, 
     DisplaynameComponent,
-    PlayerHomeComponent],
+    PlayerHomeComponent,
+    DetailPageComponent
+  ],
   imports: [
     CommonModule, 
     FormsModule,
     FontAwesomeModule, 
-    NgxBarcodeModule
+    NgxBarcodeModule, 
+    ContenteditableModule
   ], 
   providers: [
     DataService

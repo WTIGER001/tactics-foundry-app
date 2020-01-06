@@ -2,7 +2,19 @@
     <welcome></welcome>
 </ng-container>
 <ng-container *ngIf="player">
-     YOU ARE HOME !!!!! 
-     <h1>{{player?.displayName}}</h1>
+     <detail-page title="Home" [showHeader]="false">
+        <div class="hdr" top>
+            <div class="row " [class.hdr-edit]="editingName" ><h1 [contenteditable]="editingName" 
+                (keydown.enter)="saveName($event)" (keydown.esc)="cancelEdit()" [class.editting]="editingName" 
+                [(ngModel)]="displayname" >{{player?.displayName}}</h1>
+                <fa-icon [icon]="editingName? 'times' : 'edit'" size="lg" class="clickable muted" (click)="editName()"></fa-icon></div>
+            <playerid></playerid>
+        </div>
+
+        <div main>
+            <button class="btn btn-big"> Big button</button>
+        </div>
+
+     </detail-page>
 </ng-container>
 
