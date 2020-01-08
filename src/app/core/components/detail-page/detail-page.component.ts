@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'detail-page',
@@ -6,12 +7,18 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./detail-page.component.css']
 })
 export class DetailPageComponent implements OnInit {
-  @Input() showHeader = true
+  @Input() showTitle = true
+  @Input() showBack = true
   @Input() showTop = true
   @Input() title = "Title"
-  constructor() { }
+  @Input() backLink = "Title"
+  constructor(private router : Router) { }
 
   ngOnInit() {
+  }
+
+  onBack() {
+    this.router.navigate([this.backLink])
   }
 
 }

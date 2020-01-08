@@ -1,0 +1,29 @@
+.character-img {
+    height: 94%;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.sort {
+    color: white;
+    font-size: 1.5rem;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sort .text {
+    /* font-size: .75em; */
+    text-shadow: 1px 1px black;
+    padding-right: .5em;
+    padding-left: 1em;
+}

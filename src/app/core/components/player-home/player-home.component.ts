@@ -54,4 +54,13 @@ export class PlayerHomeComponent implements OnInit {
     this.displayname = this.player.displayName
   }
 
+  async lock() {
+    try {
+      await screen.orientation.lock("portrait");
+      console.log("Locked to Portrait")
+      alert("LOCKING SCREEN to Portrait")
+    } catch (err) {
+      alert("ERROR LOCKING SCREEN")
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
+import { RouterModule} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxBarcodeModule } from 'ngx-barcode';
@@ -12,6 +12,12 @@ import { DisplaynameComponent } from './components/displayname/displayname.compo
 import { DataService } from './data.service';
 import { DetailPageComponent } from './components/detail-page/detail-page.component';
 import { ContenteditableModule } from '@ng-stack/contenteditable';
+import { SearchInputComponent } from './components/search-input/search-input.component';
+import { TabBarComponent } from './components/tab-bar/tab-bar.component';
+import { TabItemComponent } from './components/tab-item/tab-item.component';
+import { CharactersPageComponent } from './pages/characters-page/characters-page.component';
+import { GamesPageComponent } from './pages/games-page/games-page.component';
+import { PicturebtnComponent } from './components/picturebtn/picturebtn.component';
 
 
 @NgModule({
@@ -21,14 +27,21 @@ import { ContenteditableModule } from '@ng-stack/contenteditable';
     PlayeridComponent, 
     DisplaynameComponent,
     PlayerHomeComponent,
-    DetailPageComponent
+    DetailPageComponent,
+    SearchInputComponent,
+    TabBarComponent,
+    TabItemComponent,
+    CharactersPageComponent,
+    GamesPageComponent,
+    PicturebtnComponent
   ],
   imports: [
     CommonModule, 
     FormsModule,
     FontAwesomeModule, 
     NgxBarcodeModule, 
-    ContenteditableModule
+    ContenteditableModule, 
+    RouterModule
   ], 
   providers: [
     DataService

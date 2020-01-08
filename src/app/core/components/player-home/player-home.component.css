@@ -5,11 +5,11 @@
     align-items: center;
 }
 
-.hdr h1 {
+.hdrh1 {
     color: white;
     text-shadow: 1px 1px black;
     margin: 0 .25em;
-    font-size: 2rem;
+    font-size: 2em;
     padding: 0;
     text-align: center;
 }
@@ -33,4 +33,70 @@
 
 .border {
     border: 1px solid yellow;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: stretch;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    padding: .5em;
+}
+
+.span2 {
+    grid-column: span 2;
+}
+
+.buttons .btn {
+    padding: .75em 0;
+}
+
+.bigtxt {
+    font-size: 1.5em;
+}
+
+.btn-games {
+    background-image: url(/assets/pages/games-btn.png);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+
+.btn-characters {
+    background-image: url(/assets/pages/character-btn.png);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
+.btn-settings {
+    background-image: url(/assets/pages/settings-btn.png);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+.btn-templates {
+    background-image: url(/assets/pages/templates-btn.png);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+@media  (min-width: 750px) {
+    .main {
+        display: grid;
+        grid-template-columns: auto;
+        justify-content: center;
+        font-size: 1.5em;
+    }
+    .buttons {
+        min-width: 750px;
+    }
+    .hdr {
+        font-size: 2em;
+    }
+    .row {
+        padding: 1em;
+    }
 }

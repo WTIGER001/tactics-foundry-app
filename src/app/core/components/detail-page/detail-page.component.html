@@ -1,12 +1,12 @@
 <div class="detail-page">
-    <div class="detail-page-header" *ngIf="showHeader">
-        <!-- Back Button -->
-        <button class="detail-page-back"><fa-icon icon="chevron-double-left" size="2x"></fa-icon></button>
-
-        <!-- Title  -->
-        <div class="detail-page-header-title">{{title}}</div>
-    </div>
     <div class="detail-top" *ngIf="showTop">
+        <div>
+            <!-- Back Button -->
+            <button *ngIf="showBack" class="detail-page-back" (click)='onBack()'><img src="/assets/components/back.png"></button>
+
+            <!-- Title  -->
+            <div  *ngIf="showBack" class="detail-page-header-title">{{title}}</div>
+        </div>
         <ng-content select=[top]></ng-content>
     </div>
     <div class="detail-main">

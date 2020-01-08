@@ -23,24 +23,19 @@
 
 .detail-page-header-title {
     position: absolute;
-    width: 100%;
-    pointer-events: none;
-    text-align: center;
-    padding: 3px;
-}
-
-.detail-page-back {
+    top: 5px;
+    left: 110px;
+    font-size: 1.75rem;
     color: white;
-    background-color: rgb(65, 113, 156);
-    border : 0;
-    padding-left: 2em;
-    padding-right: 2em;
+    text-shadow: 1px 1px black;
 }
 
 .detail-top {
-    background-color: rgb(91, 155, 213);
-    height: 175px;
+    background-color: rgb(90, 106, 132);
+    /* height: 175px; */
+    height: 240px;
     flex-shrink: 0;
+    position: relative;
 }
 
 .detail-main {
@@ -53,4 +48,19 @@
     background: linear-gradient(135deg,  #97b8ff 0%,#bfd2ff 50%,#dfe8ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#97b8ff', endColorstr='#dfe8ff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
+}
+
+.detail-page-back {
+    position: absolute;
+    /* box-shadow: 1px 1px 5px 1px rgba(0,0,0,0.6); */
+    cursor: pointer;
+    padding: 0;
+    border: 0;
+    left: -1px;
+    top: -1px;
+    background-color: rgb(0,0,0,0);
+}
+
+.detail-page-back:active {
+    transform: translate(1px, 1px);
 }

@@ -2,18 +2,27 @@
     <welcome></welcome>
 </ng-container>
 <ng-container *ngIf="player">
-     <detail-page title="Home" [showHeader]="false">
+     <detail-page title="Home" [showTitle]="false" [showBack]='false'>
         <div class="hdr" top>
-            <div class="row " [class.hdr-edit]="editingName" ><h1 [contenteditable]="editingName" 
+            <div class="row " [class.hdr-edit]="editingName" ><h1 class='hdrh1' [contenteditable]="editingName" 
                 (keydown.enter)="saveName($event)" (keydown.esc)="cancelEdit()" [class.editting]="editingName" 
                 [(ngModel)]="displayname" >{{player?.displayName}}</h1>
                 <fa-icon [icon]="editingName? 'times' : 'edit'" size="lg" class="clickable muted" (click)="editName()"></fa-icon></div>
             <playerid></playerid>
         </div>
 
-        <div main>
-            <button class="btn btn-big"> Big button</button>
-            {{address}}
+        <div main class='main'>
+            <div class="buttons">
+                <button class="btn btn-primary span2">
+                    <div class="bigtxt">Join Active Session</div>
+                    <div>Ironfang Invasion</div>
+                </button>
+                <button class="btn btn-secondary pic-btn btn-games" routerLink='/my-games' >Games</button>
+                <button class="btn btn-secondary pic-btn btn-characters" routerLink="/my-characters">Characters</button>
+                <button class="btn btn-secondary pic-btn btn-settings" routerLink="my-settings">Settings</button>
+                <button class="btn btn-secondary pic-btn btn-templates" (click)="lock()">Templates</button>
+
+            </div>
         </div>
 
      </detail-page>
