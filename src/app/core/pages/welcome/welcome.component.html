@@ -1,0 +1,14 @@
+<div class="welcome-page">
+    <div class="welcome-logo">
+        <h2>Welcome To</h2>
+        <h1 class="logo">Tactics Foundry</h1>
+        <img src="/assets/pages/tflogo.png">
+    </div>
+    <div class="welcome-container">
+        <p>This is your first time. Please enter a display name. If you already have a player id then enter it.</p>
+        <h3>Display Name</h3>
+        <input class="fullw" type="text" [(ngModel)]="displayName">
+        <playerid></playerid>
+        <button class="btn btn-primary btn-big" (click)="submit()">Continue</button>
+    </div> 
+</div>

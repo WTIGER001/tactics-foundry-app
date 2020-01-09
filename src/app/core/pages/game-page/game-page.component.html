@@ -1,0 +1,37 @@
+<detail-page [showBack]="true" title="Game" [backLink]="'/my-games'">
+    <div class="top" top>
+        <img src="/assets/samples/sample-game.jpg" class="game-img">
+        <div class="top-buttons">
+            <fa-icon icon="random" size="lg" class="detail-page-top-icon icon"></fa-icon>
+            <fa-icon icon="camera-alt" size="lg" class="detail-page-top-icon icon"></fa-icon>
+            <button class="detail-page-top-btn" routerLink="/game">Invite</button>
+        </div>
+
+        <div class="tab-bar detail-tabs">
+            <div class="tab" [class.tab-active]="tab==0" (click)="tab=0">Game</div>
+            <div class="tab" [class.tab-active]="tab==1" (click)="tab=1">Information</div>
+        </div>
+    </div>
+
+    <div main>
+        <div *ngIf="tab==0" class="tab-game">
+            <div class="buttons">
+                <button class="btn btn-primary span2">
+                    <div class="bigtxt">Join Active Session</div>
+                </button>
+                <button class="btn btn-secondary pic-btn btn-maps" routerLink='/my-games'>Maps</button>
+                <button class="btn btn-secondary pic-btn btn-characters" routerLink="/my-characters">Characters</button>
+                <button class="btn btn-secondary pic-btn btn-monsters" routerLink="my-settings">Monsters</button>
+                <button class="btn btn-secondary pic-btn btn-sessions" routerLink="my-settings">Sessions</button>
+            </div>
+        </div>
+
+        <div *ngIf="tab==1">
+            Info Tab
+        </div>
+    </div>
+
+    <div main class='main'>
+
+    </div>
+</detail-page>

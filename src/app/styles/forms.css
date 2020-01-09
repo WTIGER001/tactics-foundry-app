@@ -80,20 +80,19 @@ button:focus {
     position: absolute;
 }
 
-.pic
-
 
 /* Detail Page Styles */
 .detail-page-top-btn {
     border-radius: 5px;
     cursor: pointer;
-    padding: .5rem 4rem;
+    padding: .5rem 3.5rem;
     font-size: 1.5rem;
     border: 0px;
     box-shadow: 1px 1px 5px #444444;
     color: white;
     background-color: rgb(135, 154, 186);
 }
+
 .detail-page-top-btn:active {
     transform: translate(1px, 1px);
 }
@@ -116,6 +115,30 @@ button:focus {
 .detail-page-top-icon:active {
     transform: translate(1px, 1px);
 }
+.detail-tabs {
+    margin: 0;   
+    position: absolute;
+    left: 0;
+    bottom: 0; 
+}
 
+/* TABS */
+.tab-bar {
+    display: flex;
+    flex-direction: row;
+    font-size: 1.2em;
+}
 
+.tab {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: var(--tab-inactive-bg);
+    padding: .5em 1em;
+    margin: 0px .5em;
+    cursor: pointer;
+}
 
+.tab-active {
+    background-color: var(--tab-active-bg);
+    font-weight: bold;
+}

@@ -2,8 +2,17 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 @import 'app/styles/forms.css';
 
+@font-face {
+    font-family: 'ringbearer';
+    src: url('assets/fonts/ringbearer.ttf'); /* IE9 Compat Modes */
+  }
+
 
 :root {
+    --detail-top-bg: rgb(90, 106, 132);
+    --detail-main-bg:  linear-gradient(135deg,  #97b8ff 0%,#bfd2ff 50%,#dfe8ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    --tab-inactive-bg: rgb(153, 167, 184);
+    --tab-active-bg: #98b9ff;
     --lock-color : rgb(127, 0, 0);
     --primary-color : white;
     --highlight-color : #9ed485;
@@ -11,6 +20,7 @@
     --form-bg: #6969692b;
     --form-focus-bg: #cab7b75c;
     --muted-text: #d7d7d8;
+    --light-text: rgb(220, 216, 208);
 }
 
 *, *::before, *::after {
@@ -36,9 +46,15 @@ h1 {
     font-size: 1.5rem;
 }
 
+h1.logo {
+    font-family: ringbearer;
+    color: var(--light-text);
+}
+
 h2 {
     font-size: 1.2rem;
     margin-top: .75em;
+    padding: .2em;
 }
 
 h3 {
@@ -50,9 +66,12 @@ h4 {
 }
 
 .muted {
-    color: var(--muted-color)
+    color: var(--muted-color);
 }
 
+.light {
+    color: rgb(220, 216, 208);
+}
 
 .page-area {
     height: 100vh;
@@ -72,6 +91,7 @@ h4 {
     grid-template-rows: max-content 1fr;
     justify-items: center;
 }
+
 .centered-row {
     display: flex;
     justify-content: center;

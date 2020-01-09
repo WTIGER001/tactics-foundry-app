@@ -4,8 +4,9 @@ import { RouterModule} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxBarcodeModule } from 'ngx-barcode';
-import { PlayerHomeComponent } from './components/player-home/player-home.component'
-import { WelcomeComponent } from './components/welcome/welcome.component';
+
+import { PlayerHomeComponent } from './pages/player-home/player-home.component'
+import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { JoingameComponent } from './components/joingame/joingame.component';
 import { PlayeridComponent } from './components/playerid/playerid.component';
 import { DisplaynameComponent } from './components/displayname/displayname.component';
@@ -18,6 +19,7 @@ import { TabItemComponent } from './components/tab-item/tab-item.component';
 import { CharactersPageComponent } from './pages/characters-page/characters-page.component';
 import { GamesPageComponent } from './pages/games-page/games-page.component';
 import { PicturebtnComponent } from './components/picturebtn/picturebtn.component';
+import { GamePageComponent } from './pages/game-page/game-page.component';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { PicturebtnComponent } from './components/picturebtn/picturebtn.componen
     TabItemComponent,
     CharactersPageComponent,
     GamesPageComponent,
-    PicturebtnComponent
+    PicturebtnComponent,
+    GamePageComponent
   ],
   imports: [
     CommonModule, 

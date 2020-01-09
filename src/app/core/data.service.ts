@@ -56,6 +56,15 @@ export class DataService {
 
   }
 
+  signout() {
+    this.localStorage.clear().subscribe( () => {
+      // this.player$.next(null);
+      // this.playerId$.next(modelutil.genid())
+      location.reload();
+    })
+  }
+
+
   public createPlayer(displayName : string, playerid : string = this.playerId$.getValue()) {
     let p = new Player()
     p._id = playerid
@@ -158,4 +167,6 @@ export class DataService {
     }
 
   }
+
+ 
 }

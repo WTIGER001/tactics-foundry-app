@@ -1,0 +1,79 @@
+.top-img {
+    height: 94%;
+}
+.top {
+    /* background-image: url(/assets/samples/sample-game.jpg); */
+    height: 100%;
+    width:100%;
+}
+
+.game-img {
+    object-fit: cover;
+    object-position: top;
+    width: 100%;
+    height: 100%;
+}
+
+.top-buttons {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    grid-template-rows:  1fr 1fr;
+    gap: 10px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.icon {
+    color: rgb(135, 154, 186);
+}
+
+
+.tab-game {
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: stretch;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    padding: .5em;
+}
+
+.span2 {
+    grid-column: span 2;
+}
+
+.buttons .btn {
+    padding: .75em 0;
+}
+
+.bigtxt {
+    font-size: 1.5em;
+}
+
+.btn-maps {
+    background-image: url(/assets/pages/maps-btn.png);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-size: contain;
+}
+
+.btn-characters {
+    background-image: url(/assets/pages/character-btn.png);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+.btn-monsters {
+    background-image: url(/assets/pages/monsters-btn.png);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-size: contain;
+}
+.btn-sessions {
+    background-image: url(/assets/pages/sessions-btn.png);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}

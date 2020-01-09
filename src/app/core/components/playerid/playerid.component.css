@@ -4,3 +4,8 @@
 .id {
     font-weight: 200;
 }
+
+.pid {
+    color: var(--light-text);
+    font-size: 1.4em;
+}

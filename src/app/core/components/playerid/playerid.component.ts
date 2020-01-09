@@ -8,7 +8,7 @@ import { DataService } from '../../data.service';
 })
 export class PlayeridComponent implements OnInit {
   playerid = "UNSET"
-  constructor(data : DataService) { 
+  constructor(private data : DataService) { 
     data.playerId$.subscribe(player => {
       this.playerid = player
     })
@@ -17,4 +17,7 @@ export class PlayeridComponent implements OnInit {
   ngOnInit() {
   }
 
+  signout() {
+    this.data.signout();;
+  }
 }
