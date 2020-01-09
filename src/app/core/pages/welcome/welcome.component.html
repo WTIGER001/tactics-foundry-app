@@ -7,8 +7,8 @@
     <div class="welcome-container">
         <p>This is your first time. Please enter a display name. If you already have a player id then enter it.</p>
         <h3>Display Name</h3>
-        <input class="fullw" type="text" [(ngModel)]="displayName">
+        <input class="fullw" type="text" [(ngModel)]="displayName" (keydown.enter)="submit()" >
         <playerid></playerid>
-        <button class="btn btn-primary btn-big" (click)="submit()">Continue</button>
+        <button class="btn btn-primary btn-big" (click)="submit()" [disabled]="!displayName || displayName.length == 0">Continue</button>
     </div> 
 </div>

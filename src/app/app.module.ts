@@ -29,7 +29,9 @@ import * as shortid from 'shortid';
     StorageModule.forRoot({ IDBNoWrap: true }), 
     ScratchModule
   ],
-  providers: [],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

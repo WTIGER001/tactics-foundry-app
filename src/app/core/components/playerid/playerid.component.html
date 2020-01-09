@@ -2,8 +2,8 @@
 <div class="centered-row m-1 pid">
     <span class="id m-1">ID:</span> 
     <span class="playerid">{{playerid}}</span>
-    <fa-icon class="clickable m-1" icon="copy"></fa-icon>
-    <fa-icon class="clickable m-1" icon="edit"></fa-icon>
-    <fa-icon class="clickable m-1" icon="sign-out-alt" (click)="signout()"></fa-icon>
+    <fa-icon class="clickable m-1" icon="copy" (click)="copy()"></fa-icon>
+    <fa-icon class="clickable m-1" icon="edit" (click)="edit()"></fa-icon>
+    <fa-icon class="clickable m-1" icon="sign-out-alt" (click)="signout()" *ngIf="showSignOut"></fa-icon>
 </div>
 <!-- <ngx-barcode [bc-value]="playerid" [bc-display-value]="false" bc-format="CODE39" bc-height="30" bc-bacground="#ffffffff"></ngx-barcode> -->

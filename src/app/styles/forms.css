@@ -15,6 +15,11 @@ button.btn-primary {
     background-color: rgb(220, 216, 208);
     box-shadow: 1px 1px 5px #444444;
 }
+button.btn-primary:disabled {
+    background-color: rgb(220, 216, 208, 0);
+    color: grey;
+    text-shadow: unset;
+}
 
 button.btn-secondary {
     color: white;
