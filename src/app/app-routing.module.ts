@@ -7,6 +7,8 @@ import { PlayerHomeComponent } from './core/pages/player-home/player-home.compon
 import { CharactersPageComponent } from './core/pages/characters-page/characters-page.component';
 import { GamesPageComponent } from './core/pages/games-page/games-page.component';
 import { GamePageComponent } from './core/pages/game-page/game-page.component';
+import { MapInfoPageComponent } from './core/pages/map-info-page/map-info-page.component';
+import { MapsPageComponent } from './core/pages/maps-page/maps-page.component';
 
 
 const routes: Routes = [
@@ -19,7 +21,9 @@ const routes: Routes = [
   { path: 'my-games', component: GamesPageComponent },
   { path: 'my-settings', component: CharactersPageComponent },
   { path: 'my-templates', component: CharactersPageComponent },
-  { path: 'game', component: GamePageComponent }
+  { path: 'game', component: GamePageComponent },
+  { path: 'new-map', component: MapInfoPageComponent },
+  { path: 'maps', component: MapsPageComponent }
 
 
 

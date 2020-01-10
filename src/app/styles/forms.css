@@ -127,6 +127,16 @@ button:focus {
     bottom: 0; 
 }
 
+.img-btn {
+    display: grid;
+    flex-direction: column;
+    background: transparent;
+    color: var(--light-text);
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+}
+
 /* TABS */
 .tab-bar {
     display: flex;

@@ -20,6 +20,11 @@ import { CharactersPageComponent } from './pages/characters-page/characters-page
 import { GamesPageComponent } from './pages/games-page/games-page.component';
 import { PicturebtnComponent } from './components/picturebtn/picturebtn.component';
 import { GamePageComponent } from './pages/game-page/game-page.component';
+import { MapsPageComponent } from './pages/maps-page/maps-page.component';
+import { MapInfoPageComponent } from './pages/map-info-page/map-info-page.component';
+import { MapPageComponent } from './pages/map-page/map-page.component';
+import { ImagePickerComponent } from './components/image-picker/image-picker.component';
+import { UploadButtonComponent } from './components/upload-button/upload-button.component';
 
 
 @NgModule({
@@ -36,7 +41,12 @@ import { GamePageComponent } from './pages/game-page/game-page.component';
     CharactersPageComponent,
     GamesPageComponent,
     PicturebtnComponent,
-    GamePageComponent
+    GamePageComponent,
+    MapsPageComponent,
+    MapInfoPageComponent,
+    MapPageComponent,
+    ImagePickerComponent,
+    UploadButtonComponent
   ],
   imports: [
     CommonModule, 

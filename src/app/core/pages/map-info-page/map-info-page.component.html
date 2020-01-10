@@ -1,0 +1,52 @@
+<detail-page [showBack]="true" [title]="name" [backLink]="'/my-games'">
+    <div class="top" top>
+        <img class="detail-page-top-image top-img" src="/assets/pages/map.png">
+
+        <div class="top-buttons">
+            <!-- <button class="detail-page-top-btn" (click)="delete()">Delete</button> -->
+        </div>
+
+        <div class="tab-bar detail-tabs">
+            <div class="tab" [class.tab-active]="tab==0" (click)="tab=0">Information</div>
+            <div class="tab" [class.tab-active]="tab==1" (click)="tab=1">Grid</div>
+            <div class="tab" [class.tab-active]="tab==2" (click)="tab=2">Fog</div>
+        </div>
+    </div>
+
+    <div main>
+        <div *ngIf="tab==0" class="tab-info">
+            <div class="img-area grid-span-4" #imgarea>
+                <img *ngIf='image' src="image">
+                <div *ngIf='!image && !blank'>Choose an image or background</div>
+            </div>
+            <label for="">Height:</label>
+            <input type="text" [(ngModel)]="height">
+            <label for="">Width:</label>
+            <input type="text" [(ngModel)]="width">
+            <label>PPM</label>
+            <input type="text" [(ngModel)]="ppm" >
+            
+            <label>BG Color</label>
+            <input type="text" [(ngModel)]="bgColor" >
+            <app-upload-button (choice)="setImage(event)"></app-upload-button>
+
+            <div class="bottom-btns">
+                <button class="btn img-btn" ><fa-icon icon='search' size="2x" class="mb-1"></fa-icon>Search</button>
+                <button class="btn img-btn" ><fa-icon icon='cloud-upload' size="2x" class="mb-1"></fa-icon>Upload</button>
+                <button class="btn img-btn" ><fa-icon icon='chalkboard' size="2x" class="mb-1"></fa-icon>Blank</button>
+                <button class="btn img-btn" ><fa-icon icon='lock' size="2x" class="mb-1"></fa-icon>Restrict</button>
+                <button class="btn img-btn" ><fa-icon icon='trash-alt' size="2x" class="mb-1"></fa-icon>Delete</button>
+            </div>
+        </div>
+
+        <div *ngIf="tab==1">
+            Gridlines Tab
+        </div>
+        <div *ngIf="tab==2">
+            Fog Of War Tab
+        </div>
+
+
+    </div>
+
+</detail-page>

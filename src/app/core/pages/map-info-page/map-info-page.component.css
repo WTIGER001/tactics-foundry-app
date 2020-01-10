@@ -1,0 +1,51 @@
+.top-img {
+    height: 85%;
+}
+
+.top-buttons {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    grid-template-rows:  1fr 1fr;
+    gap: 10px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.tab-info {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr;
+    align-items: center;
+    gap: .5em;
+    height: 100%;
+}  
+
+.tab-info > input {
+    min-width: 10%;
+}
+
+.img-area {
+    border: 1px solid black;
+    height: 300px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom-btns {
+    font-size: .6em;
+    display: grid;
+    align-items: center;
+    justify-content: space-between;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background-color: rgb(50,50,50);
+    color: var(--light-text);
+    text-shadow: 1px 1px black;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    gap: .5em;
+    padding: 1em;
+}

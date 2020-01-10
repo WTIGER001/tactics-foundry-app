@@ -101,3 +101,21 @@ h4 {
 .m-1 {
     margin: .25em;
 }
+
+.mb-1 {
+    margin-bottom: .25em;
+}
+
+/* GRID */
+.grid-span-2 {
+    grid-column: span 2;
+}
+.grid-span-3 {
+    grid-column: span 3;
+}
+.grid-span-4 {
+    grid-column: span 4;
+}
+.grid-span-5 {
+    grid-column: span 5;
+}
