@@ -12,6 +12,10 @@
     display: grid;
     grid-template-columns: 100px 1fr;
     align-items: center;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    right: 0px;
 }
 
 .detail-page-header {

@@ -1,4 +1,4 @@
-<detail-page [showBack]="true" title="Game" [backLink]="'/my-games'">
+<detail-page [showBack]="true" title="Game" [backLink]="'/my-games'" [editTitle]='true' (titleUpdated)="update()">
     <div class="top" top>
         <img src="/assets/samples/sample-game.jpg" class="game-img">
         <div class="top-buttons">
