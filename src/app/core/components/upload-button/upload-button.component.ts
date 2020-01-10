@@ -12,7 +12,7 @@ export class UploadButtonComponent implements OnInit {
   @Input() picture: string
   @Input() multiple = false
   @Input() searchTerm = ''
-  @Input() size : 'lg' | 'sm' = 'lg'
+  @Input() accept = ".jpg,.png"
 
 
   @ViewChild('fileupload', {static: true}) fileButton
@@ -44,8 +44,10 @@ export class UploadButtonComponent implements OnInit {
     }
     if (filesToSend.length > 0) {
       if (this.multiple) {
+        console.log("SENDING IMAGE2");
         this.choice.emit(filesToSend)
       } else {
+        console.log("SENDING IMAGE3");
         this.choice.emit(filesToSend[0])
       }
     }

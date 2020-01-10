@@ -7,9 +7,17 @@ export class MapData extends ObjectType {
     _id = modelutil.id(this)
     type = MapData.TYPE
 
-    name: string
+    name = "New Map"
+    description = ""
+    height = 0
+    width = 0
+    image: string //attatchment
+    thumb: string //attatchment
+    blank = false
+    ppm = 1
+    bgColor = "#000000"
 
-    static to(doc : any) : MapData{
+    static to(doc: any): MapData {
         return new MapData().copyFrom(doc)
     }
 }

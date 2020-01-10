@@ -4,6 +4,7 @@ import { RouterModule} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxBarcodeModule } from 'ngx-barcode';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import { PlayerHomeComponent } from './pages/player-home/player-home.component'
 import { WelcomeComponent } from './pages/welcome/welcome.component';
@@ -25,6 +26,7 @@ import { MapInfoPageComponent } from './pages/map-info-page/map-info-page.compon
 import { MapPageComponent } from './pages/map-page/map-page.component';
 import { ImagePickerComponent } from './components/image-picker/image-picker.component';
 import { UploadButtonComponent } from './components/upload-button/upload-button.component';
+import { EditableTitleComponent } from './components/editable-title/editable-title.component';
 
 
 @NgModule({
@@ -46,7 +48,8 @@ import { UploadButtonComponent } from './components/upload-button/upload-button.
     MapInfoPageComponent,
     MapPageComponent,
     ImagePickerComponent,
-    UploadButtonComponent
+    UploadButtonComponent,
+    EditableTitleComponent
   ],
   imports: [
     CommonModule, 
@@ -54,7 +57,8 @@ import { UploadButtonComponent } from './components/upload-button/upload-button.
     FontAwesomeModule, 
     NgxBarcodeModule, 
     ContenteditableModule, 
-    RouterModule
+    RouterModule, 
+    ColorPickerModule
   ], 
   providers: [
     DataService

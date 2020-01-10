@@ -1,4 +1,4 @@
-<detail-page [showBack]="true" [title]="name" [backLink]="'/my-games'">
+<detail-page [showBack]="true" [title]="mapdata.name" [backLink]="'/my-games'" [editTitle]='true' (titleUpdated)="update()">
     <div class="top" top>
         <img class="detail-page-top-image top-img" src="/assets/pages/map.png">
 
@@ -15,25 +15,26 @@
 
     <div main>
         <div *ngIf="tab==0" class="tab-info">
-            <div class="img-area grid-span-4" #imgarea>
-                <img *ngIf='image' src="image">
-                <div *ngIf='!image && !blank'>Choose an image or background</div>
+            <div class="img-area grid-span-4" #imgarea [style.background]="mapdata.bgColor">
+                <img *ngIf='mapdata.thumb' class="img-preview" [src]="mapdata.thumb">
+                <div *ngIf='!mapdata.thumb && !mapdata.blank'>Choose an image or background</div>
             </div>
             <label for="">Height:</label>
-            <input type="text" [(ngModel)]="height">
+            <input type="text" [(ngModel)]="mapdata.height">
             <label for="">Width:</label>
-            <input type="text" [(ngModel)]="width">
+            <input type="text" [(ngModel)]="mapdata.width">
             <label>PPM</label>
-            <input type="text" [(ngModel)]="ppm" >
+            <input type="text" [(ngModel)]="mapdata.ppm" >
             
             <label>BG Color</label>
-            <input type="text" [(ngModel)]="bgColor" >
-            <app-upload-button (choice)="setImage(event)"></app-upload-button>
+            <div class="clickable color-pick" [(colorPicker)]="mapdata.bgColor" [style.background]="mapdata.bgColor"
+      cpAlphaChannel='disabled' cpPosition='left' (colorPickerChange)="update()" ></div>
 
+            <app-upload-button #upload (choice)="uploadImg($event)"></app-upload-button>
             <div class="bottom-btns">
                 <button class="btn img-btn" ><fa-icon icon='search' size="2x" class="mb-1"></fa-icon>Search</button>
-                <button class="btn img-btn" ><fa-icon icon='cloud-upload' size="2x" class="mb-1"></fa-icon>Upload</button>
-                <button class="btn img-btn" ><fa-icon icon='chalkboard' size="2x" class="mb-1"></fa-icon>Blank</button>
+                <button class="btn img-btn" (click)="upload.getFile()" ><fa-icon icon='cloud-upload' size="2x" class="mb-1" ></fa-icon>Upload</button>
+                <button class="btn img-btn" (click)="blankOut()" ><fa-icon icon='chalkboard' size="2x" class="mb-1"></fa-icon>Blank</button>
                 <button class="btn img-btn" ><fa-icon icon='lock' size="2x" class="mb-1"></fa-icon>Restrict</button>
                 <button class="btn img-btn" ><fa-icon icon='trash-alt' size="2x" class="mb-1"></fa-icon>Delete</button>
             </div>

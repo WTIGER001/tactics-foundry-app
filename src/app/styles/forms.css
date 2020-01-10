@@ -50,6 +50,8 @@ input.joined {
     cursor: pointer;
 }
 
+div:focus,
+h1:focus,
 a:focus,
 button:focus {
   outline: none;
@@ -112,14 +114,16 @@ button:focus {
 }
 
 .detail-page-top-icon {
-    color: white;
+    /* color: white; */
     font-size: 2rem;
     filter: drop-shadow(1px 1px 3px #444444);
     cursor: pointer;
 }
+
 .detail-page-top-icon:active {
     transform: translate(1px, 1px);
 }
+
 .detail-tabs {
     margin: 0;   
     position: absolute;
@@ -149,7 +153,7 @@ button:focus {
     border-top-right-radius: 5px;
     background-color: var(--tab-inactive-bg);
     padding: .5em 1em;
-    margin: 0px .5em;
+    margin: 0px 0px 0px .5em;
     cursor: pointer;
 }
 

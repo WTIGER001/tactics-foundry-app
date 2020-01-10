@@ -39,6 +39,7 @@
     "background-check": "git+https://github.com/kennethcachia/background-check.git",
     "jsbarcode": "^3.11.0",
     "ngx-barcode": "^0.2.4",
+    "ngx-color-picker": "^8.2.0",
     "pixi-viewport": "^4.5.0",
     "pixi.js": "^5.2.0",
     "pouchdb-find": "^7.1.1",

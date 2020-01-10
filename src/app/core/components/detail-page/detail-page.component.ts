@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,6 +12,8 @@ export class DetailPageComponent implements OnInit {
   @Input() showTop = true
   @Input() title = "Title"
   @Input() backLink = "Title"
+  @Input() editTitle = false
+  @Output() titleUpdated = new EventEmitter<string>()
   constructor(private router : Router) { }
 
   ngOnInit() {
@@ -21,4 +23,7 @@ export class DetailPageComponent implements OnInit {
     this.router.navigate([this.backLink])
   }
 
+  updateTitle() {
+    this.titleUpdated.emit(this.title)
+  }
 }

@@ -49,3 +49,14 @@
     gap: .5em;
     padding: 1em;
 }
+
+.color-pick {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

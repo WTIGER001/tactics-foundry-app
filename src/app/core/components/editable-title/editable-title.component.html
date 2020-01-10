@@ -1,0 +1,10 @@
+<div class="shell"  [class.shell-edit]="editting">
+    <h1 
+        class='hdrh1' 
+        [contenteditable]="editting" 
+        (keydown.enter)="save($event)" 
+        (keydown.esc)="cancelEdit()" 
+        [class.editting]="editting" 
+        [(ngModel)]="title">{{title}}</h1>
+    <fa-icon [icon]="editting? 'times' : 'edit'" class="clickable smaller detail-page-top-icon" (click)="edit()"></fa-icon>
+</div>

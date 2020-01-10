@@ -159,12 +159,14 @@ export class DataService {
       if (db) {
         db.store(item)
         return;
-      }
+      } 
     }
 
     if (item.type == Player.TYPE) {
       this.playerDB.store(<Player>item)
     }
+
+    console.error("INVALID OBJECT.... NO DATABASE", item)
 
   }
 
