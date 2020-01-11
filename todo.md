@@ -1,10 +1,11 @@
 #TODO
 
-## Phase 1: Model / Database functionality
-~~ Create Data Service ~~
-- Lookup player id and assign a new one if there is none available
-- Gather the display name
-- Create and connect to the player database
-- If there is no player object then create one and populate with the playerid and the display name
-- Set up remote sync on the database
-- Look in the games list to figure out which games this player is part of
+## 1/10/2020
+*Plans*
+- Get routing working. This means the route guard and the paths to add the gameid or session id. The path should be: /game/[gameid]/map/[mapid] or /game/[gameid]/session/[sessionid]/map/[mapid]
+- /session/[sessionid]/home is the current screen that the GM is controlling. It is where you go for the 'join session' 
+- Get some basic dB saves working
+-- New Game
+-- Map
+- Get attachments working for Game and Map
+- Game and Map Cards

@@ -3,6 +3,7 @@ import { ImageUtil } from '../../util/ImageUtil';
 import { MapData, ObjectType } from '../../model';
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { faSave } from '@fortawesome/pro-solid-svg-icons';
 
 @Component({
   selector: 'app-map-info-page',
@@ -30,8 +31,9 @@ export class MapInfoPageComponent implements OnInit {
     })
   }
 
-  update() {
-
+  updateTitle($event : string) {
+    this.mapdata.name = $event
+    this.save()
   }
 
   // Save the contents
@@ -44,6 +46,17 @@ export class MapInfoPageComponent implements OnInit {
     this.mapdata.image = null
     this.mapdata.thumb = null
     this.mapdata.blank = true
+    this.save()
+  }
+
+  update() {
+    this.save()
+  }
+  
+  delete() {
+    // Confirm
+    // this.data.remove(this.mapdata)
+
   }
 
   uploadImg($event : File) {
@@ -54,6 +67,11 @@ export class MapInfoPageComponent implements OnInit {
       this.mapdata.thumb = result.thumbDataUrl
       this.mapdata.width = result.width
       this.mapdata.height = result.height
+      this.save()
     })
+  }
+
+  save() {
+    this.data.store(this.mapdata)
   }
 }

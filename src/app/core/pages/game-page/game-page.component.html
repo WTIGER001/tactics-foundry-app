@@ -1,11 +1,19 @@
-<detail-page [showBack]="true" title="Game" [backLink]="'/my-games'" [editTitle]='true' (titleUpdated)="update()">
+<select-players-page *ngIf="selecting" (selected)="updateSelection($event)" (canceled)="canceledSelection()"></select-players-page>
+<detail-page [showBack]="true" [title]="game.name" [backLink]="'/games'" [editTitle]='true'
+    (titleUpdated)="updateTitle($event)" [class.hidden]="selecting">
     <div class="top" top>
-        <img src="/assets/samples/sample-game.jpg" class="game-img">
+        <img *ngIf="game.image" [src]="game.image" class="game-img">
+        <img *ngIf="!game.image" src="/assets/pages/missing-game.jpg" class="game-img">
+
         <div class="top-buttons">
-            <fa-icon icon="random" size="lg" class="detail-page-top-icon icon"></fa-icon>
-            <fa-icon icon="camera-alt" size="lg" class="detail-page-top-icon icon"></fa-icon>
-            <button class="detail-page-top-btn" routerLink="/game">Invite</button>
+            <button class="detail-page-top-btn" (click)="delete()">Delete</button>
+            <button class="detail-page-top-btn" (click)="invite()">Invite</button>
+            <div class="top-icons">
+                <fa-icon (click)="search()" icon="search" class="detail-page-top-icon icon"></fa-icon>
+                <fa-icon (click)="upload.getFile()" icon="cloud-upload" class="detail-page-top-icon icon"></fa-icon>
+            </div>
         </div>
+        <app-upload-button #upload (choice)="uploadImg($event)"></app-upload-button>
 
         <div class="tab-bar detail-tabs">
             <div class="tab" [class.tab-active]="tab==0" (click)="tab=0">Game</div>
@@ -19,15 +27,26 @@
                 <button class="btn btn-primary span2">
                     <div class="bigtxt">Join Active Session</div>
                 </button>
-                <button class="btn btn-secondary pic-btn btn-maps" routerLink='/maps'>Maps</button>
-                <button class="btn btn-secondary pic-btn btn-characters" routerLink="/my-characters">Characters</button>
-                <button class="btn btn-secondary pic-btn btn-monsters" routerLink="my-settings">Monsters</button>
-                <button class="btn btn-secondary pic-btn btn-sessions" routerLink="my-settings">Sessions</button>
+                <button class="btn btn-secondary pic-btn btn-maps" routerLink='maps'>Maps</button>
+                <button class="btn btn-secondary pic-btn btn-characters" routerLink="characters">Characters</button>
+                <button class="btn btn-secondary pic-btn btn-monsters" routerLink="monsters">Monsters</button>
+                <button class="btn btn-secondary pic-btn btn-sessions" routerLink="sessions">Sessions</button>
             </div>
         </div>
 
-        <div *ngIf="tab==1">
-            Info Tab
+        <div *ngIf="tab==1" class="players-tab">
+            <h3 class="grid-span-2">Players</h3>
+            <h3 class="grid-span-2">Type</h3>
+            <h3></h3>
+            <ng-container *ngFor="let p of game.players" >
+                <h4>{{p.displayName}}</h4>
+                <h4 class="id">{{p._id}}</h4>
+                <fa-icon icon="user-shield" class="clickable" (click)="makePlayer(p)" [class.active]="p.role=='Player'" [class.inactive]="p.role!='Player'"></fa-icon>
+                <fa-icon icon="user-crown" class="clickable" (click)="makeGM(p)"  [class.active]="p.role=='GM'" [class.inactive]="p.role!='GM'"></fa-icon>
+                <fa-icon icon="times" class="clickable" (click)="removePlayer(p)"></fa-icon>
+            </ng-container>
+
+            <button (click)="selectPlayers()" class=".btn .btn-primary grid-span-4">Add Players</button>
         </div>
     </div>
 

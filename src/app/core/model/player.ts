@@ -7,9 +7,6 @@ export class Player extends ObjectType{
 
     /** Player Type */
     type = Player.TYPE
-    
-    /** The Id of the player. This must be unique */
-    public playerid : string
 
     /** The display name for the player */
     public displayName: string 
@@ -23,4 +20,25 @@ export class Player extends ObjectType{
     static to(obj: any): Player {
         return new Player().copyFrom(obj)
     }
+}
+
+export class PlayerRec {
+    /** The database id for the player. */
+    _id : string
+
+    /** The display name for the player */
+    public displayName: string 
+
+    public selected ?: boolean = false
+}
+
+export class PlayerRole {
+    /** The database id for the player. */
+    _id : string
+
+    /** The display name for the player */
+    public displayName: string 
+
+    // Role of the user
+    public role : 'Player' | 'GM' = 'Player'
 }

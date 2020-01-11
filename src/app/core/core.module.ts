@@ -27,6 +27,7 @@ import { MapPageComponent } from './pages/map-page/map-page.component';
 import { ImagePickerComponent } from './components/image-picker/image-picker.component';
 import { UploadButtonComponent } from './components/upload-button/upload-button.component';
 import { EditableTitleComponent } from './components/editable-title/editable-title.component';
+import { SelectPlayersPageComponent } from './pages/select-players-page/select-players-page.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { EditableTitleComponent } from './components/editable-title/editable-tit
     MapPageComponent,
     ImagePickerComponent,
     UploadButtonComponent,
-    EditableTitleComponent
+    EditableTitleComponent,
+    SelectPlayersPageComponent
   ],
   imports: [
     CommonModule, 

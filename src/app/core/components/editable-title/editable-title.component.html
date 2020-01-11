@@ -2,7 +2,8 @@
     <h1 
         class='hdrh1' 
         [contenteditable]="editting" 
-        (keydown.enter)="save($event)" 
+        (keydown.enter)="commit($event)" 
+        (blur)="save($event)"
         (keydown.esc)="cancelEdit()" 
         [class.editting]="editting" 
         [(ngModel)]="title">{{title}}</h1>

@@ -1,14 +1,22 @@
-<detail-page [showBack]="true" title="Maps" [backLink]="'home'"> 
+<detail-page [showBack]="true" title="Maps"> 
     <div class="character-page-top" top>
         <img class="detail-page-top-image top-img" src="/assets/pages/maps.png">
 
         <div class="buttons">
-            <button class="detail-page-top-btn" routerLink='/new-map'>Create</button>
+            <button class="detail-page-top-btn" (click)="newMap()">Create</button>
             <div class="sort">
-                <fa-icon icon="calendar-alt" class="detail-page-top-icon" ></fa-icon>
+                <fa-icon [icon]="sortBy=='date'?'calendar-alt':'sort-alpha-down'" class="detail-page-top-icon" (click)="toggleSort()"></fa-icon>
                 <div class="text">Active: </div>
                 <fa-icon icon="toggle-on" size="2x" style="color: rgb(130,171,102);"></fa-icon>
             </div>
+        </div>
+    </div>
+
+    <div class="list" main>
+        <div *ngFor="let m of maps" class="card" (click)="open(m, $event)">
+            <img *ngIf="m.thumb" [src]="m.thumb">
+            <img *ngIf="!m.thumb" src="/assets/pages/missing-game.jpg">
+            <h4>{{m.name}}</h4>
         </div>
     </div>
 </detail-page>

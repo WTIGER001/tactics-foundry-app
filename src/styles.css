@@ -21,6 +21,8 @@
     --form-focus-bg: #cab7b75c;
     --muted-text: #d7d7d8;
     --light-text: rgb(220, 216, 208);
+    --filter-shadow: drop-shadow(1px 1px 3px #444444);
+    --box-shadow: 1px 1px 5px #444444;
 }
 
 *, *::before, *::after {

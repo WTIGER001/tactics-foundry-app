@@ -5,6 +5,10 @@ export abstract class ObjectType {
     public _id : string
     public _rev : string
     public type : string
+    public name : string
+    public lastUpdate : number
+    public lastUpdatedBy: string
+    
     // public type : string
 
     copyFrom(obj: any): any {

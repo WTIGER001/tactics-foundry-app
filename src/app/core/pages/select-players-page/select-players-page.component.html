@@ -1,0 +1,20 @@
+<detail-page [title]="title" (back)="cancel()"> 
+    <div class="character-page-top" top>
+        <div class="div-top-help-text">
+            Select the players to add to the game. Click ‘Done’ when complete or ‘Clear’ to clear the selection. 
+            <ng-container *ngIf="multiple">You can select multiple items.</ng-container>
+        </div>
+        <div class="buttons">
+            <button class="detail-page-top-btn center-self" (click)="clear()">Clear</button>
+            <button class="detail-page-top-btn center-self" (click)="done()">Done</button>
+        </div>
+    </div>
+
+    <div class="list" main>
+        <div *ngFor="let p of players" class="row" (click)="toggle(p, $event)" [class.selected]="p.selected">
+            <div class="spacer"><fa-icon icon="check-square"  *ngIf="p.selected" ></fa-icon></div>
+            <h4 >{{p.displayName}}</h4>
+            <h4 class="id" >{{p._id}}</h4>
+        </div>
+    </div>
+</detail-page>

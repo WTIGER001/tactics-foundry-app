@@ -13,6 +13,7 @@ import { CoreModule } from './core/core.module';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { ScratchModule } from './scratch/scratch.module';
 import * as shortid from 'shortid';
+import { CharactersModule } from './characters/characters.module';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import * as shortid from 'shortid';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FontAwesomeModule,
     CoreModule,
+    CharactersModule,
     StorageModule.forRoot({ IDBNoWrap: true }), 
     ScratchModule
   ],

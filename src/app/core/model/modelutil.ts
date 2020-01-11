@@ -1,8 +1,6 @@
 
 import shortid from 'shortid'
 import { ObjectType } from './object-type'
-import { Player } from './player'
-
 
 export function id(item : ObjectType ) {
     let time  = new Date().valueOf()

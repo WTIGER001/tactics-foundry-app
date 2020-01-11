@@ -10,8 +10,6 @@ import { filter, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 export class DatabaseManager<T extends ObjectType> {
-
-
   public localdb: PouchDB.Database
   public remotedb: PouchDB.Database
   private syncFilter: any
@@ -83,6 +81,8 @@ export class DatabaseManager<T extends ObjectType> {
 
   /** Stores the item and upates the rev when complete */
   public store(item: T) : Observable<unknown>{
+    // Add trackikng to all items
+    item.lastUpdate = new Date().valueOf()
 
     // this.localdb.upsert<T>(item._id, (doc: {} & T) => {
     //   // Make Changes to the doc object and
@@ -113,6 +113,7 @@ export class DatabaseManager<T extends ObjectType> {
   /** Deletes an object */
   public delete(obj: T) {
     this.localdb.remove(obj)
+    
   }
 
   public get(id: string): Promise<T> {

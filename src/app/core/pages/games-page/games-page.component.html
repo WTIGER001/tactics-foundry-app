@@ -3,7 +3,7 @@
         <img class="detail-page-top-image character-img" src="/assets/pages/games.png">
 
         <div class="buttons">
-            <button class="detail-page-top-btn" routerLink="/game">Create</button>
+            <button class="detail-page-top-btn" (click)="newGame()">Create</button>
             <button class="detail-page-top-btn">Join</button>
             <div class="sort">
                 <fa-icon icon="calendar-alt" class="detail-page-top-icon" ></fa-icon>
@@ -13,6 +13,15 @@
         </div>
 
 
+    </div>
+
+    <div class="game-list" main>
+        <div *ngFor="let g of games" class="game-card" (click)="openGame(g)">
+            <img *ngIf="g.image" [src]="g.image">
+            <img *ngIf="!g.image" src="/assets/pages/missing-game.jpg">
+            <!-- <img src="/assets/pages/missing-game.jpg"> -->
+            <h4>{{g.name}}</h4>
+        </div>
     </div>
 
     

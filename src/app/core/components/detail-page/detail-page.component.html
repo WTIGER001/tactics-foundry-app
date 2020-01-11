@@ -1,4 +1,4 @@
-<div class="detail-page">
+<div class="detail-page" >
     <div class="detail-top" *ngIf="showTop">
         <div class="detail-page-titlebar">
             <!-- Back Button -->
@@ -6,7 +6,7 @@
 
             <!-- Title  -->
             <div  *ngIf="showTitle && !editTitle " class="detail-page-header-title">{{title}}</div>
-            <editable-title *ngIf="showTitle && editTitle " class="detail-page-header-title" [title]='title' (updated)="updateTitle($event)"></editable-title>
+            <editable-title *ngIf="showTitle && editTitle" class="detail-page-header-title" [title]='title' (updated)="updateTitle($event)"></editable-title>
         </div>
         <ng-content select=[top]></ng-content>
     </div>

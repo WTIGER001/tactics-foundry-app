@@ -25,8 +25,14 @@ export class EditableTitleComponent implements OnInit {
     }
   }
 
+  commit($event) {
+    console.log("COMMITING NAME ",  this.title);
+    this.editting = false;
+  }
+
+
   save($event) {
-    console.log("SAVING NAME ",  $event);
+    console.log("SAVING NAME ",  this.title);
     this.editting = false;
     this.updated.emit(this.title)
   }

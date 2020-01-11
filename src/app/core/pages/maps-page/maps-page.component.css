@@ -27,3 +27,38 @@
     padding-right: .5em;
     padding-left: 1em;
 }
+
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 190px);
+    gap:10px;    
+}
+.card {
+    /* height: 250px; */
+    width: 190px;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 2px solid var(--detail-top-bg);
+    background: var(--detail-top-bg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* filter: var(--filter-shadow); */
+    box-shadow: var(--box-shadow);
+}
+
+.card img {
+    height: 100px ;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card h4 {
+    color: var(--light-text);
+    text-shadow: 1px 1px black;
+    font-size: .75em;
+    padding: .2em;
+    border-top: 2px solid var(--detail-top-bg);
+    text-align: center;
+}

@@ -1,9 +1,10 @@
 import { Component, OnInit, ɵPlayer } from '@angular/core';
 import { DataService } from '../../data.service';
 import { Observable } from 'rxjs';
-import { Player } from '../../model';
+import { Player, Game } from '../../model';
 import { FormControl } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player-home',
@@ -18,7 +19,7 @@ export class PlayerHomeComponent implements OnInit {
   newuser: boolean = true
   editingName = false
   address
-  constructor(private data : DataService) {
+  constructor(private data : DataService, private router : Router) {
     this.address = environment.remoteAddress
     this.newuser = this.data.newUser
     this.data.player$.subscribe( p => {
@@ -53,6 +54,8 @@ export class PlayerHomeComponent implements OnInit {
     this.editingName = false
     this.displayname = this.player.displayName
   }
+
+  
 
   async lock() {
     try {

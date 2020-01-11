@@ -15,7 +15,10 @@ export class MapData extends ObjectType {
     thumb: string //attatchment
     blank = false
     ppm = 1
+    parentId : string
     bgColor = "#000000"
+    game: string
+    session: string
 
     static to(doc: any): MapData {
         return new MapData().copyFrom(doc)
