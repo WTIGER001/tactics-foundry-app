@@ -1,0 +1,10 @@
+<div class="input-area">
+    <label *ngIf="size == 'normal'" class="grid-span-2">Chat</label>
+    <div class="entry-area">
+        <input type="text" #actionBox class="form-control enterarea"
+            (keyup.enter)="enterAction(actionBox.value)" (keyup.arrowup)="keyup()" (keyup.arrowdown)="keyup()"
+            [(ngModel)]="action" name="action" (blur)="update(actionBox.value)">
+        <fa-icon icon="dice-d20" size="lg" class="clickable" (click)="showRoller()" ></fa-icon>
+    </div>
+    <button class="btn send-btn" (click)="send()"><fa-icon icon="paper-plane"></fa-icon></button>
+</div>

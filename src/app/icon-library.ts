@@ -1,6 +1,6 @@
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome'
 
-import { faStar as SOLID_STAR, faCheckSquare, faSortAlphaDown, faChalkboard, faPlus, faBookmark, faShield, faShieldAlt, faCopy,faCaretRight, faCaretLeft, faCaretDown, faCaretUp, faDiceSix, faDiceD20, faTrash, faTrashAlt, faArrowUp, faArrowDown, faArrowLeft, faArrowRight, faArrows, faPaperclip, 
+import { faStar as SOLID_STAR,faPaperPlane,  faCheckSquare, faSortAlphaDown, faChalkboard, faPlus, faBookmark, faShield, faShieldAlt, faCopy,faCaretRight, faCaretLeft, faCaretDown, faCaretUp, faDiceSix, faDiceD20, faTrash, faTrashAlt, faArrowUp, faArrowDown, faArrowLeft, faArrowRight, faArrows, faPaperclip, 
   faLayerGroup, faTimes, faUnlink, faLink, faPencilAlt, faCheck, faPencil, faSortAmountUp, faSort, faSortAmountDown, faHome, faCog, faSlidersH, faSearch,faSignIn, faSignOut, faSignOutAlt, faSave, faLock, faUnlock, faRuler, faBroadcastTower, faEar, 
   faLightbulb, faMap, faSun, faCloudSun, faCloudMoon, faEye, faEyeSlash, faMoon, faMapMarkerAlt, faRectanglePortrait, faRectangleWide, faDoorOpen, faCampfire, faSignature, faVectorSquare, faDrawCircle, faDrawPolygon, faDrawSquare, faImage,
    faUserShield, faHelmetBattle, faDragon, faThumbtack, faGlobe, faSwords, faDice, faSquare, faToggleOff, faToggleOn, faPencilRuler, faBars, faLightbulbOn, faLightbulbSlash, faFastForward, faStepForward, faHeart, faQuestionCircle, faThLarge,
@@ -23,6 +23,7 @@ export class Icons {
 
   solidPro(l : FaIconLibrary) {
     l.addIcons(
+      faPaperPlane,
       faCheckSquare,
       faSortAlphaDown,
       faChalkboard,

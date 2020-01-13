@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ObjectType } from 'src/app/core/model';
-import { Route } from '@angular/router';
 
 @Component({
   selector: 'app-character-page',
@@ -9,7 +7,7 @@ import { Route } from '@angular/router';
 })
 export class CharacterPageComponent implements OnInit {
 
-  constructor(private route : Route) { }
+  constructor() { }
 
   ngOnInit() {
   //  this.route.resolve()

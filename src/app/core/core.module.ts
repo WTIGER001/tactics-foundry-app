@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { EmojifyModule } from 'angular-emojify';
+import {PlatformModule} from '@angular/cdk/platform';
 
 import { PlayerHomeComponent } from './pages/player-home/player-home.component'
 import { WelcomeComponent } from './pages/welcome/welcome.component';
@@ -28,13 +30,25 @@ import { ImagePickerComponent } from './components/image-picker/image-picker.com
 import { UploadButtonComponent } from './components/upload-button/upload-button.component';
 import { EditableTitleComponent } from './components/editable-title/editable-title.component';
 import { SelectPlayersPageComponent } from './pages/select-players-page/select-players-page.component';
+import { LongPressDirective } from './directives/long-press.directive';
+import { LivePageComponent } from './pages/live-page/live-page.component';
+import { MapComponent } from './components/map/map/map.component';
+import { FullChatComponent } from './components/chat/full-chat/full-chat.component';
+import { ChatPreviewComponent } from './components/chat/chat-preview/chat-preview.component';
+import { ChatTextComponent } from './components/chat/chat-text/chat-text.component';
+import { ChatRollsComponent } from './components/chat/chat-rolls/chat-rolls.component';
+import { RollMessageComponent } from './components/chat/roll-message/roll-message.component';
+import { TextMessageComponent } from './components/chat/text-message/text-message.component';
+import { PingMessageComponent } from './components/chat/ping-message/ping-message.component';
+import { MessageComponent } from './components/chat/message/message.component';
+import { DiceCanvasComponent } from './components/chat/dice-canvas/dice-canvas.component'
 
 
 @NgModule({
   declarations: [
-    WelcomeComponent, 
-    JoingameComponent, 
-    PlayeridComponent, 
+    WelcomeComponent,
+    JoingameComponent,
+    PlayeridComponent,
     DisplaynameComponent,
     PlayerHomeComponent,
     DetailPageComponent,
@@ -51,22 +65,29 @@ import { SelectPlayersPageComponent } from './pages/select-players-page/select-p
     ImagePickerComponent,
     UploadButtonComponent,
     EditableTitleComponent,
-    SelectPlayersPageComponent
+    SelectPlayersPageComponent,
+    LongPressDirective, 
+    LivePageComponent, 
+    MapComponent, FullChatComponent, ChatPreviewComponent, ChatTextComponent, 
+    ChatRollsComponent, RollMessageComponent, TextMessageComponent, 
+    PingMessageComponent, MessageComponent, DiceCanvasComponent
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
-    FontAwesomeModule, 
-    NgxBarcodeModule, 
-    ContenteditableModule, 
-    RouterModule, 
-    ColorPickerModule
-  ], 
+    FontAwesomeModule,
+    NgxBarcodeModule,
+    ContenteditableModule,
+    RouterModule,
+    ColorPickerModule,
+    EmojifyModule, 
+    PlatformModule
+  ],
   providers: [
     DataService
   ]
 })
-export class CoreModule { 
+export class CoreModule {
   root(environment) {
 
   }

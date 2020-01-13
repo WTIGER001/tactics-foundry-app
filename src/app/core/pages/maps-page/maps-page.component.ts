@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Game, ObjectType, MapData } from '../../model';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Game, ObjectType, MapData, RouteContext } from '../../model';
 import { DataService } from '../../data.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DbWatcher } from '../../database-manager';
 
 @Component({
   selector: 'app-maps-page',
@@ -9,25 +10,46 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./maps-page.component.css']
 })
 export class MapsPageComponent implements OnInit, OnDestroy {
+  gameid: string
   sortBy: 'date' | 'alpa' = 'date'
-  game : Game = new Game()
-  feed : PouchDB.LiveFind.LiveFeed<MapData>
-  maps : MapData[] = []
+  game: Game = new Game()
+  maps: MapData[] = []
   tab: number = 0
-  constructor(private data: DataService, private route: ActivatedRoute, private router: Router) { }
+  watcher: DbWatcher
+  constructor(private data: DataService, private route: ActivatedRoute, private router: Router, private zone: NgZone) { }
 
   ngOnInit() {
-    this.route.data.subscribe((data: { asset: ObjectType }) => {
-      console.log("GOT DATA ", data)
-      this.game = Game.to(<Game>data.asset)
-      if (this.game) {
-        this.liveMapFeed(this.game._id)
+    this.route.data.subscribe((data: { ctx: RouteContext }) => {
+      this.gameid = data.ctx.id
+      if (this.gameid) {
+        this.data.createDbIfNeeded(this.gameid).subscribe(db => {
+          this.watcher = db.watchType(MapData.TYPE, this.zone)
+          this.watcher.onAdd(doc => {
+            this.maps.push(MapData.to(doc))
+            this.sort()
+          })
+          this.watcher.onUpdate(doc => {
+            let indx = this.maps.findIndex(m => doc._id === m._id)
+            if (indx >= 0) {
+              this.maps[indx] = MapData.to(doc)
+            }
+          })
+          this.watcher.onRemove( doc => {
+            let indx = this.maps.findIndex(m => doc._id === m._id)
+            if (indx >= 0) {
+              this.maps.splice(indx, 1)
+            }
+          })
+          this.watcher.start()
+        })
       }
     })
   }
 
+
+
   ngOnDestroy() {
-    this.feed.cancel()
+    if (this.watcher) { this.watcher.cancel() }
   }
 
   toggleSort() {
@@ -38,47 +60,13 @@ export class MapsPageComponent implements OnInit, OnDestroy {
     }
     this.sort()
   }
-  
-  liveMapFeed(id : string) {
-    console.log(id)
-    let db   = this.data.DBs.get(id).localdb
-
-    // Create the index (push this up!)
-    db.createIndex({
-      index: { fields: ['type']}
-    })
-
-    db.find({
-      selector : {
-        type : MapData.TYPE
-      }
-    })
-
-    this.feed = db.liveFind({
-      selector: {type: MapData.TYPE},
-      aggregate: true
-    })
-
-    this.feed.on('update', (update, aggregate) => {
-      // update.action is 'ADD', 'UPDATE', or 'REMOVE'
-      // update also contains id, rev, and doc
-      console.log(update.action, update.id);
-
-      if (update.action == 'ADD') {
-        console.log("Adding a Map ", update.doc);
-        let a = new MapData().copyFrom(update.doc)
-        this.maps.push(a)
-        this.sort()
-      }
-    })
-  }
 
   private sort() {
     this.maps = this.maps.sort((a, b) => {
       // console.log("Comparing, ", this.sortBy,  a, b);
       if (this.sortBy == 'date') {
-        let aLast = 
-        console.log(b.lastUpdate - a.lastUpdate, a.lastUpdate, b.lastUpdate)
+        let aLast =
+          console.log(b.lastUpdate - a.lastUpdate, a.lastUpdate, b.lastUpdate)
         return b.lastUpdate - a.lastUpdate
       } else if (this.sortBy == 'alpa') {
         if (a.name.toLowerCase() == b.name.toLowerCase()) {
@@ -106,21 +94,21 @@ export class MapsPageComponent implements OnInit, OnDestroy {
     let map = new MapData()
 
     map.name = "New Map (please change)"
-    map.game = this.game._id
-    map.parentId = this.game._id
+    map.game = this.gameid
+    map.sourceDB = this.gameid
 
     this.data.store(map).subscribe(() => {
       this.router.navigate(['/games', map.game, 'maps', map._id, 'edit'])
     })
   }
 
-  open(map : MapData, $event) {
-    let ctrl = $event.ctrlKey
-    if (ctrl) {
-      this.router.navigate([map._id, 'edit'], {relativeTo: this.route})
-    } else {
-      this.router.navigate([map._id], {relativeTo:  this.route})
-    }
+  open(map: MapData, $event) {
+    // let ctrl = $event.ctrlKey
+    // if (ctrl) {
+    this.router.navigate([map._id], { relativeTo: this.route })
+    // } else {
+    // this.router.navigate([map._id], {relativeTo:  this.route})
+    // }
   }
 
 }

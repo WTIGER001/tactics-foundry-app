@@ -1,0 +1,23 @@
+<div class="roll-header">
+    <div>{{message.expression}}</div>
+    <div class="fav" *ngIf="!isFav(message.expression)">
+        <fa-icon (click)="toggleFav(message.expression)" [icon]="['far', 'star']"></fa-icon>
+    </div>
+    <div *ngIf="isFav(message.expression)">
+        <fa-icon (click)="toggleFav(message.expression)" [icon]="['fas', 'star']"></fa-icon>
+    </div>
+</div>
+
+<div class="dice">
+    <ng-container *ngFor="let r of message.dice; let last = last;">
+        <i [class]="r.getClass()" [class.mr-1]="true" [class.dice-max]="r.isMax()" [class.dice-min]="r.isMin()"></i>
+        <span class="empty-die mr-1" *ngIf="r.getNoClass()">{{r.getTotal()}}</span>
+    </ng-container>
+    <ng-container *ngIf="message.modifier > 0">
+        + {{message.modifier}}
+    </ng-container>
+    <ng-container *ngIf="message.modifier < 0">
+        {{message.modifier}}
+    </ng-container>
+    = {{message.getTotal()}}
+</div>

@@ -1,0 +1,44 @@
+.input-area {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+ 
+}
+
+.entry-area input {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 300;
+    /* background-color: var(--form-bg); */
+    background: transparent;
+}
+
+.input-area label {
+    text-shadow: 1px 1px black;
+}
+
+.entry-area {
+    border: 1px solid gray;
+    color: white;
+    background: white;
+    border-radius: 7px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-content: center;
+    align-items: center;
+    padding-right: .5em;
+    background-color: var(--form-bg);
+    box-shadow: 1px 1px 5px #444444;
+
+}
+
+.entry-area:focus-within {
+    background-color: var(--form-focus-bg);
+}
+
+.send-btn {
+    color: white;
+    background-color: green;
+    box-shadow: 1px 1px 5px #444444;
+}
+

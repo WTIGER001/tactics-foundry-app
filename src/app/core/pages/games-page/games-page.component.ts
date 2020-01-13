@@ -1,26 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Game, ObjectType, PlayerRole } from '../../model';
 import { DataService } from '../../data.service';
 import { Router } from '@angular/router';
+import { DbWatcher } from '../../database-manager';
 
 @Component({
   selector: 'app-games-page',
   templateUrl: './games-page.component.html',
   styleUrls: ['./games-page.component.css']
 })
-export class GamesPageComponent implements OnInit {
+export class GamesPageComponent implements OnInit, OnDestroy {
 
-  constructor(private data: DataService, private router: Router) { }
+  constructor(private data: DataService, private router: Router, private zone : NgZone) { }
   games: Game[] = []
-  feed : PouchDB.LiveFind.LiveFeed<Game>
+  // feed : PouchDB.LiveFind.LiveFeed<Game>
+  watcher : DbWatcher
 
   ngOnInit() {
     // this.data.games$.subscribe(games => {
     //   this.games = games
     // })
-    this.data.playerId$.subscribe( pid => {
-      this.live(pid)
+    this.data.player$.subscribe( pid => {
+      this.live(pid._id)
     })
+  }
+
+  ngOnDestroy() {
+    // if (this.feed) {
+    //   this.feed.cancel()
+    // }
+
+    if (this.watcher) { this.watcher.cancel()}
   }
 
   newGame() {
@@ -40,47 +50,54 @@ export class GamesPageComponent implements OnInit {
     })
   }
 
-  openGame(game: Game) {
+  openGame(game: Game, $event) {
+    if ($event && $event.ctrlKey) {
+      this.router.navigate(['games', game._id])
+    } else {
+      this.router.navigate(['games', game._id, 'live'])
+    }
+  }
+  
+  onLongPress(game : Game) {
+    console.log("LONG PRESS", game)
     this.router.navigate(['games', game._id])
   }
 
+  onLongPressing() {
+    console.log("LONG PRESSING")
+  }
+
+  onLongPressEnd() {
+    console.log("LONG PRESS END")
+  }
+
   live(playerid: string) {
-    console.log(playerid)
-    let db = this.data.coreDB.localdb
+    // THIS DOESNT WORK... SEEMS TO BE A BUG IN POUCHDB
+    // let selector = {
+    //     "players": {
+    //       "$elemMatch": {
+    //          "_id": playerid
+    //       }
+    //    }
+    // }
 
-    // Create the index (push this up!)
-    db.createIndex({
-      index: { fields: ['type'] }
-    })
-
-    // Looks for all the gams that the player is either a GM or a player
-    this.feed = db.liveFind({
-      selector : {
-          $and :[
-            {type: { $eq : Game.TYPE}},
-            {players : {
-              $elemMatch : {
-                _id: playerid
-              }
-            }}
-          ]
-      },
-      aggregate: true
-
-    })
-
-
-    this.feed.on('update', (update, aggregate) => {
-      // update.action is 'ADD', 'UPDATE', or 'REMOVE'
-      // update also contains id, rev, and doc
-      console.log(update.action, update.id);
-
-      if (update.action == 'ADD') {
-        console.log("Adding a Game ", update.doc);
-        let a = new Game().copyFrom(update.doc)
-        this.games.push(a)
-        // this.sort()
+    this.watcher = this.data.coreDB.watchType(Game.TYPE, this.zone)
+    this.watcher.filter( item => item.players.findIndex((p : PlayerRole) => p._id == playerid) >= 0)
+    this.watcher.onAdd( item =>  this.games.push(Game.to(item)))
+    this.watcher.onUpdate( item => {
+      let indx = this.games.findIndex( game => game._id === item._id)
+      if (indx >=0 ) {
+        this.games[indx] = Game.to(item)
       }
+      // let newGames= [...this.games]
+      // this.games = newGames;
     })
+    this.watcher.onRemove(item => {
+      let indx = this.games.findIndex( game => game._id === item._id)
+        if (indx >=0 ) {
+          this.games.splice(indx, 1)
+        }
+    })
+    this.watcher.start()
   }
 }

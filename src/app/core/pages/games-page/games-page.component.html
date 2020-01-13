@@ -16,7 +16,8 @@
     </div>
 
     <div class="game-list" main>
-        <div *ngFor="let g of games" class="game-card" (click)="openGame(g)">
+        <div *ngFor="let g of games" class="game-card" (click)="openGame(g, $event)"
+             long-press (onLongPress)="onLongPress(g)" (onLongPressing)="onLongPressing()" (onLongPressEnd)="onLongPressEnd()"  >
             <img *ngIf="g.image" [src]="g.image">
             <img *ngIf="!g.image" src="/assets/pages/missing-game.jpg">
             <!-- <img src="/assets/pages/missing-game.jpg"> -->

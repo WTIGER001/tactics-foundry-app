@@ -1,4 +1,4 @@
-<select-players-page *ngIf="selecting" (selected)="updateSelection($event)" (canceled)="canceledSelection()"></select-players-page>
+<select-players-page *ngIf="selecting" (selected)="updateSelection($event)" (canceled)="cancelSelection()"></select-players-page>
 <detail-page [showBack]="true" [title]="game.name" [backLink]="'/games'" [editTitle]='true'
     (titleUpdated)="updateTitle($event)" [class.hidden]="selecting">
     <div class="top" top>

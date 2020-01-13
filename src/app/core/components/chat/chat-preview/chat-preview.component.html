@@ -1,0 +1,15 @@
+<div class="preview-area">
+    <dice-canvas #dice (diceroll)="diceRolled($event)"></dice-canvas>
+    <div class="message-area">
+        <div><b>John Bauer: </b> <span style="color:green">Perception d20+5 </span> [20]+5 = <b>25</b></div>
+        <div><b>Tim Bowman: </b> Hi everyone!</div>
+        <div><b>Tim Bowman: </b> Hi everyone!</div>
+        <div><b>Tim Bowman: </b> Hi everyone!</div>
+        <div><b>Tim Bowman: </b> Hi everyone!</div>
+        <div><b>Tim Bowman: </b> Hi everyone!</div>
+        <div><b>Tim Bowman: </b> Hi everyone!</div>
+        <div><b>Tim Bowman: </b> Hi everyone!</div>
+    </div>
+    <chat-text [size]="chatTextSize" [dice]="dice"></chat-text>
+    <fa-icon class="upper-right" size="lg" icon="times"></fa-icon>
+</div>

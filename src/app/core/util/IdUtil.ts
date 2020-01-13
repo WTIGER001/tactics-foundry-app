@@ -7,6 +7,12 @@ export class IdUtil {
         let salt = IdUtil.genid()
         return item.type + "_" + salt + "_" + time
     }
+
+    static saltedIdType(type : string ) {
+        let time  = new Date().valueOf()
+        let salt = IdUtil.genid()
+        return type + "_" + salt + "_" + time
+    }
     
     static  genid(prefix : string = "") {
         let id = shortid.generate()

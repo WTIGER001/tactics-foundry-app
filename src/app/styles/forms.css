@@ -53,6 +53,7 @@ input.joined {
 div:focus,
 h1:focus,
 a:focus,
+input,
 button:focus {
   outline: none;
 }

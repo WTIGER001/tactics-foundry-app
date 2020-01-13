@@ -1,0 +1,56 @@
+.chat-container {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: rgba(0, 0, 0, .7);
+    color: white;
+    font-weight: 300;
+}
+
+.chat-message-area {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+}
+
+.chat-area {
+    background: transparent;
+}
+
+.message-even {
+    background-color: rgba(3, 139, 139, 0.1);
+    border-radius: 2px;
+}
+
+.message {
+    padding: .25em;
+}
+
+.message:hover {
+    background-color: rgba(82, 82, 129, 0.9);
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+
+.chat-container h1 {
+    padding: .5em;
+}
+
+.chattxt {
+    margin-bottom: 10px;
+    margin-right: .75em;
+    margin-left: .75em;
+}
+
+.upper-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 1em;
+    margin-right: 1em;
+    color: white;
+    cursor: pointer;
+    /* color: rgb(25, 25, 25); */
+    /* filter: drop-shadow(0px 0px 1px white); */
+}

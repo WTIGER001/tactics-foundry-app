@@ -1,0 +1,10 @@
+.roll-header {
+    display: flex;
+    justify-content: space-between;
+    color: #9ed485;
+}
+
+.fav {
+    color: #515558; /* MUTED */
+    font-size: .9em;
+}

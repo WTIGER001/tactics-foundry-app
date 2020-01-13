@@ -1,0 +1,13 @@
+<div class="chat-container">
+    <h1>Chat and Dice</h1>
+    <div class="chat-area">
+        <dice-canvas #dice (diceroll)="diceRolled($event)"></dice-canvas>
+        <div #prev class="chat-message-area">
+            <div *ngFor="let message of messages; let odd=odd; let even=even;" [class.message-odd]="odd" [class.message-even]="even" class="message" (dblclick)="dblClick(message)">
+                <message [record]="message" [odd]="odd"></message>
+            </div>
+        </div>
+    </div>
+    <chat-text [dice]="dice" class="chattxt"></chat-text>
+    <fa-icon class="upper-right" size="lg" icon="times"></fa-icon>
+</div>

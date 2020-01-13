@@ -8,7 +8,7 @@ import { Player, MapData, Game, Annotation, ObjectType } from './model';
 import { BehaviorSubject, ReplaySubject, Observable, from } from 'rxjs';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { IdUtil } from './util/IdUtil';
-import { map } from 'rxjs/operators';
+import { map, filter, tap, take } from 'rxjs/operators';
 
 const PLAYER_DB = 'players'
 const TOKEN_DB = 'tokens'
@@ -17,8 +17,11 @@ const TOKEN_DB = 'tokens'
   providedIn: 'root'
 })
 export class DataService {
+  
+  static readonly COREDB_NAME = 'players'
+
   public newUser = true
-  public coreDB: DatabaseManager<Player | Game>
+  // public coreDB: DatabaseManager<Player | Game>
   // public gameDBs: Map<string, DatabaseManager<Game | Annotation | MapData>> = new Map()
   public DBs: Map<string, DatabaseManager<any>> = new Map()
 
@@ -38,6 +41,10 @@ export class DataService {
 
     this.startup()
 
+  }
+
+  public get coreDB() : DatabaseManager<Player | Game> {
+    return this.DBs.get(DataService.COREDB_NAME)
   }
 
   /**
@@ -84,7 +91,8 @@ export class DataService {
     // Write the player to the local database
     if (!this.coreDB) {
       console.log("Creating Player Database");
-      this.coreDB = new DatabaseManager<Player>(PLAYER_DB, [playerid])
+      let db = new DatabaseManager<Player>(PLAYER_DB, [playerid])
+      this.DBs.set(DataService.COREDB_NAME, db)
     }
     console.log("Storing Player");
     this.coreDB.store(p).subscribe(res => {
@@ -131,10 +139,10 @@ export class DataService {
   }
 
   private loadPlayer(playerid: string) {
+    console.log("Loading Player ", playerid)
     // Create and sync to the player database
-    this.coreDB = new DatabaseManager<Player>(PLAYER_DB, [playerid])
-    this.DBs.set(PLAYER_DB, this.coreDB)
-
+    let db =new DatabaseManager<Player>(DataService.COREDB_NAME, [playerid])
+    this.DBs.set(DataService.COREDB_NAME, db)
     // Retrieves the player (and all changes). The returned object is a Player object
     this.coreDB.get$(playerid).subscribe(player => {
       if (player === null) {
@@ -161,15 +169,11 @@ export class DataService {
 
   private getGames$(playerId): Observable<Game[]> {
     return from(this.coreDB.localdb.find({
-      selector : {
-        $and :[
-          {type: { $eq : Game.TYPE}},
-          {players : {
-            $elemMatch : {
-              _id: playerId
-            }
-          }}
-        ]
+      selector: {
+
+        type : Game.TYPE
+
+
       },
     })).pipe(
       map(results => {
@@ -186,12 +190,31 @@ export class DataService {
 
   }
 
+  public createDbIfNeeded(id: string) : Observable<DatabaseManager<any>>{
+    let db = this.DBs.get(id)
+    if (!db) {
+      db = new DatabaseManager(id);
+      this.DBs.set(id, db)
+    }
+    return db.ready$.pipe(
+      filter( ready => ready),
+      tap( ready => console.log("REcieved Ready ", ready) ),
+      take(1),
+      map( ready => db)
+    )
+  }
+
+  public getDbById(id : string, create : boolean = false ) : DatabaseManager<any> {
+    return this.DBs.get(id)
+  }
+
   public getDb(item: ObjectType): DatabaseManager<any> {
     // Atempt to use the database that created this object (if we know what it is)
     if (item['sourceDB']) {
       let sourceDB = item['sourceDB']
       let db = this.DBs.get(sourceDB)
       if (db) {
+        
         return db
       }
     }
@@ -215,8 +238,19 @@ export class DataService {
   }
 
   public store(item: ObjectType): Observable<unknown> {
+    console.log("Storing , ", item);
+    // Preprocessing
+    if (!this.player) {
+      throw new Error("No Player")
+    }
+
+    item.lastUpdatedBy = this.player._id
+    item.lastUpdate = new Date().valueOf()
+
     // Atempt to use the database that created this object (if we know what it is)
     if (item['sourceDB']) {
+      console.log("Storing in sourceDB, ", item['sourceDB']);
+
       let sourceDB = item['sourceDB']
       let db = this.DBs.get(sourceDB)
       if (db) {
@@ -236,77 +270,9 @@ export class DataService {
         item._id = (item.type + "_" + IdUtil.genid()).toLowerCase()
       }
 
-      if (!this.player) {
-        throw new Error("No Player")
-      }
-      item.lastUpdatedBy = this.player._id
+      
 
-      // Make sure the player has the id in his games list
-      // if (!this.player.games) {
-      //   console.log("Creating Game Set")
-      //   this.player.games = new Set()
-      // }
       return this.coreDB.store(<Game>item)
-
-      // console.log("Checking for game")
-
-
-      // if (!this.player.games.has(item._id)) {
-      //   console.log("Adding Game to player")
-
-      //   this.player.games.add(item._id)
-      //   this.coreDB.store(this.player)
-      // }
-
-      // // Now save the game. The ame may be new 
-      // console.log("Saving Game ", item._id)
-
-      // let db = this.DBs.get(item._id)
-      // if (!db) {
-      //   db = new DatabaseManager<Game>(item._id)
-      //   this.DBs.set(item._id, db)
-      // }
-
-      // return db.store(<Game>item)
-    }
-
-
-
-    if (item.type == MapData.TYPE) {
-      // Games can be new
-      if (!item._id) {
-        item._id = (item.type + "_" + IdUtil.genid()).toLowerCase()
-      }
-
-      if (!this.player) {
-        throw new Error("No Player")
-      }
-
-      // Make sure the player has the id in his games list
-      if (!this.player.games) {
-        console.log("Creating Game Set")
-        this.player.games = new Set()
-      }
-
-      console.log("Checking for game")
-
-      if (!this.player.games.has(item._id)) {
-        console.log("Adding Game to player")
-
-        this.player.games.add(item._id)
-        this.coreDB.store(this.player)
-      }
-
-      // Now save the game. The ame may be new 
-      console.log("Saving Game ", item._id)
-
-      let db = this.DBs.get(item._id)
-      if (!db) {
-        db = new DatabaseManager<Game>(item._id)
-        this.DBs.set(item._id, db)
-      }
-
-      return db.store(<Game>item)
     }
 
     if (item.type == MapData.TYPE) {
@@ -333,6 +299,19 @@ export class DataService {
     }
 
     return null
+  }
+
+  /**
+   * 
+   * @param gameid Activates a map in the live session
+   * @param mapdata 
+   */
+  public activate(gameid: string, mapdata: MapData) {
+    // First get the 'live_session'
+    // Then activate the map and reset all the map center and map zoom.
+
+
+
   }
 
 }

@@ -1,0 +1,13 @@
+.msg-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.uname {
+    font-weight: 400;
+}
+
+.time {
+    color: #515558; /* MUTED */
+    font-size: .9em;
+}

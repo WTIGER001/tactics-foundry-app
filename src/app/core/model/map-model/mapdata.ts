@@ -1,12 +1,13 @@
 import { ObjectType } from '../object-type';
-import * as modelutil from '../modelutil';
+import { IdUtil} from '../../util/IdUtil'
 
 export class MapData extends ObjectType {
     static readonly TYPE = 'mapdata'
 
-    _id = modelutil.id(this)
+    _id = IdUtil.saltedIdType(MapData.TYPE)
+    
     type = MapData.TYPE
-
+    sourceDB
     name = "New Map"
     description = ""
     height = 0
