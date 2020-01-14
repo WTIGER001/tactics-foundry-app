@@ -1,0 +1,7 @@
+bauerstuff.com {
+    gzip
+    log access.log
+    root c:/dev/site
+    proxy /db localhost:5989
+
+}

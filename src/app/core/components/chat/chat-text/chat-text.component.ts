@@ -52,19 +52,31 @@ export class ChatTextComponent implements OnInit {
 
   private sendMessage(msg : DiceRoll | TextMessage | PingMessage) {
     let c =new ChatRecord()
-    // c.sourceDB = this.gameid
-    c.sourceDB = 'chat'
+    c.sourceDB = this.gameid
+    // c.sourceDB = 'chat'
     c.record = msg
     c.displayName = this.data.player.displayName
     c.lastUpdate = new Date().valueOf()
     c.lastUpdatedBy = this.data.player._id;
-    let db = this.data.DBs.get('chat');
-    db.localdb.put(c);
+    // let db = this.data.DBs.get('chat');
+    // db.localdb.put(c);
+    this.data.store(c)
+  }
+
+  send() {
+    this.enterAction(this.action)
+  }
+
+  keyup() {
 
   }
 
-  private send() {
-    this.enterAction(this.action)
+  update(value : string) {
+
+  }
+
+  showRoller() {
+
   }
 }
 

@@ -10,9 +10,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "ng build --aot --prod --verbose & firebase deploy",
+    "deploy": "ng build --aot --prod & firebase deploy",
     "cors": "gsutil cors set cors.json gs://sfcmap.appspot.com",
-    "pwa": "ng build --aot --prod --optimization=false && http-server -p 8080 -c-1 dist/sfcmap"
+    "pwa": "ng build --aot --prod --optimization=false && http-server -p 8080 -c-1 dist/sfcmap",
+    "caddy" : "ng build --aot --prod & rm -rf c:\\dev\\site & cp -r c:\\dev\\projects\\tacticsfoundry\\tactics-foundry-app\\dist\\tactics-foundry-app c:\\dev\\site"
   },
   "private": true,
   "dependencies": {

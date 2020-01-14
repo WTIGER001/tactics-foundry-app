@@ -19,7 +19,7 @@ export class DatabaseManager<T extends ObjectType> {
   private changes$: Subject<any> = new Subject()
   public ready$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(public dbname: string, filteredIds: string[] = [], remoteAddressPrefix: string = environment ? environment.remoteAddress : 'http://69.133.98.109:5984/') {
+  constructor(public dbname: string, filteredIds: string[] = [], remoteAddressPrefix: string = environment ? environment.remoteAddress : 'https://bauerstuff.com/') {
     this.syncFilterIds = [...filteredIds]
 
     // Register Plugins
@@ -28,7 +28,7 @@ export class DatabaseManager<T extends ObjectType> {
     PouchDB.plugin(PouchDBLiveFind)
 
     // Create the Databases and begin to sync
-    this.localdb = new PouchDB(dbname);
+    this.localdb = new PouchDB(dbname, {adapter : 'idb'});
     this.remotedb = new PouchDB(remoteAddressPrefix + dbname)
     this.createIndexes()
     this.registerFilter()

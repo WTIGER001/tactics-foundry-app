@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, HostListener } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { DbWatcher, DatabaseManager } from 'src/app/core/database-manager';
@@ -23,11 +23,7 @@ export class FullChatComponent implements OnInit {
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
       this.gameid = data.ctx.id
       if (this.gameid) {
-        let db = new DatabaseManager("chat");
-        this.data.DBs.set("chat", db)
-
-
-        // this.data.createDbIfNeeded(this.gameid).subscribe(db => {
+        this.data.createDbIfNeeded(this.gameid).subscribe(db => {
           // console.log("Watching for chat messages")
           this.watcher = db.watchType(ChatRecord.TYPE, this.zone)
           this.watcher.onAdd(doc => {
@@ -50,10 +46,14 @@ export class FullChatComponent implements OnInit {
             // }
           })
           this.watcher.start()
-        // })
+        })
       }
     })
 
+  }
+
+  dblClick(message) {
+    
   }
 
   sort(){

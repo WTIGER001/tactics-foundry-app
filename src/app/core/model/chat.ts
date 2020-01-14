@@ -14,13 +14,13 @@ export class ChatRecord extends ObjectType {
         let c = new ChatRecord()
         LangUtil.copyFrom(c, doc)
 
-        if (doc.messageType == TextMessage.MSG_TYPE) {
+        if (doc.record.messageType == TextMessage.MSG_TYPE) {
             c.record = TextMessage.to(doc.record)
         } 
-        if (doc.messageType == DiceRoll.MSG_TYPE) {
+        if (doc.record.messageType == DiceRoll.MSG_TYPE) {
             c.record =  DiceRoll.to(doc.record)
         } 
-        if (doc.messageType == PingMessage.MSG_TYPE) {
+        if (doc.record.messageType == PingMessage.MSG_TYPE) {
             c.record = PingMessage.to(doc.record)
         } 
         return c
@@ -45,15 +45,22 @@ export class TextMessage  {
 export class DiceRoll {
     public static readonly MSG_TYPE = 'chat.diceroll'
   
-    static to(item: any): DiceRoll {
+    static to(r: any): DiceRoll {
       let obj = new DiceRoll()
-      Object.assign(obj, item)
-  
-      for (let i = 0; i < obj.dice.length; i++) {
+      obj.modifier = r.modifier
+      obj.expression = r.expression
+      obj.rolltype = r.rolltype
+      obj.tokenId = r.tokenId
+      r.dice.forEach(die => {
         let d = new DiceResult()
-        Object.assign(d, obj.dice[i])
-        obj.dice[i] = d
-      }
+        d.negative = die.negative
+        d.threeDIndex = die.threeDIndex
+        d.threeDIndex100 = die.threeDIndex100
+        d.type = die.type
+        d.value = die.value
+        d.value100 = die.value100
+        obj.dice.push(d)
+      })
       return obj
     }
   
@@ -146,7 +153,7 @@ export class DiceRoll {
   }
 
 export class DiceResult {
-    public static readonly TYPE = 'chat.diceroll'
+    public static readonly TYPE = 'chat.diceresult'
 
     value: number = 0;
     value100: number = 0;
@@ -194,6 +201,17 @@ export class DiceResult {
             return 100
         }
         return this.value + this.value100
+    }
+
+    static to(obj : any) : DiceResult {
+      let d = new DiceResult()
+      d.value = obj.value
+      d.value100 = obj.value100
+      d.type = obj.type
+      d.threeDIndex = obj.threeDIndex
+      d.threeDIndex100 = obj.threeDIndex100
+      d.negative = obj.negative
+      return d
     }
 }
 

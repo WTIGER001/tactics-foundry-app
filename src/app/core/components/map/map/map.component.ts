@@ -79,7 +79,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.viewport = new Viewport({
       screenHeight : window.innerHeight,
       screenWidth : window.innerWidth,
-      interaction: this.app.renderer.plugins.interaction
+      interaction: this.app.renderer.plugins.interaction, 
+      divWheel : this.app.view
     })
 
     this.app.stage.addChild(this.viewport)

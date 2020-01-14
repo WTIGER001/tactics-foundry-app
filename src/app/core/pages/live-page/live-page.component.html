@@ -12,6 +12,6 @@
         <button (click)="mapview.zoomIn()">Zoom In</button>
     </div>
     <map class="map-container" [mapdata]="mapdata" #mapview></map>
-    <chat-preview *ngIf="chatPreview" class="chat"></chat-preview>
+    <chat-preview *ngIf="chatPreview" ></chat-preview>
     <full-chat *ngIf="!chatPreview" class="chat"></full-chat>
 </div>

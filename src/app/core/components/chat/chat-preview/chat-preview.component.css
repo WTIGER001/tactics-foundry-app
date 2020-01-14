@@ -1,4 +1,14 @@
 .preview-area {
+    position: fixed;
+    bottom: 0;
+    height: 120px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: grid;
+    justify-content: stretch;
+    align-items: stretch;
+
     background: rgba(0, 0, 0, .7);
     color: white;
     font-size: .8em;
@@ -6,6 +16,7 @@
     overflow: hidden;
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
 }
 
 .upper-right {
@@ -23,11 +34,36 @@
 @media screen and (min-width: 600px) {
     .preview-area {
         grid-template-columns: 1fr 300px;
-        align-items: center;
-        justify-content: center;
+        align-items: start;
+        justify-content: start;
     }
 }
 
-.message-area {
+.chat-area {
     overflow: hidden;
+    height: 100%;
+}
+
+.uname {
+    color: green;
+    font-weight: 400;
+}
+
+.text {
+    color: white;
+}
+
+.chat-message-area {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-anchor: none;
+    grid-template-rows: 1fr;
+}
+
+.large {
+    height: 50vh; 
 }

@@ -165,3 +165,83 @@ button:focus {
     background-color: var(--tab-active-bg);
     font-weight: bold;
 }
+
+
+/*  Scrollbars
+    -------------------*/
+    .scroller {
+        /* overflow: auto; */
+        overflow-y: auto;
+        overflow-x: hidden;
+        overflow-anchor: none;
+    }
+    
+    .scroller-dark::-webkit-scrollbar-track
+    {
+        width: 5px;  
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: rgba(0, 0, 0, .8);
+    }
+    
+    .scroller-dark::-webkit-scrollbar
+    {
+        width: 5px;
+        background-color: #F5F5F5;
+        padding-left: 10px;
+    }
+    
+    .scroller-dark::-webkit-scrollbar-thumb
+    {
+        border-radius: 8px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    } 
+    
+    .scroller-dark::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
+    
+    
+    
+    ::-webkit-scrollbar-track
+    {
+        width: 15px;  
+        /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: rgba(0, 0, 0, .4);
+    }
+    
+    ::-webkit-scrollbar
+    {
+          width: 15px;
+        background-color: rgba(0, 0, 0, .4);
+        padding-left: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb
+    {
+        border-radius: 2px;
+        /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3); */
+        /* box-shadow: inset 0 0 6px rgba(0,0,0,.3); */
+        background-color: #555;
+    } 
+    
+    ::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
+    
+    
+    .hide {
+        /* display: none */
+        transform: scale(0,0)
+    }
+    
+    .glow {
+        z-index:-1;
+        transform: scale(1.01) translate(-50%, -50%);
+        -webkit-transform: scale(1.01) translate(-50%, -50%);
+        filter: brightness(0) invert(1) blur(5px);
+        -webkit-filter: brightness(0) invert(1) blur(5px);
+      }

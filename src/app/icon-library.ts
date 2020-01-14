@@ -5,7 +5,7 @@ import { faStar as SOLID_STAR,faPaperPlane,  faCheckSquare, faSortAlphaDown, faC
   faLightbulb, faMap, faSun, faCloudSun, faCloudMoon, faEye, faEyeSlash, faMoon, faMapMarkerAlt, faRectanglePortrait, faRectangleWide, faDoorOpen, faCampfire, faSignature, faVectorSquare, faDrawCircle, faDrawPolygon, faDrawSquare, faImage,
    faUserShield, faHelmetBattle, faDragon, faThumbtack, faGlobe, faSwords, faDice, faSquare, faToggleOff, faToggleOn, faPencilRuler, faBars, faLightbulbOn, faLightbulbSlash, faFastForward, faStepForward, faHeart, faQuestionCircle, faThLarge,
     faFilter, faFileImport, faHistory, faTh, faEdit, faLocation, faRandom, faCloudUpload, faAddressCard, faSkullCrossbones, faSyncAlt, faHandPointer, faUsers, faUserSecret, faUsersCrown, faDoorClosed, faCloudDownload, faEllipsisV, faCheckDouble, 
-  faMousePointer, faUserCrown, faCameraAlt, faUser, faCalendar, faCalendarAlt, faFolderPlus, faMapMarkerPlus, faTombstone, faTreasureChest, faArrowAltRight, faPaste, faDungeon, faChevronDoubleLeft } from '@fortawesome/pro-solid-svg-icons';
+  faMousePointer, faUserCrown, faCameraAlt, faUser, faCalendar, faCalendarAlt, faFolderPlus, faMapMarkerPlus, faTombstone, faTreasureChest, faArrowAltRight, faPaste, faDungeon, faChevronDoubleLeft, faChevronUp, faChevronDown } from '@fortawesome/pro-solid-svg-icons';
 import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
 
 
@@ -31,6 +31,8 @@ export class Icons {
       faCalendar,
       faCalendarAlt,
       faChevronDoubleLeft,
+      faChevronDown,
+      faChevronUp,
       faLayerGroup, 
       faPlus, 
       faBookmark,

@@ -1,15 +1,26 @@
-<div class="preview-area">
+<div class="preview-area" (dblclick)="dblClick()" [class.large]="large">
     <dice-canvas #dice (diceroll)="diceRolled($event)"></dice-canvas>
-    <div class="message-area">
-        <div><b>John Bauer: </b> <span style="color:green">Perception d20+5 </span> [20]+5 = <b>25</b></div>
-        <div><b>Tim Bowman: </b> Hi everyone!</div>
-        <div><b>Tim Bowman: </b> Hi everyone!</div>
-        <div><b>Tim Bowman: </b> Hi everyone!</div>
-        <div><b>Tim Bowman: </b> Hi everyone!</div>
-        <div><b>Tim Bowman: </b> Hi everyone!</div>
-        <div><b>Tim Bowman: </b> Hi everyone!</div>
-        <div><b>Tim Bowman: </b> Hi everyone!</div>
+    <div class="chat-area">
+        <div class="chat-message-area scroller-dark">
+            <div *ngFor="let m of messages; let odd=odd; let even=even;" [class.message-odd]="odd"
+                [class.message-even]="even" class="message">
+                <span class="uname">{{m.displayName}}: </span>
+                <span class="text" *ngIf="isText(m.record)">{{m.record.message}}</span>
+                <ng-container *ngIf="isRoll(m.record)">
+                    <span class="expression">{{m.record.expression}} --> </span>
+                    <span *ngFor="let r of m.record.dice; let last = last;"> [{{r.getTotal()}}] </span>
+                    <ng-container *ngIf="m.record.modifier > 0">
+                        + {{m.record.modifier}}
+                    </ng-container>
+                    <ng-container *ngIf="m.record.modifier < 0">
+                        {{m.record.modifier}}
+                    </ng-container>
+                    = {{getTotal(m.record)}}
+                </ng-container>
+            </div>
+        </div>
     </div>
-    <chat-text [size]="chatTextSize" [dice]="dice"></chat-text>
-    <fa-icon class="upper-right" size="lg" icon="times"></fa-icon>
+    <chat-text class="chatbox" [size]="chatTextSize" [dice]="dice"></chat-text>
+    <fa-icon class="upper-right" size="lg" [icon]="large?'chevron-down':'chevron-up'" (click)="large = !large">
+    </fa-icon>
 </div>
