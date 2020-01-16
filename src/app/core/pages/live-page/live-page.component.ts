@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, NgZone, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
 import { DbWatcher } from '../../database-manager';
-import { Game, RouteContext, SessionCommand, MapData, PanZoomMapCommand } from '../../model';
+import { Game, RouteContext, SessionCommand, MapData, PanZoomMapCommand, GridOptions } from '../../model';
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map/map.component';
 import { Graphics } from 'pixi.js';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'live-page',
@@ -25,6 +27,10 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
   selecting = false;
   commands : SessionCommand[] = []
   chatPreview = true
+
+  tool : string
+  gmtool :string
+  mdUpatesSmall$ = new Subject<MapData>()
 
   constructor(private data: DataService, private route: ActivatedRoute, private router: Router, private zone: NgZone, private element : ElementRef) { }
 
@@ -54,7 +60,22 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
 
     })
 
+    this.mdUpatesSmall$.pipe(
+      debounceTime(300)
+    ).subscribe( m => {
+      this.data.store(m)
+    })
+
     
+  }
+
+  setMap(doc : any) {
+    
+    
+  }
+
+  onBack() {
+    this.router.navigate(['../'], { relativeTo : this.route})
   }
 
   ngAfterViewInit() {
@@ -129,6 +150,10 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
 
   updateMap(mapdata : MapData) {
     console.log("Changing Map ", mapdata)
+    this.mapdata = MapData.to(mapdata)
+    if (!mapdata.gridOptions)  {
+      this.mapdata.gridOptions = new GridOptions()
+    }
     this.mapview.changeMap(mapdata)
 
     this.mapview.viewport.on('moved', event => {
@@ -142,4 +167,43 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
     if (this.watcher) { this.watcher.cancel()}
   }
 
+  showGmTools() {
+    this.gmtool = 'grid'
+  }
+
+  closeGmTools() {
+    this.gmtool = undefined
+  }
+
+  isGM() : boolean {
+    return this.game.isGM(this.data.player._id)
+  }
+
+  needsRecenter() {
+    return false
+  }
+
+  recenter() {
+
+  }
+
+  startMeasure() {
+
+  }
+
+  addToMap() {
+
+  }
+
+  updateGrid($event) {
+    this.mdUpatesSmall$.next(this.mapdata)
+  }
+
+  updateFog($event) {
+    this.mdUpatesSmall$.next(this.mapdata)
+  }
+
+  updateCalibrate($event) {
+    this.mdUpatesSmall$.next(this.mapdata)
+  }
 }

@@ -41,7 +41,12 @@ import { RollMessageComponent } from './components/chat/roll-message/roll-messag
 import { TextMessageComponent } from './components/chat/text-message/text-message.component';
 import { PingMessageComponent } from './components/chat/ping-message/ping-message.component';
 import { MessageComponent } from './components/chat/message/message.component';
-import { DiceCanvasComponent } from './components/chat/dice-canvas/dice-canvas.component'
+import { DiceCanvasComponent } from './components/chat/dice-canvas/dice-canvas.component';
+import { GridToolComponent } from './components/map/tools/grid-tool/grid-tool.component';
+import { FogToolComponent } from './components/map/tools/fog-tool/fog-tool.component';
+import { CalibrateToolComponent } from './components/map/tools/calibrate-tool/calibrate-tool.component'
+import { LineStyleComponent } from './components/util/line-style/line-style.component';
+import { LineWeightComponent } from './components/util/line-weight/line-weight.component';
 
 
 @NgModule({
@@ -70,7 +75,9 @@ import { DiceCanvasComponent } from './components/chat/dice-canvas/dice-canvas.c
     LivePageComponent, 
     MapComponent, FullChatComponent, ChatPreviewComponent, ChatTextComponent, 
     ChatRollsComponent, RollMessageComponent, TextMessageComponent, 
-    PingMessageComponent, MessageComponent, DiceCanvasComponent
+    PingMessageComponent, MessageComponent, DiceCanvasComponent, GridToolComponent, FogToolComponent, CalibrateToolComponent, 
+    LineStyleComponent, 
+    LineWeightComponent
   ],
   imports: [
     CommonModule,

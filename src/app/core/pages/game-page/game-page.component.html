@@ -1,6 +1,6 @@
 <select-players-page *ngIf="selecting" (selected)="updateSelection($event)" (canceled)="cancelSelection()"></select-players-page>
 <detail-page [showBack]="true" [title]="game.name" [backLink]="'/games'" [editTitle]='true'
-    (titleUpdated)="updateTitle($event)" [class.hidden]="selecting">
+    (titleUpdated)="updateTitle($event)" [class.hidden]="selecting" >
     <div class="top" top>
         <img *ngIf="game.image" [src]="game.image" class="game-img">
         <img *ngIf="!game.image" src="/assets/pages/missing-game.jpg" class="game-img">
@@ -25,7 +25,7 @@
         <div *ngIf="tab==0" class="tab-game">
             <div class="buttons">
                 <button class="btn btn-primary span2">
-                    <div class="bigtxt">Join Active Session</div>
+                    <div class="bigtxt" routerLink="live">Join Live Session</div>
                 </button>
                 <button class="btn btn-secondary pic-btn btn-maps" routerLink='maps'>Maps</button>
                 <button class="btn btn-secondary pic-btn btn-characters" routerLink="characters">Characters</button>
@@ -48,9 +48,5 @@
 
             <button (click)="selectPlayers()" class=".btn .btn-primary grid-span-4">Add Players</button>
         </div>
-    </div>
-
-    <div main class='main'>
-
     </div>
 </detail-page>

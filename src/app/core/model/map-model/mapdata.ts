@@ -1,5 +1,6 @@
 import { ObjectType } from '../object-type';
 import { IdUtil} from '../../util/IdUtil'
+import { GridOptions } from './grid-options';
 
 export class MapData extends ObjectType {
     static readonly TYPE = 'mapdata'
@@ -20,6 +21,7 @@ export class MapData extends ObjectType {
     bgColor = "#000000"
     game: string
     session: string
+    gridOptions= new GridOptions()
 
     static to(doc: any): MapData {
         return new MapData().copyFrom(doc)

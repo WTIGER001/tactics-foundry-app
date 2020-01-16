@@ -1,0 +1,31 @@
+<div class="two-column-grid">
+    <div class="form-group">
+        <label>Enabled</label>
+        <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch"
+                [(ngModel)]="mapdata.gridOptions.enabled" id="mapdata.gridOptions.enabled" (change)="toggleGrid()"
+                placement="bottom" ngbTooltip="Enable / Disable Gridlines" container="body"></div>
+    </div>
+
+    <div>
+        <label>Offset NS</label>
+        <div class="slidecontainer">
+            <input class="slider" type="range" [min]="-mapdata.gridOptions.spacing" [max]="mapdata.gridOptions.spacing"
+                [step]="mapdata.gridOptions.spacing/50" [(ngModel)]="mapdata.gridOptions.offsetNS" id="myRange"
+                (change)="updateGrid()">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Color</label>
+        <div class="form-control form-control-sm color-pick" [(colorPicker)]="mapdata.gridOptions.color"
+            [style.background]="mapdata.gridOptions.color" cpAlphaChannel='always' cpPosition='top' cpOutputFormat='hex'
+            (colorPickerChange)="updateGrid()"></div>
+    </div>
+    <div>
+        <label>Offset EW</label>
+        <div class="slidecontainer">
+            <input class="slider" type="range" [min]="-mapdata.gridOptions.spacing" [max]="mapdata.gridOptions.spacing"
+                [step]="mapdata.gridOptions.spacing/50" [(ngModel)]="mapdata.gridOptions.offsetEW" id="myRange"
+                (change)="updateGrid()">
+        </div>
+    </div>
+</div>

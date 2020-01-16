@@ -22,4 +22,39 @@ export class LangUtil {
       })
       return dest
     }
+
+    static colorNum(color : string): number {
+      if (color.length > 7 || color.length<6) {
+        throw new Error("Invalid HEX Color " + color)
+      }
+      let clr = color
+      if (color.startsWith('#')) {
+        return parseInt(color.replace(/^#/, ''), 16);
+      }
+      parseInt(color, 16);
+    }
+
+    public static baseColor(hexColor: string, defaultValue ?: string): string {
+      if ( !hexColor) {
+        return defaultValue
+      }
+      return hexColor.substr(0, 7)
+    }
+
+    
+
+  
+    public static colorAlpha(hex: string): number {
+      if (!hex) {
+        return 1
+      }
+      if (hex.length == 9) {
+        let alphaHex = hex.substr(7, 2)
+        let base255 = parseInt(alphaHex, 16)
+        let alpha = base255 / 255
+        return alpha
+      }
+      return 1
+    }
+
 }

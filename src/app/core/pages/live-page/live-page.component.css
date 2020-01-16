@@ -14,6 +14,7 @@
 }
 
 .chat {
+    display: none;
     position: absolute;
     bottom: 0;
     height: 80px;
@@ -27,12 +28,125 @@
 
 .temp {
     position: absolute;
-    top: 20px;
+    top: 60px;
     left: 20px;
     background: white;
     z-index: 2;
     display: flex;
     flex-direction: column;
+}
+
+
+.detail-page-back {
+    position: absolute;
+    cursor: pointer;
+    padding: 0;
+    border: 0;
+    left: -1px;
+    top: -1px;
+    filter : drop-shadow(1px 1px 3px #000000);
+    background-color: rgb(0,0,0,0);
+}
+
+.detail-page-back:active {
+    transform: translate(1px, 1px);
+}
+
+.map-tools {
+    z-index: 2;
+    position: fixed;
+    right: 10px;
+    bottom: 130px;
+    font-size: 1.5em;
+    gap: .5em;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+}
+
+.map-tool-icon {
+    color: black;
+    filter : 
+        drop-shadow(1px 1px 1px #929292)
+        drop-shadow(-1px -1px 1px #929292)
+        drop-shadow(1px -1px 1px #929292)
+        drop-shadow(-1px 1px 1px #929292);
+}
+
+/** GM TOOLS */
+.gm-tools {
+    position: fixed;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 190px;
+    /* left: 0; */
+    bottom: 0;
+    right: 0   ;
+    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+}
+
+.gm-tool-tabs {
+    display: flex;
+}
+
+.gm-tool-tabs .active {
+    background: var(--detail-top-bg);
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+.gm-tool-tab {
+    display: grid;
+    padding: .5em;
+    gap: .5em;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    margin-left: .5em;
+    background: rgb(133, 149 ,170);
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    cursor: pointer;
+}
+
+.gm-tool-tab h3 {
+    font-weight: unset;
+}
+
+.gm-tool-tab-icon {
+    filter: drop-shadow(1px 1px 3px black);
+}
+
+.gm-tool-container {
+    position: relative;
+    height: 100%;
+    background: var(--detail-top-bg);
+    padding: 1em;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+
+.close-gm-tool {
+    position: absolute;
+    border-radius: 0;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    background: rgb(191, 144, 0);
+    top: -10px;
+    right: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 1.25em;
+    padding: .1em .25em;
+    border: 0;
+}
+
+
+@media screen and (min-height: 1024px) and (max-width: 1023px) {
+    .chat {
+        height: 125px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -45,10 +159,13 @@
         /* height: 500px; */
         left: unset;
     }
-}
 
-@media screen and (min-height: 1024px) and (max-width: 1023px) {
-    .chat {
-        height: 125px;
+    .map-tools {
+        bottom: 10px;
+        right: 360px;
+    }
+
+    .gm-tools {
+        right: 350px;
     }
 }

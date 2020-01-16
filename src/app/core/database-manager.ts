@@ -111,17 +111,7 @@ export class DatabaseManager<T extends ObjectType> {
     // Add trackikng to all items
     item.lastUpdate = new Date().valueOf()
 
-    // this.localdb.upsert<T>(item._id, (doc: {} & T) => {
-    //   // Make Changes to the doc object and
-    //   item.copyTo(doc)
-
-    //   return doc
-    // }).then(res => {
-    //   console.log("Stored Object Successfully, ", res)
-    // }).catch(err => {
-    //   // Do something
-    //   console.log("Error on Store, ", err)
-    // })
+    console.log("storing ", item, item.copyTo)
 
     let obs = from(this.localdb.upsert<T>(item._id, (doc: {} & T) => {
       // Make Changes to the doc object and

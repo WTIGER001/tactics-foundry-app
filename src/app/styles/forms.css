@@ -167,6 +167,26 @@ button:focus {
 }
 
 
+/** Switch */
+input.switch{
+    position: relative;
+    -webkit-appearance: none;
+    outline: 0;
+    width: 35px;
+    height: 21px;
+    background-color: #444;
+    border: 1px solid #7c7c7c;
+    border-radius: 50px;
+    box-shadow: inset -16px 0 0 0 #201810;
+    transition: all .2s;
+    cursor: pointer;
+}
+input.switch:checked {
+    box-shadow: inset 16px 0 0 0 #377409;
+    border-color: #7c7c7c;
+    transition: all .2s;
+}
+
 /*  Scrollbars
     -------------------*/
     .scroller {

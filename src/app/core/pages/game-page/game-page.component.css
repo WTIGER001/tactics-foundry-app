@@ -1,6 +1,11 @@
 .top-img {
     height: 94%;
 }
+
+.hidden {
+    display: none;
+}
+
 .top {
     /* background-image: url(/assets/samples/sample-game.jpg); */
     height: 100%;

@@ -11,6 +11,14 @@ export class Game extends ObjectType {
     description: string
     image: string
 
+    isGM(playerId : string) {
+        let found = this.players.find(p => p._id == playerId)
+        if (found) {
+            return found.role === 'GM'
+        }
+        return false
+    }
+
     static to(doc : any) : Game{
         return new Game().copyFrom(doc)
     }
