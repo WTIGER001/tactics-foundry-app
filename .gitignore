@@ -40,7 +40,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+*.cache
 
 # System Files
 .DS_Store
 Thumbs.db
+.firebase/hosting.ZGlzdFx0YWN0aWNzLWZvdW5kcnktYXBw.cache
