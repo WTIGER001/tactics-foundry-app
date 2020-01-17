@@ -42,8 +42,8 @@
                 <fa-icon icon="times" size="lg"></fa-icon>
             </button>
             <grid-tool *ngIf="gmtool==='grid'" [mapdata]="mapdata" (update)="updateGrid($event)"></grid-tool>
-            <fog-tool *ngIf="gmtool==='fog'" [mapdata]="mapdata" (update)="updateFog($event)"></fog-tool>
-            <calibrate-tool *ngIf="gmtool==='calibrate'" [mapdata]="mapdata" (update)="updateCalibrate($event)">
+            <fog-tool *ngIf="gmtool==='fog'" [mapdata]="mapdata" (update)="updateFog($event)" ></fog-tool>
+            <calibrate-tool *ngIf="gmtool==='calibrate'" [mapdata]="mapdata" [mapview]="mapview" (update)="updateCalibrate($event)"  #calibrate>
             </calibrate-tool>
         </div>
     </div>

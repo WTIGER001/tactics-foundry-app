@@ -9,7 +9,7 @@
     <div>
         <label>Offset NS</label>
         <div class="slidecontainer">
-            <input class="slider" type="range" [min]="-mapdata.gridOptions.spacing" [max]="mapdata.gridOptions.spacing"
+            <input class="slider" type="range" [min]="-mapdata.gridOptions.spacing*mapdata.ppf" [max]="mapdata.gridOptions.spacing*mapdata.ppf"
                 [step]="mapdata.gridOptions.spacing/50" [(ngModel)]="mapdata.gridOptions.offsetNS" id="myRange"
                 (change)="updateGrid()">
         </div>
@@ -23,7 +23,7 @@
     <div>
         <label>Offset EW</label>
         <div class="slidecontainer">
-            <input class="slider" type="range" [min]="-mapdata.gridOptions.spacing" [max]="mapdata.gridOptions.spacing"
+            <input class="slider" type="range" [min]="-mapdata.gridOptions.spacing*mapdata.ppf" [max]="mapdata.gridOptions.spacing*mapdata.ppf"
                 [step]="mapdata.gridOptions.spacing/50" [(ngModel)]="mapdata.gridOptions.offsetEW" id="myRange"
                 (change)="updateGrid()">
         </div>

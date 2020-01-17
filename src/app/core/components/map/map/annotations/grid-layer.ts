@@ -163,7 +163,7 @@ export class GridLayer extends Plugin {
             let unit = DistanceUnit.getUnit(options.spacingUnit)
             let offsetEW = unit.toFeet((options.offsetEW || 0))
             let offsetNS = unit.toFeet((options.offsetNS || 0))
-            let space = unit.toFeet(options.spacing)
+            let space = unit.toFeet(options.spacing) * this.mapData.ppf
 
             let distanceEW = bounds.width
             let distanceNS = bounds.height

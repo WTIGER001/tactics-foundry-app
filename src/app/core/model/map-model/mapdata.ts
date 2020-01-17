@@ -16,7 +16,7 @@ export class MapData extends ObjectType {
     image: string //attatchment
     thumb: string //attatchment
     blank = false
-    ppm = 1
+    ppf = 1
     parentId : string
     bgColor = "#000000"
     game: string

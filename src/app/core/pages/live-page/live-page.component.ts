@@ -7,6 +7,7 @@ import { MapComponent } from '../../components/map/map/map.component';
 import { Graphics } from 'pixi.js';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { CalibrateToolComponent } from '../../components/map/tools/calibrate-tool/calibrate-tool.component';
 
 @Component({
   selector: 'live-page',
@@ -15,6 +16,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
   @ViewChild('mapview', {static: true}) mapview : MapComponent
+  @ViewChild('calibrate', {static: false}) calibrate : CalibrateToolComponent
   w = 0
   h = 0
   
@@ -41,8 +43,8 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
 
       // Watch for the Game (not sure why... maybe permmissions)
       this.watcher = this.data.coreDB.watchId(id, this.zone)
-      this.watcher.onAdd( doc =>  this.game.copyFrom(doc))
-      this.watcher.onUpdate( doc => this.game.copyFrom(doc))
+      this.watcher.onAdd( doc =>  this.game = Game.to(doc))
+      this.watcher.onUpdate( doc => this.game = Game.to(doc))
       this.watcher.onRemove( doc => this.router.navigate([".."], { relativeTo: this.route }))
       this.watcher.start()
 
@@ -173,6 +175,9 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
 
   closeGmTools() {
     this.gmtool = undefined
+    if (this.calibrate) {
+      this.calibrate.cancelCal()
+    }
   }
 
   isGM() : boolean {

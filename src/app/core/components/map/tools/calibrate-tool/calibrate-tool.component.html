@@ -1,1 +1,19 @@
-<p>calibrate-tool works!</p>
+<h1>Calibration</h1>
+<p>Select 2 points in a x direction and enter the distance.</p>
+<div class="fill" *ngIf="calState==0">
+    <button class="btn big-btn btn-primary" (click)='startCal()'>Start Calibration</button>
+</div>
+<div class="fill" *ngIf="calState==1">
+    <button class="btn big-btn btn-primary" (click)='cancelCal()'>Cancel Calibration</button>
+</div>
+<div class="distance" *ngIf="calState==2">
+    <h3>Distance</h3>
+    <input type="number" [(ngModel)]="distance">
+    <select [(ngModel)]="unit">
+        <option value="ft">Feet</option>
+        <option value="yard">Yards</option>
+        <option value="mile">Miles</option>
+    </select>
+    <button class="btn btn-ok" (click)='doneCal()'>Done</button>
+    <button class="btn btn-ok" (click)='startCal()'>Restart</button>
+</div>

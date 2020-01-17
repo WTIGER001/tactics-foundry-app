@@ -23,7 +23,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   @Input() mapdata: MapData
 
   // Application for Pixijs
-  app: Application
+  public app: Application
 
   // Viewport
   viewport: Viewport
