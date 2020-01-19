@@ -1,0 +1,61 @@
+.shell {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .5em
+}
+
+.inner input {
+    min-width: 1em;
+    font-size: 1.1em;
+}
+
+.action-bar {
+    display: grid;
+    gap: .5em;
+    justify-content: space-between;
+    align-content: space-between;
+    background: #4d4d4d;
+    padding: 1em;
+    font-size: .85em;
+}
+
+.action h3 {
+    font-size: 1em;
+    text-shadow: 1px 1px black;
+    font-weight: 200;
+}
+
+.action {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: .2em;
+    justify-items: center;
+    font-size: .9em;
+}
+
+.inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: .5em;
+    padding-top: 1em;
+    padding-right: 3em;
+    padding-bottom: 1em;
+    align-items: center;
+    grid-template-rows: repeat(3, min-content)
+}
+
+.format {
+    height: 30px;
+    width: 40px;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    border: 0px solid white;
+}
+
+.inner select {
+    height: 100%;
+    border-radius: 5px;
+    font-size: 1.2em;
+}

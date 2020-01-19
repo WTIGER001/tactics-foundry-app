@@ -47,6 +47,15 @@ import { FogToolComponent } from './components/map/tools/fog-tool/fog-tool.compo
 import { CalibrateToolComponent } from './components/map/tools/calibrate-tool/calibrate-tool.component'
 import { LineStyleComponent } from './components/util/line-style/line-style.component';
 import { LineWeightComponent } from './components/util/line-weight/line-weight.component';
+import { AddToolComponent } from './components/map/tools/add-tool/add-tool.component';
+import { AddTokenToolComponent } from './components/map/tools/add-token-tool/add-token-tool.component';
+import { ToolTabsComponent } from './components/map/tools/tool-tabs/tool-tabs.component';
+import { ToolTabComponent } from './components/map/tools/tool-tab/tool-tab.component';
+import { FavoritesToolComponent } from './components/map/tools/favorites-tool/favorites-tool.component';
+import { FormatToolDialogComponent } from './components/map/tools/format-tool-dialog/format-tool-dialog.component';
+import { ToolDialogComponent } from './components/map/tools/tool-dialog/tool-dialog.component';
+import { EditCircleToolComponent } from './components/map/tools/edit-circle-tool/edit-circle-tool.component';
+import { ToolDialogHostDirective } from './components/map/tools/tool-dialog/tool-dialog-host.directive';
 
 
 @NgModule({
@@ -77,7 +86,7 @@ import { LineWeightComponent } from './components/util/line-weight/line-weight.c
     ChatRollsComponent, RollMessageComponent, TextMessageComponent, 
     PingMessageComponent, MessageComponent, DiceCanvasComponent, GridToolComponent, FogToolComponent, CalibrateToolComponent, 
     LineStyleComponent, 
-    LineWeightComponent
+    LineWeightComponent, AddToolComponent, AddTokenToolComponent, ToolTabsComponent, ToolTabComponent, FavoritesToolComponent, FormatToolDialogComponent, ToolDialogComponent, EditCircleToolComponent, ToolDialogHostDirective
   ],
   imports: [
     CommonModule,
@@ -92,6 +101,9 @@ import { LineWeightComponent } from './components/util/line-weight/line-weight.c
   ],
   providers: [
     DataService
+  ], 
+  entryComponents : [
+    FormatToolDialogComponent    
   ]
 })
 export class CoreModule {

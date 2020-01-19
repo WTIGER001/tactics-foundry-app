@@ -8,6 +8,7 @@ import { Graphics } from 'pixi.js';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CalibrateToolComponent } from '../../components/map/tools/calibrate-tool/calibrate-tool.component';
+import { ToolTabComponent } from '../../components/map/tools/tool-tab/tool-tab.component';
 
 @Component({
   selector: 'live-page',
@@ -33,6 +34,11 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
   tool : string
   gmtool :string
   mdUpatesSmall$ = new Subject<MapData>()
+  addtool : string
+
+  circle = true
+  addtools =false
+
 
   constructor(private data: DataService, private route: ActivatedRoute, private router: Router, private zone: NgZone, private element : ElementRef) { }
 
@@ -180,8 +186,17 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
     }
   }
 
+  closeTools() {
+    this.addtool = undefined
+  }
+
   isGM() : boolean {
-    return this.game.isGM(this.data.player._id)
+    if (this.data.player) {
+      return this.game.isGM(this.data.player._id)
+    } else {
+      return false
+    }
+    
   }
 
   needsRecenter() {
@@ -193,11 +208,12 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
   }
 
   startMeasure() {
-
+    this.circle = true
   }
 
   addToMap() {
-
+    this.addtool = 'add'
+    this.addtools = true
   }
 
   updateGrid($event) {
@@ -210,5 +226,21 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit{
 
   updateCalibrate($event) {
     this.mdUpatesSmall$.next(this.mapdata)
+  }
+
+  onAddToolsClose() {
+    this.addtools = false
+  }
+
+  onAddToolActivate(tool : ToolTabComponent) {
+    
+  }
+
+  onGMToolActivate(tool : ToolTabComponent) {
+    
+  }
+
+  onCircleClose() {
+    this.circle = false
   }
 }

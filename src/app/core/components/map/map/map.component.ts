@@ -1,11 +1,14 @@
 import { Component, OnInit, NgZone, Input, ElementRef, ViewChild, AfterContentInit, AfterViewInit } from '@angular/core';
-import { Application, Container, Sprite, Graphics, interaction } from 'pixi.js'
+import { Application, Container, Sprite, Graphics, interaction, Rectangle } from 'pixi.js'
 import { Viewport, ViewportOptions, Plugin as Plg } from 'pixi-viewport'
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MapData } from 'src/app/core/model';
+import { MapData, TokenAnnotation, TokenBar, Distance } from 'src/app/core/model';
 import { faTreeChristmas } from '@fortawesome/pro-solid-svg-icons';
 import { GridLayer } from './annotations/grid-layer';
+import { MapLayerManager } from './layer-manager';
+import { TokenPlugin } from '../plugins/annotation-plugin';
+import { AuraVisible, Aura } from 'src/app/core/model/aura';
 
 /**
  * The map component is a component, based on pixijs, to display a map and let people interact with it
@@ -168,7 +171,47 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.viewport.fitWorld()
     }
 
+    let token = new TokenAnnotation()
+    token.location = new Rectangle(200,300, 5, 5)
+    let bar = new TokenBar()
+    bar.color = "#FFFFFFFF"
+    bar.bgColor = "#000000FF"
+    bar.value= 50
+    bar.max = 100
+    bar.visible = AuraVisible.Visible
+    token.bars.push(bar)
 
+
+    let bar2 = new TokenBar()
+    bar2.color = "#FFFFFFFF"
+    bar2.bgColor = "#AAAAAAFF"
+    bar2.value= 75
+    bar2.max = 100
+    bar2.visible = AuraVisible.Visible
+    token.bars.push(bar2)
+
+
+    let bar3 = new TokenBar()
+    bar3.color = "#FFFFFF88"
+    bar3.bgColor = "#000000FF"
+    bar3.value= 25
+    bar3.max = 100
+    bar3.visible = AuraVisible.Visible
+    token.bars.push(bar3)
+    let t = new TokenPlugin(this, this.mapdata, token)
+
+    let a = new Aura()
+    a.border = true
+    a.fill = false
+    a.color = "#FFFFFF88"
+    a.weight = 1
+    a.radius = new Distance(15, 'ft')
+    token.auras.push(a)
+
+    t.add()
+    // let layers = new MapLayerManager(this, this.mapdata)
+    // let container = layers.createToken(token)
+    // this.viewport.addChild(container) 
 
     /// Create a center rec
 

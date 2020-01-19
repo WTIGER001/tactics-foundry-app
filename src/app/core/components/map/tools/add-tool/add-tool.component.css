@@ -1,0 +1,23 @@
+.holder {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr auto;
+    color: white;
+    text-shadow: 1px 1px black;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
+    gap: .25em;
+    height: 100%;
+    margin-right: 2em;
+    padding: 1em;
+}
+
+.holder h3 {
+    text-align: center;
+    font-size: .9em;
+    margin-bottom: .25em;
+}
+.icon {
+    filter: drop-shadow(1px 1px 1px black)
+}

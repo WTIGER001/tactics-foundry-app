@@ -1,0 +1,74 @@
+.color-pick {
+    height: 29px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 75px;
+    border: 1px solid white;
+}
+
+.color-area {
+    position: fixed;
+    right: 30px;
+    bottom: 150px;
+    z-index: 1;
+}
+
+.preset-area {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: .5em;
+    justify-items: center;
+    overflow: auto;
+    height: 142px;
+    max-height: 175px;
+    margin-bottom: 1em;
+    padding-right: 5px;
+    margin-right: -5px;
+}
+
+.preset-item {
+    height: 40px;
+    width: 55px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: url('/assets/page/transparency.png');
+}
+
+.custom-area {
+    display: grid;
+    grid-template-columns: 75px 100px 1fr;
+    grid-template-rows: auto min-content auto min-content;
+    gap : .5em;
+}
+
+.shell {
+    padding-top: 30px;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+.shell h3 {
+    margin-bottom: .5em;
+}
+
+.custom-area .btn {
+    font-size: 1em;
+    max-width: 150px;
+    justify-self: right;
+}
+
+
+@media screen  and (max-height: 640px) {
+    .preset-area {
+        max-height: 45px;
+    }
+    .custom-area {
+        gap: unset;
+    }
+    .shell {
+        padding-top: 1em;
+    }
+}

@@ -21,4 +21,5 @@
      display: grid;
      grid-template-columns: auto 1fr;
      gap: 1em;
+     padding: 1em;
 }

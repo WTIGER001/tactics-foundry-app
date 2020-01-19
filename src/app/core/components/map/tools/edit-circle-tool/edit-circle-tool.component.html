@@ -1,0 +1,32 @@
+<div class="shell">
+    <div class="action-bar">
+        <div class="action">
+            <fa-icon icon="star" size="2x" (click)="showFavorite()" [class.favorite]="isFavorite()"></fa-icon>
+            <h3>Favorite</h3>
+        </div>
+        <div class="action">
+            <fa-icon icon="lock" size="2x" (click)="showRestrict()" [class.restricted]="isRestricted()"></fa-icon>
+            <h3>Restrict</h3>
+        </div>
+        <div class="action">
+            <fa-icon icon="trash-alt" size="2x" (click)="delete()" ></fa-icon>
+            <h3>Delete</h3>
+        </div>
+    </div>
+    <div class="inner">
+        <h3>Name</h3>
+        <input class="grid-span-2" type="text" [(ngModel)]="circle.name">
+
+        <h3>Radius</h3>
+        <input type="number" [(ngModel)]="circle.radius.value">
+        <select [(ngModel)]="circle.radius.unit">
+            <option value="ft">Feet</option>
+        </select>
+
+        <h3>Format</h3>
+        <div class="format" (click)="showFormatDialog()" 
+            [style.background]="circle.fill?circle.fillColor:''" 
+            [style.border-color]="circle.border?circle.color:''" 
+            [style.border-width.px]="circle.border?circle.weight:0"></div>
+    </div>
+</div>

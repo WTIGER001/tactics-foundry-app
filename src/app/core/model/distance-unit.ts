@@ -28,3 +28,28 @@ export class DistanceUnit {
     }
 }
 
+export class Distance {
+    constructor(public value: number, public unit: string) {
+    }
+
+    static toFeet(distance : Distance) {
+      const foundUnit = DistanceUnit.getUnit(distance.unit)
+      if (foundUnit) {
+        return foundUnit.toFeet(distance.value)
+      }
+      return distance.value
+    }
+
+    asFeet() : number {
+      return Distance.toFeet(this)
+    }
+
+    fromFeet(val : number) {
+      const foundUnit = DistanceUnit.getUnit(this.unit)
+      if (foundUnit) {
+        this.value = foundUnit.fromFeet(val)
+      } else {
+        console.error("No Unit found", this.unit);
+      }
+    }
+}

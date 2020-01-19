@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { DatabaseManager } from 'src/app/core/database-manager';
-import { Annotation, MapData } from 'src/app/core/model';
+import { Annotation, MapData, MarkerTypeAnnotation } from 'src/app/core/model';
 
 @Component({
   selector: 'app-test-binding-parent',
@@ -43,7 +43,7 @@ export class TestBindingParentComponent  implements OnInit, OnChanges {
       console.log(update.action, update.id);
 
       if (update.action == 'ADD') {
-        let a = new Annotation().copyFrom(update.doc)
+        let a = new MarkerTypeAnnotation().copyFrom(update.doc)
         this.items.push(a)
       }
 

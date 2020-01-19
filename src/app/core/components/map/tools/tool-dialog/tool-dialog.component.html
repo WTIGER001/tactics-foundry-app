@@ -1,0 +1,11 @@
+<div [class.hide]="!shown" class="shell">
+    <img *ngIf="image" [src]="image" [style.margin-bottom]="imageOverlap">
+    
+    <div class="contents">
+        <button class="close-tool" (click)="closeDialog()">
+            <fa-icon icon="times" size="lg"></fa-icon>
+        </button>
+
+        <ng-template toolDialogHost></ng-template>
+    </div>
+</div>

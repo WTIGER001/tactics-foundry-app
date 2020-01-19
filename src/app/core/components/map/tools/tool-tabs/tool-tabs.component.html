@@ -1,0 +1,18 @@
+<div class="shell">
+    <tool-dialog [shown]="dialogShown" (onClose)="closeDialog($event)"></tool-dialog>
+    <div class="tools" [class.full-height]="fullHeight">
+        <div class="tool-tabs" [class.hide]="dialogShown">
+            <div *ngFor="let tab of tabs"  class="tool-tab" [class.active]="tab.active" (click)="activate(tab)">
+                <fa-icon *ngIf="tab.icon" class="icon" [icon]="tab.icon" size="lg"></fa-icon>
+                <h3>{{tab.label}}</h3>
+            </div>
+        </div>
+        <div class="tool-container">
+            <button class="close-tool" (click)="closeTools()" [hidden]="dialogShown">
+                <fa-icon icon="times" size="lg"></fa-icon>
+            </button>
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>
+

@@ -168,6 +168,11 @@ button:focus {
 
 
 /** Switch */
+.switch-holder {
+    display: grid;
+    align-items: center;
+}
+
 input.switch{
     position: relative;
     -webkit-appearance: none;

@@ -41,6 +41,21 @@ export class LangUtil {
       return hexColor.substr(0, 7)
     }
 
+    public static red(hexColor : string) {
+      let b = LangUtil.baseColor(hexColor)
+      let r = b.substr(1,2)
+      return parseInt(r, 16)
+    }
+    public static green(hexColor : string) {
+      let b = LangUtil.baseColor(hexColor)
+      let r = b.substr(3,2)
+      return parseInt(r, 16)
+    }
+    public static blue(hexColor : string) {
+      let b = LangUtil.baseColor(hexColor)
+      let r = b.substr(5,2)
+      return parseInt(r, 16)
+    }
     
 
   

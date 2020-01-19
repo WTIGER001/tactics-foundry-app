@@ -107,6 +107,14 @@ h4 {
     margin-bottom: .25em;
 }
 
+.mt-1 {
+    margin-top: .25em;
+}
+
+.mt-2 {
+    margin-top: .5em;
+}
+
 /* GRID */
 .grid-span-2 {
     grid-column: span 2;
@@ -119,4 +127,12 @@ h4 {
 }
 .grid-span-5 {
     grid-column: span 5;
+}
+
+.icon-shadow {
+    filter: drop-shadow(1px 1px 1px black)
+}
+
+.text-shadow {
+    text-shadow: 1px 1px black;
 }

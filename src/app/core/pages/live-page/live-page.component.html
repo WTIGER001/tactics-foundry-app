@@ -8,45 +8,49 @@
         <button (click)="mapview.zoomOut()">Zoom Out</button>
         <button (click)="mapview.zoomIn()">Zoom In</button>
     </div>
+
     <map class="map-container" [mapdata]="mapdata" #mapview></map>
+
     <chat-preview *ngIf="chatPreview"></chat-preview>
+
     <full-chat *ngIf="!chatPreview" class="chat"></full-chat>
+
     <button class="detail-page-back" (click)='onBack()'><img src="/assets/components/back.png"></button>
-    <div class="map-tools" *ngIf="!gmtool && !tool">
-        <fa-icon class="map-tool-icon clickable" icon="tools" data-fa-glow size="lg" (click)="showGmTools()"
-            *ngIf="isGM()"></fa-icon>
-        <fa-icon class="map-tool-icon clickable" icon="location" size="lg" (click)="recenter()" *ngIf="needsRecenter()">
-        </fa-icon>
+
+    <div class="map-tools" *ngIf="!gmtool && !tool && !addtools">
+        <fa-icon class="map-tool-icon clickable" icon="tools" data-fa-glow size="lg" (click)="showGmTools()" *ngIf="isGM()"></fa-icon>
+        <fa-icon class="map-tool-icon clickable" icon="location" size="lg" (click)="recenter()" *ngIf="needsRecenter()"></fa-icon>
         <fa-icon class="map-tool-icon clickable" icon="ruler" size="lg" (click)="startMeasure()"></fa-icon>
         <fa-icon class="map-tool-icon clickable" icon="map-marked-alt" size="lg" (click)="addToMap()"></fa-icon>
     </div>
 
-    <div class="gm-tools" *ngIf="gmtool">
-            <div class="gm-tool-tabs" >
-                <div class="gm-tool-tab" [class.active]="gmtool==='grid'" (click)="gmtool='grid'">
-                    <fa-icon class="icon" icon="border-all" size="lg"></fa-icon>
-                    <h3>Grid</h3>
-                </div>
-                <div class="gm-tool-tab" [class.active]="gmtool==='fog'" (click)="gmtool='fog'">
-                    <fa-icon class="icon" icon="fog" size="lg"></fa-icon>
-                    <h3>Fog</h3>
-                </div>
-                <div class="gm-tool-tab" [class.active]="gmtool==='calibrate'" (click)="gmtool='calibrate'">
-                    <fa-icon class="icon" icon="pencil-ruler" size="lg"></fa-icon>
-                    <h3>Calibrate</h3>
-                </div>
-            </div>
-            
-        <div class="gm-tool-container">
-            <button class="close-gm-tool" (click)="closeGmTools()">
-                <fa-icon icon="times" size="lg"></fa-icon>
-            </button>
-            <grid-tool *ngIf="gmtool==='grid'" [mapdata]="mapdata" (update)="updateGrid($event)"></grid-tool>
-            <fog-tool *ngIf="gmtool==='fog'" [mapdata]="mapdata" (update)="updateFog($event)" ></fog-tool>
-            <calibrate-tool *ngIf="gmtool==='calibrate'" [mapdata]="mapdata" [mapview]="mapview" (update)="updateCalibrate($event)"  #calibrate>
-            </calibrate-tool>
-        </div>
-    </div>
+    <tool-tabs *ngIf="gmtool" (onClose)="closeGmTools()" (onActivate)="onGMToolActivate($event)">
+        <tool-tab label="Grid" icon="border-all">
+            <grid-tool [mapdata]="mapdata" (update)="updateGrid($event)"></grid-tool>
+        </tool-tab>
+        <tool-tab label="Fog" icon="fog">
+            <fog-tool  [mapdata]="mapdata" (update)="updateFog($event)"></fog-tool>
+        </tool-tab>
+        <tool-tab label="Calibrate" icon="pencil-ruler">
+            <calibrate-tool  [mapdata]="mapdata" [mapview]="mapview"
+            (update)="updateCalibrate($event)" #calibrate>
+        </calibrate-tool>
+        </tool-tab>
+    </tool-tabs>
 
+    <tool-tabs *ngIf="addtools" (onClose)="onAddToolsClose()" (onActivate)="onAddToolActivate($event)">
+        <tool-tab label="New" icon="plus-hexagon">
+            <add-tool></add-tool>
+        </tool-tab>
+        <tool-tab label="Favorites" icon="star">
+            <favorites-tool></favorites-tool>
+        </tool-tab>
+    </tool-tabs>
+
+    <tool-tabs *ngIf="circle" (onClose)="onCircleClose()">
+        <tool-tab label="Circle" icon="draw-circle">
+            <edit-circle-tool></edit-circle-tool>
+        </tool-tab>
+    </tool-tabs>
 
 </div>

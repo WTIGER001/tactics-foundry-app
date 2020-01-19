@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Annotation, MapData } from 'src/app/core/model';
+import { Annotation, MapData, MarkerTypeAnnotation } from 'src/app/core/model';
 import { DatabaseManager } from 'src/app/core/database-manager';
 
 @Component({
@@ -23,7 +23,7 @@ export class TestBindingContainerComponent implements OnInit {
   }
 
   addAnnotation() {
-    let annotation = new Annotation()
+    let annotation = new MarkerTypeAnnotation()
     this.dbmgr.store(annotation)
     // this.data.annotations = [...this.data.annotations]
     console.log("----TRUTH---- Adding Annotation")

@@ -30,6 +30,9 @@ export class DatabaseManager<T extends ObjectType> {
     // Create the Databases and begin to sync
     this.localdb = new PouchDB(dbname, {adapter : 'idb'});
     this.remotedb = new PouchDB(remoteAddressPrefix + dbname)
+
+    this.localdb.setMaxListeners(40)
+    this.remotedb.setMaxListeners(40)
     this.createIndexes()
     this.registerFilter()
     this.startSync()
