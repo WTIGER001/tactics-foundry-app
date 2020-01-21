@@ -1,0 +1,39 @@
+<div class="shell">
+    <div class="pills">
+        <div *ngFor="let b of item.bars; index as i" class="pill" (click)="showPill(b)"
+            [class.active-pill]="b == bar">{{i+1}}
+        </div>
+        <div *ngIf="item.bars.length < 3" class="pill" (click)="addBar()">
+            <fa-icon icon='plus'></fa-icon>
+        </div>
+    </div>
+
+    <div class="inner">
+
+        <ng-container *ngIf="bar">
+            <h3 class="right">Bar</h3>
+            <input class="grid-span-4" type="text" [(ngModel)]="bar.name" (blur)="update()">
+
+            <h3 class="right">Current</h3>
+            <input type="text" addsub focus-select class="form-control" [ngModel]="bar.value"
+                [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="updateBarValue(bar, $event)">
+
+            <h3 class="slash">/</h3>
+            <input type="text" addsub focus-select class="form-control" [ngModel]="bar.max"
+                [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="updateBarMax(bar, $event)">
+            <h3 >Max</h3>
+            <h3 class="right">Bg</h3>
+            <div class="format" (click)="showFormatDialog()" 
+                [style.background]="item.bgColor" ></div>
+            <div></div>
+            <div class="format" (click)="showFormatDialog()" 
+                [style.background]="item.color" ></div>
+            <h3>Color</h3>
+        </ng-container>
+        <ng-container *ngIf="!bar">
+            <div class="addtext grid-span-5">Add a bar with the plus button on the left</div>
+        </ng-container>
+        
+    </div>
+
+</div>

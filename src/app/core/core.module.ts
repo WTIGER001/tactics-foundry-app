@@ -60,6 +60,14 @@ import { PlaceholderDirective } from './directives/placeholder.directive';
 import { ToolsComponent } from './components/map/tools/tools/tools.component';
 import { ToolService } from './components/map/tools/tool.service';
 import { LayerPickComponent } from './components/map/tools/layer-pick/layer-pick.component';
+import { EditTokenToolComponent } from './components/map/tools/edit/edit-token-tool/edit-token-tool.component';
+import { EditTokenToolPersonalComponent } from './components/map/tools/edit/edit-token-tool-personal/edit-token-tool-personal.component';
+import { EditTokenToolBarsComponent } from './components/map/tools/edit/edit-token-tool-bars/edit-token-tool-bars.component';
+import { EditTokenToolAurasComponent } from './components/map/tools/edit/edit-token-tool-auras/edit-token-tool-auras.component';
+import { EditTokenToolImageComponent } from './components/map/tools/edit/edit-token-tool-image/edit-token-tool-image.component';
+import { FavToolComponent } from './components/map/tools/fav-tool/fav-tool.component';
+import { AddsubDirective } from './directives/addsub.directive';
+import { FocusSelectDirective } from './directives/focus-select.directive';
 
 
 @NgModule({
@@ -112,7 +120,15 @@ import { LayerPickComponent } from './components/map/tools/layer-pick/layer-pick
     ToolDialogHostDirective,
     PlaceholderDirective,
     ToolsComponent,
-    LayerPickComponent
+    LayerPickComponent,
+    EditTokenToolComponent,
+    EditTokenToolPersonalComponent,
+    EditTokenToolBarsComponent,
+    EditTokenToolAurasComponent,
+    EditTokenToolImageComponent,
+    FavToolComponent,
+    AddsubDirective,
+    FocusSelectDirective
   ],
   imports: [
     CommonModule,

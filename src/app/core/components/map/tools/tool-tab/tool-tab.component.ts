@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./tool-tab.component.css']
 })
 export class ToolTabComponent implements OnInit {
-  active= false
+  active = false
 
   @Input() label : string = ""
   @Input() icon : string

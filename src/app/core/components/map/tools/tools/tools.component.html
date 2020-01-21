@@ -13,3 +13,6 @@
 <div class="tools-anchor" [class.hide]="!tabsShown" >
     <tool-tabs (onClose)="closeTab($event)"></tool-tabs>
 </div>
+
+
+<edit-token-tool *ngIf="isTokenSelected()" [item]="selected" (onUpdate)="updateSelected()"></edit-token-tool>

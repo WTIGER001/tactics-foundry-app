@@ -67,6 +67,17 @@ button:focus {
     background: transparent;
 }
 
+input {
+    min-width: 2em;
+}
+
+select {
+    font-size: 1.3em;
+    border-radius: 5px;
+    border: 0px;
+    padding: .25em 0.5em;
+}
+
 .icon-btn:active {
     transform: translate(1px, 1px);
 }

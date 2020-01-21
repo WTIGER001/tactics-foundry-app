@@ -58,7 +58,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   gmtool: string
   mdUpatesSmall$ = new Subject<MapData>()
   limitedUpdates$ = new Subject<ObjectType>()
-
+  layerMgr$ = new BehaviorSubject<MapLayerManager>(null);
   addtool: string
 
   circle = false
@@ -152,6 +152,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.layerMgr.selection$.subscribe(selected => {
       this.selected = selected
     })
+    this.layerMgr$.next(this.layerMgr)
   }
 
   @HostListener('window:resize', ['$event'])

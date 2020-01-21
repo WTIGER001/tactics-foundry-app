@@ -1,0 +1,22 @@
+.shell {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .5em
+}
+
+
+.inner {
+    display : grid;
+    gap: .5em;
+    grid-template-columns: auto 1fr auto 1fr;
+    padding: 1em 45px 1em .5em;
+    font-size: .8em;
+    text-align: right;
+    grid-template-rows: repeat(3, min-content);
+    align-items: center;
+}
+
+.inner h3 {
+    font-size : 1.1em
+}
+

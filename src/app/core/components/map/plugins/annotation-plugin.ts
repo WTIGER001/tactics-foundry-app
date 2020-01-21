@@ -149,6 +149,7 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
 
 
     onDragStart(event) {
+        console.log("SELECTING ", this.annotation)
         this.layerMgr.selection$.next(this.annotation)
 
         console.log("DRAG START");

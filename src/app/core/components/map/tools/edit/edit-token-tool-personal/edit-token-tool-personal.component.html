@@ -1,0 +1,45 @@
+<div class="shell">
+    <fav-tool [item]="item" (onUpdate)="updated()"></fav-tool>
+
+    <div class="inner">
+        <h3>Name</h3>
+        <input class="grid-span-3" [(ngModel)]="item.name" (blur)="updated()">
+        <h3>Size</h3>
+        <select class="form-select" [(ngModel)]="item.size" (blur)="updated()">
+            <option value="5">5 ft</option>
+            <option value="10">10 ft</option>
+            <option value="15">15 ft</option>
+            <option value="20">20 ft</option>
+        </select>
+        <h3>Speed</h3>
+        <select class="form-select" [(ngModel)]="item.speed" (blur)="updated()">
+            <option value="10">10</option>
+            <option value="15">15 ft</option>
+            <option value="20">20 ft</option>
+            <option value="25">25 ft</option>
+            <option value="25">30 ft</option>
+            <option value="35">35 ft</option>
+            <option value="40">40 ft</option>
+            <option value="35">45 ft</option>
+            <option value="50">50 ft</option>
+            <option value="55">55 ft</option>
+            <option value="60">60 ft</option>
+            <option value="65">65 ft</option>
+            <option value="70">70 ft</option>
+            <option value="75">75 ft</option>
+            <option value="80">80 ft</option>
+            <option value="85">85 ft</option>
+        </select>
+        <h3>Reach</h3>
+        <select class="form-select" [(ngModel)]="item.reach" (blur)="updated()">
+            <option value="5">5 ft</option>
+            <option value="10">10 ft</option>
+            <option value="15">15 ft</option>
+            <option value="20">20 ft</option>
+        </select>
+        <h3>Fly / Burrow</h3>
+        <input [(ngModel)]="item.fly"  (blur)="updated()"> 
+    </div>
+
+    <layer-pick [item]="item" (updated)="updated()"></layer-pick>
+</div>

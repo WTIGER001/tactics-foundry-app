@@ -75,7 +75,8 @@ export class TokenPlugin extends AnnotationPlugin<TokenAnnotation> {
         this.annotation.location.y = y
 
         if (this.annotation.snap) {
-            let gridSquare = this.layerMgr.session.mapview.grid.getGridCell(this.annotation.center())
+            const pt = new Point(this.annotation.location.x, this.annotation.location.y)
+            let gridSquare = this.layerMgr.session.mapview.grid.getGridCell(pt)
             this.annotation.location.x = gridSquare.x
             this.annotation.location.y = gridSquare.y
             // this.annotation.location.width = gridSquare.width

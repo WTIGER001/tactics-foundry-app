@@ -11,7 +11,7 @@ import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.compon
   templateUrl: './edit-circle-tool.component.html',
   styleUrls: ['./edit-circle-tool.component.css']
 })
-export class EditCircleToolComponent implements OnInit, OnChanges {
+export class EditCircleToolComponent implements OnInit {
   
   @ViewChild(ToolDialogComponent, {static :false}) formatDialog: ToolDialogComponent
   @Input() circle : CircleAnnotation = new CircleAnnotation()
@@ -24,16 +24,17 @@ export class EditCircleToolComponent implements OnInit, OnChanges {
 
   }
   
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("CHANGES IN EDIT SCREEN ", changes);
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log("CHANGES IN EDIT SCREEN ", changes);
     
-    this.updated()
-  }
+  //   this.updated()
+  // }
 
   showFormatDialog() {
     const dialog : FormatToolDialogComponent = this.tabs.showDialog(FormatToolDialogComponent)
     dialog.item = this.circle
     dialog.onUpdate.subscribe( () => {
+      
       this.save()
     })
   }

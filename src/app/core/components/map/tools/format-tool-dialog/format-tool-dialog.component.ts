@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
-import { Annotation, CircleAnnotation } from 'src/app/core/model';
+import { Annotation, CircleAnnotation, Formatted } from 'src/app/core/model';
 import { ToolDialogComponent } from '../tool-dialog/tool-dialog.component';
 import { LangUtil } from 'src/app/core/util/LangUtil';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ import { ColorPickerDirective } from 'ngx-color-picker';
   styleUrls: ['./format-tool-dialog.component.css']
 })
 export class FormatToolDialogComponent implements OnInit {
-  @Input() item: CircleAnnotation
+  @Input() item: Formatted
   @Output() onUpdate = new EventEmitter<boolean>()
   @ViewChild(ColorPickerDirective, {static : false}) colorpick : ColorPickerDirective
   presetItems = []

@@ -238,7 +238,7 @@ export class DataService {
   }
 
   public store(item: ObjectType): Observable<unknown> {
-    console.log("Storing , ", item);
+    // console.log("Storing , ", item);
     // Preprocessing
     if (!this.player) {
       throw new Error("No Player")

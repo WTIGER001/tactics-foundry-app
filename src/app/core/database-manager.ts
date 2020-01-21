@@ -72,18 +72,12 @@ export class DatabaseManager<T extends ObjectType> {
       }
     }
 
-    // Add the id filtering if there are any ids to filter
-    // if (this.syncFilterIds && this.syncFilterIds.length > 0) {
-    //   // options.filter = 'app/by_id'
-    //   // options.query_params = { ids: this.syncFilterIds }
-    // }
-
     // Create the sync handler
     this.syncHandler = this.localdb.sync(this.remotedb, options)
       .on('change', function (change) {
         let types = []
         change.change.docs.forEach( (d:any)=> {
-          types.push(d.type)
+          types.push(d.type + "-- " + d._id + " -- " + d._rev)
         })
         console.log("DATABASE SYNC CHANGE ---------------------------------------------------------", this.dbname, " ---> ", change.direction, " ", types)
         // yo, something changed!
@@ -101,7 +95,7 @@ export class DatabaseManager<T extends ObjectType> {
         console.log("DATABASE SYNC ERR ---------------------------------------------------------", this.dbname, " ---> ", err)
 
       });
-    console.log("READY DATABASE MANGAGER ", this.dbname)
+    // console.log("READY DATABASE MANGAGER ", this.dbname)
     this.ready$.next(true)
   }
 
@@ -114,7 +108,7 @@ export class DatabaseManager<T extends ObjectType> {
     // Add trackikng to all items
     item.lastUpdate = new Date().valueOf()
 
-    console.log("storing ", item, item.copyTo)
+    // console.log("storing ", item)
 
     let obs = from(this.localdb.upsert<T>(item._id, (doc: {} & T) => {
       // Make Changes to the doc object and
@@ -125,6 +119,8 @@ export class DatabaseManager<T extends ObjectType> {
 
     obs.subscribe(res => {
       console.log("Stored Object Successfully, ", res)
+    }, error => {
+      console.log("ERROR ON STORE", error)
     })
 
     return obs

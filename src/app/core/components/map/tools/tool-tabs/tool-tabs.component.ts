@@ -33,6 +33,10 @@ export class ToolTabsComponent implements OnInit, AfterContentInit {
     if(activeTabs.length === 0) {
       this.activate(this.tabs.first);
     }
+
+    this.tabs.forEach( t => {
+      console.log("--------------------- TAB ", t.label, " " ,t.active)
+    })
   }
 
 

@@ -1,24 +1,39 @@
-import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ViewChild, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
 import { PlaceholderDirective } from 'src/app/core/directives/placeholder.directive';
 import { ToolDialogComponent } from '../tool-dialog/tool-dialog.component';
 import { ToolTabsComponent } from '../tool-tabs/tool-tabs.component';
+import { Annotation, TokenAnnotation } from 'src/app/core/model';
+import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 
 @Component({
   selector: 'tools',
   templateUrl: './tools.component.html',
   styleUrls: ['./tools.component.css']
 })
-export class ToolsComponent implements OnInit {
+export class ToolsComponent implements OnInit, AfterViewInit {
   @ViewChild(ToolDialogComponent, {static: true}) dialog: ToolDialogComponent;
   @ViewChild(ToolTabsComponent, {static: true}) tabs: ToolTabsComponent;
 
   addtools = false
   dialogShown = false
   tabsShown = false
-
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  selected : Annotation
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private session : LivePageComponent) { 
+    this.session.layerMgr$.subscribe( lmgr => {
+      if (lmgr) {
+        lmgr.selection$.subscribe( item => {
+          this.selected = item;
+          console.log("Checking if token", this.selected)
+        })
+      }
+    })
+  }
 
   ngOnInit() {
+   
+  }
+
+  ngAfterViewInit() {
     
   }
 
@@ -59,4 +74,12 @@ export class ToolsComponent implements OnInit {
     
   }
 
+
+  updateSelected() {
+
+  }
+
+  isTokenSelected() {
+    return TokenAnnotation.is(this.selected)
+  }
 }
