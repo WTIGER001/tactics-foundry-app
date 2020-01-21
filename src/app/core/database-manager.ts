@@ -240,6 +240,19 @@ export class DatabaseManager<T extends ObjectType> {
     return new DbWatcher(this.localdb, query, zone);
   }
 
+  public watchFields(fields : {field: string, value: string}[], zone: NgZone ) {
+    const arr = fields.map( a => {
+      let part = {}
+      part[a.field] = {$eq : a.value}
+      return part
+    })
+
+    const selector = {
+      $and : arr
+    }
+    return this.watchSelector(selector, zone)
+  }
+
   public watchType(type: string, zone: NgZone): DbWatcher {
 
     if (!type) {
@@ -356,7 +369,7 @@ export class DbWatcher {
   public onUpdate(fn: (item: any) => void) {
     this.onUpdateFn = fn
   }
-  public onRemove(fn: (item: any) => void) {
+  public onRemove(fn: (item: RemovedDocument) => void) {
     this.onRemoveFn = fn
   }
   public filter(fn: (item: any) => boolean) {
@@ -364,4 +377,10 @@ export class DbWatcher {
   }
 
 
+}
+
+export interface RemovedDocument {
+  _id: string
+  _rev: string
+  deleted: boolean
 }

@@ -27,12 +27,6 @@ export class ChatPreviewComponent implements OnInit {
           this.watcher = db.watchType(ChatRecord.TYPE, this.zone)
           this.watcher.onAdd(doc => {
             let d = ChatRecord.to(doc)
-
-            if (d.record.messageType == DiceRoll.MSG_TYPE) {
-              console.log("MY DIEC ROLL", (<DiceRoll>d.record).getTotal())
-            }
-            // console.log("New Chat MEssage: ", doc, d, d.displayName, d.lastUpdate)
-            // this.messages.push(ChatRecord.to(doc))
             this.messages.unshift(ChatRecord.to(doc))
             // this.sort()
           })

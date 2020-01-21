@@ -72,6 +72,11 @@
         drop-shadow(-1px 1px 1px #929292);
 }
 
+.tools-anchor {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
 
 
 @media screen and (min-height: 1024px) and (max-width: 1023px) {
@@ -94,5 +99,9 @@
     .map-tools {
         bottom: 10px;
         right: 360px;
+    }
+
+    .tools-anchor {
+        right: 350px;
     }
 }

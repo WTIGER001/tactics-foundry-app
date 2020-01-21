@@ -1,0 +1,5 @@
+<div class="layers" *ngIf="session.isGM()">
+    <fa-icon class="icon clickable" [fixedWidth]="true" icon="map" (click)="setLayer('background')" [class.current-layer]="item.layer == 'background'"></fa-icon> 
+    <fa-icon class="icon clickable" [fixedWidth]="true" icon="user-shield" (click)="setLayer('player')" [class.current-layer]="item.layer == 'player'"></fa-icon> 
+    <fa-icon class="icon clickable" [fixedWidth]="true" icon="user-crown" (click)="setLayer('gm')" [class.current-layer]="item.layer == 'gm'"></fa-icon> 
+</div>

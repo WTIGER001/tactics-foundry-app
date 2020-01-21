@@ -49,10 +49,11 @@ export class ToolTabsComponent implements OnInit, AfterContentInit {
   }
 
   closeTools() {
+    this.dialogShown = false
     this.onClose.emit(true)
   }
 
-  closeDialog() {
+  closeDialog(event : any) {
     this.dialogShown = false
     this.onCloseDialog.emit(true)
   }

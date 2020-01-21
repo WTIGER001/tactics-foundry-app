@@ -18,7 +18,7 @@ export class FormatToolDialogComponent implements OnInit {
   colorpickerhide = true
   colorpickerhide2 = true
 
-  constructor( parent: ToolDialogComponent, private _sanitizer: DomSanitizer) {
+  constructor( parent: ToolDialogComponent) {
     parent.image = '/assets/pages/format-tool.png'
     parent.imageOverlap = '-35px'
    }

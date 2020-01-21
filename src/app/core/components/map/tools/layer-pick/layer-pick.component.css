@@ -1,0 +1,16 @@
+.layers {
+    padding-top: 1em;
+    padding-right: .5em;
+    position: absolute;
+    right: 0;
+    display: grid;
+    gap: .5em;
+    bottom: 20px;
+    font-size: 1.3em;
+    justify-items: center;
+    color: grey;
+}
+
+.current-layer {
+    color: palegreen;
+}

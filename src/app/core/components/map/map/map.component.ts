@@ -1,13 +1,13 @@
 import { Component, OnInit, NgZone, Input, ElementRef, ViewChild, AfterContentInit, AfterViewInit } from '@angular/core';
-import { Application, Container, Sprite, Graphics, interaction, Rectangle } from 'pixi.js'
+import { Application, Container, Sprite, Graphics, interaction, Rectangle, DisplayObject } from 'pixi.js'
 import { Viewport, ViewportOptions, Plugin as Plg } from 'pixi-viewport'
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MapData, TokenAnnotation, TokenBar, Distance } from 'src/app/core/model';
+import { MapData, TokenAnnotation, TokenBar, Distance, Geom } from 'src/app/core/model';
 import { faTreeChristmas } from '@fortawesome/pro-solid-svg-icons';
 import { GridLayer } from './annotations/grid-layer';
 import { MapLayerManager } from './layer-manager';
-import { TokenPlugin } from '../plugins/annotation-plugin';
+import { TokenPlugin } from '../plugins/token-plugin';
 import { AuraVisible, Aura } from 'src/app/core/model/aura';
 
 /**
@@ -31,15 +31,30 @@ export class MapComponent implements OnInit, AfterViewInit {
   // Viewport
   viewport: Viewport
 
-  // Layers
-  mapLayer: Container
+  // Layers / Plugins
+  grid: GridLayer
+
+  mapLayer: Container = new Container()
+  gridLayer = new Container()
+  backgroundLayer: Container = new Container()
+  playerLayer: Container = new Container()
+  gmLayer: Container = new Container()
+  _gmLayer: Container = new Container()
+  fogLayer: Container = new Container()
+  decalLayer: Container = new Container()
 
   constructor(
     private elementRef: ElementRef,
     private data: DataService,
     private route: ActivatedRoute,
     private router: Router,
-    private zone: NgZone) { }
+    private zone: NgZone) {
+    this.backgroundLayer.name = "Background"
+    this.playerLayer.name = "Player"
+    this.fogLayer.name = "Fog"
+    this.gmLayer.name = "GM"
+    this.decalLayer.name = "Decal"
+  }
 
   ngOnInit(): void { }
 
@@ -93,14 +108,42 @@ export class MapComponent implements OnInit, AfterViewInit {
       .wheel()
       .decelerate()
 
+    // this._gmLayer.addChild(this.gmLayer)
+
     // Make the background layer where the map image is held
-    this.mapLayer = new Container()
     this.viewport.addChild(this.mapLayer)
+    this.viewport.addChild(this.gridLayer)
+    this.viewport.addChild(this.backgroundLayer)
+    this.viewport.addChild(this.playerLayer)
+    this.viewport.addChild(this.fogLayer)
+    this.viewport.addChild(this._gmLayer)
+    this.app.stage.addChild(this.decalLayer)
 
     this.viewport.on('moved', event => {
       let viewport: Viewport = (<any>event).viewport
       // console.log(`MOVED  Left: ${viewport.left} Right: ${viewport.right} Top: ${viewport.top} Bottom: ${viewport.bottom} Scale: ${viewport.scale.x}`, this.viewport)
     })
+  }
+
+  public showGmLayer(show: boolean) {
+    console.log("SHOWING GM LAYER ", show);
+    
+    const isChild = this.hasChild(this._gmLayer, this.gmLayer)
+    if (show && !isChild) {
+        this._gmLayer.addChild(this.gmLayer)
+    } else if (!show && isChild) {
+        const indx = this._gmLayer.getChildIndex(this.gmLayer)
+        this._gmLayer.removeChildAt(indx)
+    }
+  }
+
+  public hasChild(parent : Container, item : DisplayObject) : boolean {
+    try {
+      const indx = this._gmLayer.getChildIndex(this.gmLayer)
+      return indx >= 0
+    } catch (err) {
+      return false
+    }
   }
 
   private debugrect: Graphics
@@ -122,6 +165,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   }
 
+  public getCenter() {
+    return Geom.center(this.viewport.getVisibleBounds())
+  }
+
   public zoomIn() {
     this.viewport.zoomPercent(.25, true)
   }
@@ -136,20 +183,15 @@ export class MapComponent implements OnInit, AfterViewInit {
 
 
   mapSprite: Sprite
-  grid: GridLayer
-
 
   loadMap(m: MapData) {
     let oldMapId = 'NONE'
     if (this.mapdata) {
       oldMapId = this.mapdata._id
     }
-    
+
     this.mapdata = m
     console.log("---------->>>> Setting Map", m);
-
-
-
 
     if (this.mapdata._id != oldMapId) {
       // Remove the old map if there is one
@@ -162,6 +204,10 @@ export class MapComponent implements OnInit, AfterViewInit {
         this.mapSprite.x = 0
         this.mapSprite.y = 0
         this.mapLayer.addChild(this.mapSprite)
+        this.mapSprite.addListener('pointerup', (event) => {
+          console.log("pointer up", event);
+          // this.selection$.next(null);
+        })
       }
 
       // Set the Size
@@ -169,46 +215,13 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.viewport.worldHeight = m.height
       this.viewport.interactive = true
       this.viewport.fitWorld()
+
     }
 
-    let token = new TokenAnnotation()
-    token.location = new Rectangle(200,300, 5, 5)
-    let bar = new TokenBar()
-    bar.color = "#FFFFFFFF"
-    bar.bgColor = "#000000FF"
-    bar.value= 50
-    bar.max = 100
-    bar.visible = AuraVisible.Visible
-    token.bars.push(bar)
 
 
-    let bar2 = new TokenBar()
-    bar2.color = "#FFFFFFFF"
-    bar2.bgColor = "#AAAAAAFF"
-    bar2.value= 75
-    bar2.max = 100
-    bar2.visible = AuraVisible.Visible
-    token.bars.push(bar2)
 
 
-    let bar3 = new TokenBar()
-    bar3.color = "#FFFFFF88"
-    bar3.bgColor = "#000000FF"
-    bar3.value= 25
-    bar3.max = 100
-    bar3.visible = AuraVisible.Visible
-    token.bars.push(bar3)
-    let t = new TokenPlugin(this, this.mapdata, token)
-
-    let a = new Aura()
-    a.border = true
-    a.fill = false
-    a.color = "#FFFFFF88"
-    a.weight = 1
-    a.radius = new Distance(15, 'ft')
-    token.auras.push(a)
-
-    t.add()
     // let layers = new MapLayerManager(this, this.mapdata)
     // let container = layers.createToken(token)
     // this.viewport.addChild(container) 
@@ -244,8 +257,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     // this.viewport.plugins.add('test', debugMe, 1)
 
     if (!this.grid) {
-      this.grid = new GridLayer(this, m)
-      this.viewport.plugins.add('grid', this.grid, 2)
+      this.grid = new GridLayer(this, m, this.gridLayer)
+      this.viewport.plugins.add('grid', this.grid)
     } else {
       this.grid.mapData = m
     }

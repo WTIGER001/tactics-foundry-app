@@ -9,9 +9,13 @@ export class GridLayer extends Plugin {
     cellRect: Rectangle
     highlighting = false
     graphics: Graphics
+    layer : Container
 
-    constructor(private map: MapComponent, public mapData: MapData) {
+    constructor(private map: MapComponent, public mapData: MapData, layer ?: Container) {
         super(map.viewport)
+        this.layer = layer?layer:this.map.viewport
+        this.graphics = new Graphics();
+        this.layer.addChild(this.graphics)
     }
 
     /**
@@ -65,7 +69,7 @@ export class GridLayer extends Plugin {
         let unit = DistanceUnit.getUnit(options.spacingUnit)
         let offsetEW = unit.toFeet((options.offsetEW || 0))
         let offsetNS = unit.toFeet((options.offsetNS || 0))
-        let space = unit.toFeet(options.spacing)
+        let space = unit.toFeet(options.spacing)* this.mapData.ppf
 
         let startCol = ll.x - offsetEW
         let col = Math.floor(startCol / space)
@@ -98,7 +102,7 @@ export class GridLayer extends Plugin {
         let unit = DistanceUnit.getUnit(options.spacingUnit)
         let offsetEW = unit.toFeet((options.offsetEW || 0))
         let offsetNS = unit.toFeet((options.offsetNS || 0))
-        let space = unit.toFeet(options.spacing)
+        let space = unit.toFeet(options.spacing)* this.mapData.ppf
 
         let startCol = ll.x - offsetEW
         let col = Math.floor(startCol / space)
@@ -150,12 +154,6 @@ export class GridLayer extends Plugin {
 
     makelines() {
         let options = this.mapData.gridOptions
-
-        if (!this.graphics) {
-            // this.map.viewport.removeChild(this.graphics)
-            this.graphics = new Graphics();
-            this.map.viewport.addChild(this.graphics)
-        }
         this.graphics.clear()
         if (options.enabled) {
             const bounds = this.getMapBounds()

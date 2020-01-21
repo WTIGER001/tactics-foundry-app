@@ -1,9 +1,10 @@
 
-import * as modelutil from '../modelutil';
+// import * as modelutil from '../modelutil';
 import { ObjectType } from '../object-type';
 import { Point, Rectangle, Circle, Polygon } from 'pixi.js';
 import { Aura, AuraVisible } from '../aura';
 import { Geom } from '../util/geom';
+import { IdUtil } from '../../util/IdUtil';
 
 export enum AnchorPostitionChoice {
     TopLeft = 0,
@@ -30,11 +31,12 @@ export enum AnchorPostitionChoice {
 export abstract class Annotation extends ObjectType {
     static readonly TYPE = 'annotation'
 
-    _id = modelutil.id(this)
     type = Annotation.TYPE
+    _id = IdUtil.saltedIdType(Annotation.TYPE)
     subtype: string
     name = "New Annotation [Please Change]"
     color = "Green"
+    layer : 'player' | 'gm' | 'background' = 'player'
     // center = new CenterPoint(1, 2)
 
     sourceDB : string
@@ -47,14 +49,13 @@ export abstract class Annotation extends ObjectType {
     snap: boolean
     background : boolean = false
 
-    // static to(doc : any) : Annotation {
-    //     return new Annotation().copyFrom(doc)
-    // }
-
     static to(obj: any): Annotation {
         let rtn: Annotation
         if (MarkerTypeAnnotation.is(obj)) {
           rtn = new MarkerTypeAnnotation().copyFrom(obj)
+        }
+        if (CircleAnnotation.is(obj)) {
+            rtn = new CircleAnnotation().copyFrom(obj)
         }
         // if (ShapeAnnotation.is(obj)) {
         //   rtn = new ShapeAnnotation().copyFrom(obj)
@@ -62,9 +63,9 @@ export abstract class Annotation extends ObjectType {
         // if (ImageAnnotation.is(obj)) {
         //   rtn = new ImageAnnotation().copyFrom(obj)
         // }
-        // if (TokenAnnotation.is(obj)) {
-        //   rtn = new TokenAnnotation().copyFrom(obj)
-        // }
+        if (TokenAnnotation.is(obj)) {
+          rtn = new TokenAnnotation().copyFrom(obj)
+        }
         // if (rtn) {
         //   if (rtn.points) {
         //     rtn.points = LangUtil.map2Array(rtn.points)
@@ -72,6 +73,10 @@ export abstract class Annotation extends ObjectType {
         //   return rtn
         // }
     
+        if (rtn) {
+            return rtn
+        }
+
         throw new Error("Unable to convert to a type of annotation: Invalid Object")
       }
 
@@ -123,8 +128,9 @@ export class ImageAnnotation extends Annotation {
 }
 
 export class TokenAnnotation extends Annotation {
-    public static readonly SUBTYPE = 'token'
-    readonly subtype: string = TokenAnnotation.SUBTYPE
+  public static readonly SUBTYPE = 'token'
+  readonly subtype: string = TokenAnnotation.SUBTYPE
+  
   location : Rectangle
   opacity: number = 1
   url?: string
@@ -138,6 +144,9 @@ export class TokenAnnotation extends Annotation {
   bars : TokenBar[] = []
   flyHeight = 0
   badge: string
+  size: number //FT
+  sizeW: number
+  sizeH: number
  
   auras: Aura[] = []
 
@@ -153,6 +162,10 @@ export class TokenAnnotation extends Annotation {
   center() : Point {
     return Geom.center(this.location)
   }
+
+  static is(obj : any) : obj is TokenAnnotation {
+    return   obj.type === Annotation.TYPE && obj.subtype == TokenAnnotation.SUBTYPE
+}
 }
 
 export abstract class  ShapeAnnotation extends Annotation {
@@ -175,6 +188,7 @@ export class CircleAnnotation extends ShapeAnnotation{
     shapetype = ShapeType.Cirle
 
     radius: number = 0 // pixels
+    unit: string
     x: number
     y: number
 
@@ -184,6 +198,10 @@ export class CircleAnnotation extends ShapeAnnotation{
 
     toShape() : Circle {
         return new Circle(this.x, this.y, this.radius)
+    }
+
+    static is(obj : any) : obj is CircleAnnotation {
+        return  obj.type === Annotation.TYPE && obj.subtype == ShapeAnnotation.SUBTYPE && obj.shapetype == ShapeType.Cirle
     }
 }
 

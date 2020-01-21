@@ -1,0 +1,47 @@
+.shell {
+    padding: 1em;
+    color: white;
+    height: calc(100vh - 120px);
+    max-height: 700px;
+}
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    margin-top: 13px;
+    z-index: 2;
+    gap: .5em;
+}
+
+.search-x {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    color: grey;
+    transform: translateY(-50%);
+}
+
+.input-holder {
+    position: relative;
+    display: grid;
+    justify-content: stretch;
+}
+
+.input-holder input {
+    padding-right: 3em;
+    color: black;
+    font-weight: 200;
+}
+.white {
+    color:white;
+}
+.result-area {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .5em;
+}
+
+@media screen and (max-height:600px) {
+    .shell {
+        height: 95vh;
+    }
+}

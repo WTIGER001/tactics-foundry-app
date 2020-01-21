@@ -1,6 +1,6 @@
 .holder {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr auto;
     color: white;
     text-shadow: 1px 1px black;
@@ -20,4 +20,20 @@
 }
 .icon {
     filter: drop-shadow(1px 1px 1px black)
+}
+.layers {
+    padding-top: 1em;
+    padding-right: .5em;
+    position: absolute;
+    right: 0;
+    display: grid;
+    gap: .5em;
+    bottom: 20px;
+    font-size: 1.3em;
+    justify-items: center;
+    color: grey;
+}
+
+.current-layer {
+    color: palegreen;
 }

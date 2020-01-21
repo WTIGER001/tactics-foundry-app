@@ -58,6 +58,19 @@ button:focus {
   outline: none;
 }
 
+.icon-btn {
+    align-self: center;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: .25em;
+    border: 0px;
+    background: transparent;
+}
+
+.icon-btn:active {
+    transform: translate(1px, 1px);
+}
+
 .pic-btn {
     height: 100px;
     background-repeat: no-repeat;

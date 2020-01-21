@@ -13,7 +13,7 @@
     "deploy": "ng build --aot --prod & firebase deploy",
     "cors": "gsutil cors set cors.json gs://sfcmap.appspot.com",
     "pwa": "ng build --aot --prod --optimization=false && http-server -p 8080 -c-1 dist/sfcmap",
-    "caddy" : "ng build --aot --prod & rm -rf c:\\dev\\site & cp -r c:\\dev\\projects\\tacticsfoundry\\tactics-foundry-app\\dist\\tactics-foundry-app c:\\dev\\site"
+    "caddy": "ng build --aot --prod & rm -rf c:\\dev\\site & cp -r c:\\dev\\projects\\tacticsfoundry\\tactics-foundry-app\\dist\\tactics-foundry-app c:\\dev\\site"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +37,10 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.5",
     "@ng-stack/contenteditable": "^1.0.1",
     "@ngx-pwa/local-storage": "^8.2.3",
+    "@pixi/filter-drop-shadow": "^3.0.3",
+    "@pixi/filter-glow": "^3.0.3",
+    "@pixi/filter-outline": "^3.0.3",
+    "@pixi/filter-shockwave": "^3.0.3",
     "@types/shortid": "0.0.29",
     "angular-emojify": "^1.0.0",
     "background-check": "git+https://github.com/kennethcachia/background-check.git",
@@ -44,6 +48,7 @@
     "ngx-barcode": "^0.2.4",
     "ngx-color-picker": "^8.2.0",
     "ngx-long-press": "0.0.1",
+    "pixi-filters": "^3.0.3",
     "pixi-viewport": "^4.5.0",
     "pixi.js": "^5.2.0",
     "pouchdb-find": "^7.1.1",

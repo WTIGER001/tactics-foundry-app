@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ToolTabComponent implements OnInit {
   active= false
+
   @Input() label : string = ""
   @Input() icon : string
   @Input() noPadding = false
@@ -14,6 +15,11 @@ export class ToolTabComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+  }
+
+  public addTab(label : string, icon : string, component : any) {
+    
   }
 
 }

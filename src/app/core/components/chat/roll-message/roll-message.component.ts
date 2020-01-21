@@ -14,11 +14,7 @@ export class RollMessageComponent implements OnInit {
   constructor(private data: DataService) { }
 
   ngOnInit() {
-    console.log("INPUT MESSAGE ", this.message);
     this.message = DiceRoll.to(this.message)
-    let r = new DiceResult()
-    r.value = 3
-    console.log(this.message.expression, r.getTotal())
   }
 
   isFav(expression: string): boolean {

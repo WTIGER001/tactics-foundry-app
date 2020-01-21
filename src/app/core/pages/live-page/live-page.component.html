@@ -17,9 +17,11 @@
 
     <button class="detail-page-back" (click)='onBack()'><img src="/assets/components/back.png"></button>
 
-    <div class="map-tools" *ngIf="!gmtool && !tool && !addtools">
-        <fa-icon class="map-tool-icon clickable" icon="tools" data-fa-glow size="lg" (click)="showGmTools()" *ngIf="isGM()"></fa-icon>
-        <fa-icon class="map-tool-icon clickable" icon="location" size="lg" (click)="recenter()" *ngIf="needsRecenter()"></fa-icon>
+    <div class="map-tools">
+        <fa-icon class="map-tool-icon clickable" icon="tools" data-fa-glow size="lg" (click)="showGmTools()"
+            *ngIf="isGM()"></fa-icon>
+        <fa-icon class="map-tool-icon clickable" icon="location" size="lg" (click)="recenter()" *ngIf="needsRecenter()">
+        </fa-icon>
         <fa-icon class="map-tool-icon clickable" icon="ruler" size="lg" (click)="startMeasure()"></fa-icon>
         <fa-icon class="map-tool-icon clickable" icon="map-marked-alt" size="lg" (click)="addToMap()"></fa-icon>
     </div>
@@ -29,28 +31,20 @@
             <grid-tool [mapdata]="mapdata" (update)="updateGrid($event)"></grid-tool>
         </tool-tab>
         <tool-tab label="Fog" icon="fog">
-            <fog-tool  [mapdata]="mapdata" (update)="updateFog($event)"></fog-tool>
+            <fog-tool [mapdata]="mapdata" (update)="updateFog($event)"></fog-tool>
         </tool-tab>
         <tool-tab label="Calibrate" icon="pencil-ruler">
-            <calibrate-tool  [mapdata]="mapdata" [mapview]="mapview"
-            (update)="updateCalibrate($event)" #calibrate>
-        </calibrate-tool>
+            <calibrate-tool [mapdata]="mapdata" [mapview]="mapview" (update)="updateCalibrate($event)" #calibrate>
+            </calibrate-tool>
         </tool-tab>
     </tool-tabs>
 
-    <tool-tabs *ngIf="addtools" (onClose)="onAddToolsClose()" (onActivate)="onAddToolActivate($event)">
-        <tool-tab label="New" icon="plus-hexagon">
-            <add-tool></add-tool>
-        </tool-tab>
-        <tool-tab label="Favorites" icon="star">
-            <favorites-tool></favorites-tool>
-        </tool-tab>
-    </tool-tabs>
-
-    <tool-tabs *ngIf="circle" (onClose)="onCircleClose()">
+    <tool-tabs *ngIf="circleSelected()" (onClose)="onCircleClose()">
         <tool-tab label="Circle" icon="draw-circle">
-            <edit-circle-tool></edit-circle-tool>
+            <edit-circle-tool [circle]="selected"></edit-circle-tool>
         </tool-tab>
     </tool-tabs>
+    
+    <tools></tools>
 
 </div>

@@ -1,7 +1,8 @@
 import { Rectangle, Point } from 'pixi.js';
+import { Bounds } from 'pixi-viewport';
 
 export class Geom {
-    static center(r: Rectangle): Point {
+    static center(r: Rectangle | Bounds): Point {
         return new Point(r.x + r.width / 2, r.y + r.height / 2)
     }
 

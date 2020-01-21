@@ -6,7 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
-import {PlatformModule} from '@angular/cdk/platform';
+import { PlatformModule } from '@angular/cdk/platform';
 
 import { PlayerHomeComponent } from './pages/player-home/player-home.component'
 import { WelcomeComponent } from './pages/welcome/welcome.component';
@@ -42,20 +42,24 @@ import { TextMessageComponent } from './components/chat/text-message/text-messag
 import { PingMessageComponent } from './components/chat/ping-message/ping-message.component';
 import { MessageComponent } from './components/chat/message/message.component';
 import { DiceCanvasComponent } from './components/chat/dice-canvas/dice-canvas.component';
-import { GridToolComponent } from './components/map/tools/grid-tool/grid-tool.component';
-import { FogToolComponent } from './components/map/tools/fog-tool/fog-tool.component';
-import { CalibrateToolComponent } from './components/map/tools/calibrate-tool/calibrate-tool.component'
+import { GridToolComponent } from './components/map/tools/gm/grid-tool/grid-tool.component';
+import { FogToolComponent } from './components/map/tools/gm/fog-tool/fog-tool.component';
+import { CalibrateToolComponent } from './components/map/tools/gm/calibrate-tool/calibrate-tool.component'
 import { LineStyleComponent } from './components/util/line-style/line-style.component';
 import { LineWeightComponent } from './components/util/line-weight/line-weight.component';
-import { AddToolComponent } from './components/map/tools/add-tool/add-tool.component';
-import { AddTokenToolComponent } from './components/map/tools/add-token-tool/add-token-tool.component';
+import { AddToolComponent } from './components/map/tools/add/add-tool/add-tool.component';
+import { AddTokenToolComponent } from './components/map/tools/add/add-token-tool/add-token-tool.component';
 import { ToolTabsComponent } from './components/map/tools/tool-tabs/tool-tabs.component';
 import { ToolTabComponent } from './components/map/tools/tool-tab/tool-tab.component';
-import { FavoritesToolComponent } from './components/map/tools/favorites-tool/favorites-tool.component';
+import { FavoritesToolComponent } from './components/map/tools/add/favorites-tool/favorites-tool.component';
 import { FormatToolDialogComponent } from './components/map/tools/format-tool-dialog/format-tool-dialog.component';
 import { ToolDialogComponent } from './components/map/tools/tool-dialog/tool-dialog.component';
-import { EditCircleToolComponent } from './components/map/tools/edit-circle-tool/edit-circle-tool.component';
+import { EditCircleToolComponent } from './components/map/tools/edit/edit-circle-tool/edit-circle-tool.component';
 import { ToolDialogHostDirective } from './components/map/tools/tool-dialog/tool-dialog-host.directive';
+import { PlaceholderDirective } from './directives/placeholder.directive';
+import { ToolsComponent } from './components/map/tools/tools/tools.component';
+import { ToolService } from './components/map/tools/tool.service';
+import { LayerPickComponent } from './components/map/tools/layer-pick/layer-pick.component';
 
 
 @NgModule({
@@ -80,13 +84,35 @@ import { ToolDialogHostDirective } from './components/map/tools/tool-dialog/tool
     UploadButtonComponent,
     EditableTitleComponent,
     SelectPlayersPageComponent,
-    LongPressDirective, 
-    LivePageComponent, 
-    MapComponent, FullChatComponent, ChatPreviewComponent, ChatTextComponent, 
-    ChatRollsComponent, RollMessageComponent, TextMessageComponent, 
-    PingMessageComponent, MessageComponent, DiceCanvasComponent, GridToolComponent, FogToolComponent, CalibrateToolComponent, 
-    LineStyleComponent, 
-    LineWeightComponent, AddToolComponent, AddTokenToolComponent, ToolTabsComponent, ToolTabComponent, FavoritesToolComponent, FormatToolDialogComponent, ToolDialogComponent, EditCircleToolComponent, ToolDialogHostDirective
+    LongPressDirective,
+    LivePageComponent,
+    MapComponent,
+    FullChatComponent,
+    ChatPreviewComponent,
+    ChatTextComponent,
+    ChatRollsComponent,
+    RollMessageComponent,
+    TextMessageComponent,
+    PingMessageComponent,
+    MessageComponent,
+    DiceCanvasComponent,
+    GridToolComponent,
+    FogToolComponent,
+    CalibrateToolComponent,
+    LineStyleComponent,
+    LineWeightComponent,
+    AddToolComponent,
+    AddTokenToolComponent,
+    ToolTabsComponent,
+    ToolTabComponent,
+    FavoritesToolComponent,
+    FormatToolDialogComponent,
+    ToolDialogComponent,
+    EditCircleToolComponent,
+    ToolDialogHostDirective,
+    PlaceholderDirective,
+    ToolsComponent,
+    LayerPickComponent
   ],
   imports: [
     CommonModule,
@@ -96,14 +122,17 @@ import { ToolDialogHostDirective } from './components/map/tools/tool-dialog/tool
     ContenteditableModule,
     RouterModule,
     ColorPickerModule,
-    EmojifyModule, 
+    EmojifyModule,
     PlatformModule
   ],
   providers: [
-    DataService
-  ], 
-  entryComponents : [
-    FormatToolDialogComponent    
+    DataService, 
+    ToolService
+  ],
+  entryComponents: [
+    ToolDialogComponent,
+    FormatToolDialogComponent,
+    AddTokenToolComponent
   ]
 })
 export class CoreModule {

@@ -1,14 +1,16 @@
 import { Plugin } from "pixi-viewport";
 import { MapComponent } from '../map/map.component';
 import { MapData, Annotation, TokenAnnotation, TokenBar, CircleAnnotation, ShapeAnnotation } from 'src/app/core/model';
-import { Point, Graphics, Sprite, Container } from 'pixi.js';
+import { Point, Graphics, Sprite, Container, DisplayObject } from 'pixi.js';
 import { Aura } from 'src/app/core/model/aura';
 import { LangUtil } from 'src/app/core/util/LangUtil';
+import { AnnotationPlugin } from './annotation-plugin';
+import {ShockwaveFilter} from '@pixi/filter-shockwave';
 
 /**
  * This plugin is used to create, edit and display
  */
-export class CirclePlugin extends Plugin {
+export class CirclePlugin extends AnnotationPlugin<CircleAnnotation> {
     selected = true
     enabled = true
     editable = true
@@ -18,32 +20,19 @@ export class CirclePlugin extends Plugin {
     sprite: Graphics
     handle: Graphics
 
-    constructor(private map: MapComponent, public mapData: MapData, public circle : CircleAnnotation) {
-        super(map.viewport)
-    }
-
-    public add() {
-        this.create()
-        this.map.viewport.addChild(this.container)
-        this.map.viewport.plugins.add(this.circle._id, this, 100)
-    }
-
-    public remove() {
-        this.map.viewport.removeChild(this.container)
-        this.map.viewport.plugins.remove(this.circle._id)
-    }
-
-    public create() {
+    public create() : DisplayObject {
         this.container = new Container()
         this.container.interactive = true
 
         this.sprite = new Graphics()
+        this.sprite.interactive = true
         this.container.addChild(this.sprite)
-
+        
         this.handle = new Graphics()
         this.handle.interactive = true
         this.handle.buttonMode = true
         this.container.addChild(this.handle)
+
 
         return this.container
     }
@@ -52,17 +41,15 @@ export class CirclePlugin extends Plugin {
 
     }
 
-    down(event: PIXI.interaction.InteractionEvent): void {
-      
+    getMainObject() {
+        return this.sprite
     }
 
-    up(event: PIXI.interaction.InteractionEvent): void {
-    
+    updatePositionFromDrag(x: number, y:number) {
+        this.annotation.x = x
+        this.annotation.y = y
     }
-
-    move(event: PIXI.interaction.InteractionEvent): void {
-
-    }
+  
 
     // wheel(event: WheelEvent): void
     // update(): void
@@ -81,18 +68,17 @@ export class CirclePlugin extends Plugin {
         let scale = this.map.viewport.scale.x
 
         // Draw the circle
-        this.updateFill(this.circle, this.sprite)
-        this.updateLinestyle(this.circle, this.sprite)
+        this.updateFill(this.annotation, this.sprite)
+        this.updateLinestyle(this.annotation, this.sprite)
 
         //TODO: Maybe use the ppf
-        this.sprite.drawCircle(this.circle.x, this.circle.y, this.circle.radius)    
-        this.finishFill(this.circle, this.sprite)
-        
+        this.sprite.drawCircle(this.annotation.x, this.annotation.y, this.annotation.radius)    
+        this.finishFill(this.annotation, this.sprite)
+
         // Draww the handle
         if (this.editing) {
             let size = this.map.viewport.screenWidth * scale
-            this.handle.
-
+            // this.handle.
         }
     }
 

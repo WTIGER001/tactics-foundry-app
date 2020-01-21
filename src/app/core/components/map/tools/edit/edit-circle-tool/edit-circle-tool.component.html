@@ -18,8 +18,8 @@
         <input class="grid-span-2" type="text" [(ngModel)]="circle.name">
 
         <h3>Radius</h3>
-        <input type="number" [(ngModel)]="circle.radius.value">
-        <select [(ngModel)]="circle.radius.unit">
+        <input type="number" [(ngModel)]="circle.radius">
+        <select [(ngModel)]="circle.unit">
             <option value="ft">Feet</option>
         </select>
 
@@ -29,4 +29,5 @@
             [style.border-color]="circle.border?circle.color:''" 
             [style.border-width.px]="circle.border?circle.weight:0"></div>
     </div>
+    <layer-pick [item]="circle" (updated)="updated($event)"></layer-pick>
 </div>

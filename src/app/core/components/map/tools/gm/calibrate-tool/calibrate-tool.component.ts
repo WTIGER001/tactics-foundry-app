@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MapData, DistanceUnit } from 'src/app/core/model';
-import { MapComponent } from '../../map/map.component';
-import {CalibratePlugin} from '../../map/annotations/calibrate-plugin'
+import { MapComponent } from '../../../map/map.component';
+import {CalibratePlugin} from '../../../map/annotations/calibrate-plugin'
 
 @Component({
   selector: 'calibrate-tool',

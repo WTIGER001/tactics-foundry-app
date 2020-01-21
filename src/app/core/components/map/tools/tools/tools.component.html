@@ -1,0 +1,15 @@
+<tool-tabs *ngIf="addtools" (onClose)="onAddToolsClose()" (onActivate)="onAddToolActivate($event)">
+    <tool-tab label="New" icon="plus-hexagon">
+        <add-tool></add-tool>
+    </tool-tab>
+    <tool-tab label="Favorites" icon="star">
+        <favorites-tool></favorites-tool>
+    </tool-tab>
+</tool-tabs>
+
+<div class="tools-anchor" >
+    <tool-dialog  [shown]="dialogShown" (onClose)="closeDialog($event)"></tool-dialog>
+</div>
+<div class="tools-anchor" [class.hide]="!tabsShown" >
+    <tool-tabs (onClose)="closeTab($event)"></tool-tabs>
+</div>
