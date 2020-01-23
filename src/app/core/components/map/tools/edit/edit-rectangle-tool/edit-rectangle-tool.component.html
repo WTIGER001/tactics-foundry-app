@@ -3,17 +3,17 @@
 
     <div class="inner">
         <h3>Name</h3>
-        <input class="grid-span-4" type="text" [(ngModel)]="item.name">
+        <input class="grid-span-3" type="text" [(ngModel)]="item.name">
 
         <h3>Height</h3>
-        <input type="number" [(ngModel)]="item.h">
+        <input type="number" [(ngModel)]="item.h" step=".1">
 
         <h3>Width</h3>
-        <input type="number" [(ngModel)]="item.w">
+        <input type="number" [(ngModel)]="item.w" step=".1">
 
-        <select [(ngModel)]="item.unit">
+        <!-- <select [(ngModel)]="item.unit">
             <option value="ft">Feet</option>
-        </select>
+        </select> -->
 
         <h3>Format</h3>
         <div class="format" (click)="showFormatDialog()" 

@@ -217,7 +217,7 @@ export class Handle {
     handle = new Graphics()
     x: number
     y: number
-    w = 7.5
+    w = 5
     color = 0
 
     constructor() {

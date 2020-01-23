@@ -110,6 +110,9 @@ export class RectanglePlugin extends AnnotationPlugin<RectangleAnnotation> {
             
         }
 
+        this.annotation.w = +(this.annotation.w.toFixed(1))
+        this.annotation.h = +(this.annotation.h.toFixed(1))
+
         // Format and draw
         this.updateFill(this.annotation, this.sprite)
         this.updateLinestyle(this.annotation, this.sprite)

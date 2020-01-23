@@ -292,6 +292,13 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  bounds() {
+    if (this.mapview && this.mapview.viewport) {
+      return this.mapview.viewport.getVisibleBounds().width + ", " + this.mapview.viewport.getVisibleBounds().height
+    }
+    return ''
+  }
+
   needsRecenter() {
     return false
   }

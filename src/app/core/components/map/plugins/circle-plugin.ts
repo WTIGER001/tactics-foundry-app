@@ -87,6 +87,8 @@ export class CirclePlugin extends AnnotationPlugin<CircleAnnotation> {
         const xD = (this.annotation.x - this.handle.x) / this.mapData.ppf
         const yD = (this.annotation.y - this.handle.y) / this.mapData.ppf
         this.annotation.radius = Math.sqrt(xD*xD + yD*yD)
+        this.annotation.radius = +(this.annotation.radius.toFixed(1))
+
         this.handleAngle = Math.atan2(yD, xD) - Math.PI // Corrects the wierd quadrant flipping of atan2
 
         //TODO: Maybe use the ppf

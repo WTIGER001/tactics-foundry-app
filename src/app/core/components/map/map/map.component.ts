@@ -215,7 +215,6 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.viewport.worldHeight = m.height
       this.viewport.interactive = true
       this.viewport.fitWorld()
-
     }
 
 

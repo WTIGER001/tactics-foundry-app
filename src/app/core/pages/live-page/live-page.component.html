@@ -2,11 +2,8 @@
 
     <div class="temp">
         <div>{{mapview?.viewport?.screenWidth}}, {{mapview?.viewport?.screenHeight}}</div>
-        <button (click)="center1()">Center All</button>
-        <button (click)="center2()">Center Height</button>
-        <button (click)="center3()">Center Witdh</button>
-        <button (click)="mapview.zoomOut()">Zoom Out</button>
-        <button (click)="mapview.zoomIn()">Zoom In</button>
+        <div>{{bounds()}}</div>
+        <button (click)="center3()">Center</button>
     </div>
 
     <map class="map-container" [mapdata]="mapdata" #mapview></map>
