@@ -337,13 +337,13 @@ class KeyboardHandler {
 
 
   move(token: TokenAnnotation, direction: number, distance: number, unit: DistanceUnit) {
-    const distanceM = unit.toFeet(distance)
+    // const distanceM = unit.toFeet(distance)
 
-    const plugin = this.session.layerMgr.modelMap.get(token)
-    const bounds = token.location
-    const newBounds = Geom.offset(bounds, direction, distance, unit)
-    token.location = newBounds
-    this.session.layerMgr.storeAnnotation(token)
+    // const plugin = this.session.layerMgr.modelMap.get(token)
+    // const bounds = token.location
+    // const newBounds = Geom.offset(bounds, direction, distance, unit)
+    // token.location = newBounds
+    // this.session.layerMgr.storeAnnotation(token)
   }
   
   triggers = [

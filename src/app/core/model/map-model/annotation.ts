@@ -49,6 +49,9 @@ export abstract class Annotation extends ObjectType {
     snap: boolean
     background: boolean = false
 
+    x: number
+    y: number
+
     static to(obj: any): Annotation {
         let rtn: Annotation
         if (MarkerTypeAnnotation.is(obj)) {
@@ -56,6 +59,9 @@ export abstract class Annotation extends ObjectType {
         }
         if (CircleAnnotation.is(obj)) {
             rtn = new CircleAnnotation().copyFrom(obj)
+        }
+        if (RectangleAnnotation.is(obj)) {
+            rtn = new RectangleAnnotation().copyFrom(obj)
         }
         // if (ShapeAnnotation.is(obj)) {
         //   rtn = new ShapeAnnotation().copyFrom(obj)
@@ -92,7 +98,7 @@ export abstract class Annotation extends ObjectType {
      */
     copyPoints() { }
 
-    abstract center(): Point
+    // abstract center(): Point
 }
 
 /**
@@ -104,11 +110,11 @@ export class MarkerTypeAnnotation extends Annotation {
     readonly subtype: string = MarkerTypeAnnotation.SUBTYPE
 
     markerType: string
-    centerPt: Point
+    
 
-    center(): Point {
-        return this.centerPt
-    }
+    // center(): Point {
+    //     return this.centerPt
+    // }
 
     static is(obj: any): obj is ShapeAnnotation {
         return Annotation.is(obj) && obj.subtype == MarkerTypeAnnotation.SUBTYPE
@@ -128,10 +134,13 @@ export class ImageAnnotation extends Annotation {
     aspect: number // width / height
     keepAspect: boolean = false
     location: Rectangle
+    w : number
+    h : number
+    unit: string = 'ft'
 
-    center(): Point {
-        return Geom.center(this.location)
-    }
+    // center(): Point {
+    //     return Geom.center(this.location)
+    // }
 
     static is(obj: any): obj is ShapeAnnotation {
         return Annotation.is(obj) && obj.subtype == ImageAnnotation.SUBTYPE
@@ -142,7 +151,6 @@ export class TokenAnnotation extends Annotation {
     public static readonly SUBTYPE = 'token'
     readonly subtype: string = TokenAnnotation.SUBTYPE
 
-    location: Rectangle
     opacity: number = 1
     url?: string
     displayRange: [number, number] = [-20, 200]
@@ -170,9 +178,9 @@ export class TokenAnnotation extends Annotation {
     speed: number
 
 
-    center(): Point {
-        return Geom.center(this.location)
-    }
+    // center(): Point {
+    //     return Geom.center(this.location)
+    // }
 
     static is(obj: any): obj is TokenAnnotation {
         if (!obj) { return false }
@@ -221,6 +229,7 @@ export class CircleAnnotation extends ShapeAnnotation {
     }
 }
 
+
 export class RectangleAnnotation extends ShapeAnnotation {
     shapetype = ShapeType.Rectangle
 
@@ -228,13 +237,18 @@ export class RectangleAnnotation extends ShapeAnnotation {
     y: number
     w: number
     h: number
+    unit: string
 
-    center(): Point {
-        return Geom.center(this.toShape())
-    }
+    // center(): Point {
+    //     return Geom.center(this.toShape())
+    // }
 
     toShape(): Rectangle {
         return new Rectangle(this.x, this.y, this.w, this.h)
+    }
+
+    static is(obj: any): obj is CircleAnnotation {
+        return ShapeAnnotation.is(obj) && obj.shapetype == ShapeType.Rectangle
     }
 }
 

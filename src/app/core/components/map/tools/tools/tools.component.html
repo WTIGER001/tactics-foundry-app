@@ -34,6 +34,12 @@
 </tool-tabs>
 
 
+<tool-tabs *ngIf="isRectangleSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
+    <tool-tab label="Rectangle" icon="draw-square">
+        <edit-rectangle-tool [item]="selected"></edit-rectangle-tool>
+    </tool-tab>
+</tool-tabs>
+
 <!-- ITEMS -->
 <add-token-tool *ngIf="shown==='addtoken'" (onClose)="closeTab()" type='token'></add-token-tool>
 <add-token-tool *ngIf="shown==='addcharacter'" (onClose)="closeTab()" type='character'></add-token-tool>

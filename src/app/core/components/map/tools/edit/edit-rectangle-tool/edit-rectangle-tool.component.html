@@ -1,0 +1,25 @@
+<div class="shell">
+    <fav-tool [item]="item" (onUpdate)="updated()"></fav-tool>
+
+    <div class="inner">
+        <h3>Name</h3>
+        <input class="grid-span-4" type="text" [(ngModel)]="item.name">
+
+        <h3>Height</h3>
+        <input type="number" [(ngModel)]="item.h">
+
+        <h3>Width</h3>
+        <input type="number" [(ngModel)]="item.w">
+
+        <select [(ngModel)]="item.unit">
+            <option value="ft">Feet</option>
+        </select>
+
+        <h3>Format</h3>
+        <div class="format" (click)="showFormatDialog()" 
+            [style.background]="item.fill?item.fillColor:''" 
+            [style.border-color]="item.border?item.color:''" 
+            [style.border-width.px]="item.border?item.weight:0"></div>
+    </div>
+    <layer-pick [item]="item" (updated)="updated($event)"></layer-pick>
+</div>

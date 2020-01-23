@@ -5,7 +5,7 @@ import { PlaceholderDirective } from 'src/app/core/directives/placeholder.direct
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
 import { ToolsComponent } from '../../tools/tools.component';
 import { ImageUtil } from 'src/app/core/util/ImageUtil';
-import { TokenAnnotation, RouteContext, MapData, CircleAnnotation } from 'src/app/core/model';
+import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom } from 'src/app/core/model';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
 import { MapComponent } from '../../../map/map.component';
@@ -58,7 +58,22 @@ export class AddToolComponent implements OnInit {
     this.session.layerMgr.storeAnnotation(circle)
   }
 
-  startRectangle()  { }
+  startRectangle()  { 
+    const rect = new RectangleAnnotation()
+    this.defaultFormat(rect)
+    rect.name = "New Rectangle"
+    const center : Point = this.session.mapview.getCenter()
+    const bounds = this.session.mapview.viewport.getVisibleBounds()
+    const r = new Rectangle(0,0, bounds.width / 10 /this.session.mapdata.ppf, bounds.height/10/ this.session.mapdata.ppf)
+    const location = Geom.centerOn(r, center)
+    rect.x = location.x
+    rect.y = location.y
+    rect.w = location.width
+    rect.h = location.height
+    rect.layer = 'player'
+
+    this.session.layerMgr.storeAnnotation(rect)
+  }
   startCharacter()  { 
     this.tools.showTabs('addcharacter')
   }
@@ -83,6 +98,14 @@ export class AddToolComponent implements OnInit {
 
   }
 
+  defaultFormat(item : Formatted) {
+    item.border = true
+    item.color = '#FFFFFF'
+    item.weight = 1
+    item.fill = true
+    item.fillColor = "#FF000088"
+  }
+
   uploadImg($event: File) {
     ImageUtil.loadImg($event, {
       createThumbnail: true,
@@ -104,7 +127,8 @@ export class AddToolComponent implements OnInit {
       const center : Point = map.getCenter()
       const gridSquare = map.grid.getGridCell(center)
 
-      t.location = gridSquare
+      t.x = gridSquare.x
+      t.y = gridSquare.y
           
       // Save
       this.session.layerMgr.storeAnnotation(t)

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ComponentFactoryResolver, AfterViewInit, 
 import { PlaceholderDirective } from 'src/app/core/directives/placeholder.directive';
 import { ToolDialogComponent } from '../tool-dialog/tool-dialog.component';
 import { ToolTabsComponent } from '../tool-tabs/tool-tabs.component';
-import { Annotation, TokenAnnotation, CircleAnnotation } from 'src/app/core/model';
+import { Annotation, TokenAnnotation, CircleAnnotation, RectangleAnnotation } from 'src/app/core/model';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 import { TabSet } from '../tool.service';
 
@@ -90,6 +90,10 @@ export class ToolsComponent  {
 
   isCircleSelected() {
     return CircleAnnotation.is(this.selected)
+  }
+
+  isRectangleSelected() {
+    return RectangleAnnotation.is(this.selected)
   }
 
   showTabs(name : string) {

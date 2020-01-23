@@ -39,10 +39,8 @@ export class TokenPlugin extends AnnotationPlugin<TokenAnnotation> {
         }
         this.tokenSprite.interactive = true
         this.tokenSprite.buttonMode = true
-        this.tokenSprite.x = this.annotation.location.x
-        this.tokenSprite.y = this.annotation.location.y
-        this.tokenSprite.width = this.annotation.location.width
-        this.tokenSprite.height = this.annotation.location.height
+        this.tokenSprite.x = this.annotation.x
+        this.tokenSprite.y = this.annotation.y
 
         // this.tokenSprite.anchor.set(0.5, 0.5)
         this.container.addChild(this.tokenSprite)
@@ -53,14 +51,14 @@ export class TokenPlugin extends AnnotationPlugin<TokenAnnotation> {
     updatePositionFromDrag(x, y) {
         console.log("DRagging Still", x, y);
         
-        this.annotation.location.x = x
-        this.annotation.location.y = y
+        this.annotation.x = x
+        this.annotation.y = y
 
         if (this.annotation.snap) {
-            const pt = new Point(this.annotation.location.x, this.annotation.location.y)
+            const pt = new Point(this.annotation.x, this.annotation.y)
             let gridSquare = this.layerMgr.session.mapview.grid.getGridCell(pt)
-            this.annotation.location.x = gridSquare.x
-            this.annotation.location.y = gridSquare.y
+            this.annotation.x = gridSquare.x
+            this.annotation.y = gridSquare.y
             // this.annotation.location.width = gridSquare.width
             // this.annotation.location.height = gridSquare.height
         }
@@ -134,8 +132,8 @@ export class TokenPlugin extends AnnotationPlugin<TokenAnnotation> {
         })
 
         // Update the Height
-        this.tokenSprite.x = this.annotation.location.x
-        this.tokenSprite.y = this.annotation.location.y
+        this.tokenSprite.x = this.annotation.x
+        this.tokenSprite.y = this.annotation.y
         this.tokenSprite.width = w
         this.tokenSprite.height = h
 
@@ -173,16 +171,16 @@ export class TokenPlugin extends AnnotationPlugin<TokenAnnotation> {
 
             this.bar.beginFill(bg, bgAlpha)
             this.bar.drawRect(
-                this.annotation.location.x,
-                this.annotation.location.y - (barTotalH - cnt * (barH + barSpace)),
+                this.annotation.x,
+                this.annotation.y - (barTotalH - cnt * (barH + barSpace)),
                 w,
                 barH)
             this.bar.endFill()
 
             this.bar.beginFill(clr, clrAlpha)
             this.bar.drawRect(
-                this.annotation.location.x,
-                this.annotation.location.y - (barTotalH - cnt * (barH + barSpace)),
+                this.annotation.x,
+                this.annotation.y - (barTotalH - cnt * (barH + barSpace)),
                 w * full,
                 barH)
             this.bar.endFill()

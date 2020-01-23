@@ -71,6 +71,7 @@ import { FocusSelectDirective } from './directives/focus-select.directive';
 import { ColorDialogComponent } from './components/color-dialog/color-dialog.component';
 import { ColorCellComponent } from './components/color-cell/color-cell.component';
 import { ToolItemComponent } from './components/map/tools/tool-item/tool-item.component';
+import { EditRectangleToolComponent } from './components/map/tools/edit/edit-rectangle-tool/edit-rectangle-tool.component';
 
 
 @NgModule({
@@ -134,7 +135,8 @@ import { ToolItemComponent } from './components/map/tools/tool-item/tool-item.co
     FocusSelectDirective,
     ColorDialogComponent,
     ColorCellComponent,
-    ToolItemComponent
+    ToolItemComponent,
+    EditRectangleToolComponent
   ],
   imports: [
     CommonModule,

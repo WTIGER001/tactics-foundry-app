@@ -1,8 +1,9 @@
 import { Plugin, Viewport } from 'pixi-viewport';
-import { Annotation, MapData, Geom } from 'src/app/core/model';
-import { Container, DisplayObject, Graphics } from 'pixi.js';
+import { Annotation, MapData, Geom, Formatted } from 'src/app/core/model';
+import { Container, DisplayObject, Graphics, interaction } from 'pixi.js';
 import { MapLayerManager } from '../map/layer-manager';
 import { MapComponent } from '../map/map.component';
+import { LangUtil } from 'src/app/core/util/LangUtil';
 
 export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     annotation: T
@@ -41,6 +42,10 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
 
     get scale() : number {
         return this.map.viewport.scale.x
+    }
+
+    get ppf(): number {
+        return this.mapData.ppf
     }
 
     getMainObject() {
@@ -108,47 +113,31 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
         this.layerMgr.layers.forEach(l => l.removeChild(this.object))
     }
 
-    // public updateShape(shape: ShapeAnnotation, sprite: Graphics) {
-    //     sprite.clear()
+    public finishFill(item: Formatted, sprite: Graphics) {
+        if (item.fill) {
+            sprite.endFill()
+        }
+    }
 
-    //     // Format
-    //     this.updateLinestyle(shape, sprite)
-    //     this.updateFill(shape, sprite)
+    public updateLinestyle(item: Formatted, sprite: Graphics) {
+        if (item.border) {
+            let clr = LangUtil.colorNum(LangUtil.baseColor(item.color))
+            let alpha = LangUtil.colorAlpha(item.color)
+            if (item.weight == 1) {
+                sprite.lineStyle(1, clr, alpha, 0.5, true)
+            } else {
+                sprite.lineStyle(item.weight / this.map.viewport.scale.x, clr, alpha, 0.5, false)
+            }
+        }
+    }
 
-    //     // Draw Shape
-    //     if (shape.shapetype == ShapeType.Polyline) {
-    //         for (let i = 0; i < shape.points.length - 1; i++) {
-    //             sprite.moveTo(shape.points[i].x, shape.points[i].y)
-    //             sprite.lineTo(shape.points[i + 1].x, shape.points[i + 1].y)
-    //         }
-    //     } else {
-    //         sprite.drawShape(shape.toShape())
-    //     }
-
-    //     if (shape.fill) {
-    //         sprite.endFill()
-    //     }
-    // }
-
-    // public updateLinestyle(sprite: Graphics) {
-    //     if (circle.border) {
-    //         let clr = LangUtil.colorNum(LangUtil.baseColor(circle.color))
-    //         let alpha = LangUtil.colorAlpha(circle.color)
-    //         if (circle.weight == 1) {
-    //             sprite.lineStyle(1, clr, alpha, 0.5, true)
-    //         } else {
-    //             sprite.lineStyle(circle.weight / this.map.viewport.scale.x, clr, alpha, 0.5, false)
-    //         }
-    //     }
-    // }
-
-    // public updateFill(circle: CircleAnnotation | ShapeAnnotation, sprite: Graphics) {
-    //     if (circle.fill) {
-    //         let clr = LangUtil.colorNum(LangUtil.baseColor(circle.fillColor))
-    //         let alpha = LangUtil.colorAlpha(circle.fillColor)
-    //         sprite.beginFill(clr, alpha)
-    //     }
-    // }
+    public updateFill(item: Formatted, sprite: Graphics) {
+        if (item.fill) {
+            let clr = LangUtil.colorNum(LangUtil.baseColor(item.fillColor))
+            let alpha = LangUtil.colorAlpha(item.fillColor)
+            sprite.beginFill(clr, alpha)
+        }
+    }
 
 
     /** DRAG SUPPORT */
@@ -156,6 +145,8 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     dragData
     dragging = false
     isHovering = false
+    offsetX
+    offsetY
 
 
     onMouseOver(event) {
@@ -166,13 +157,20 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
         this.isHovering = false
     }
 
-    onDragStart(event) {
+    onDragStart(event : interaction.InteractionEvent) {
         this.layerMgr.selection$.next(this.annotation)
+
+        // Need to know the position of the mouse relative to the ur corner. That needs t be saved as an offset
+        // console.log(event.data.getLocalPosition(this.object),this.annotation['x'], this.annotation['y']) 
+
+        const pos = event.data.getLocalPosition(this.object)
+        this.offsetX = this.annotation.x - pos.x
+        this.offsetY = this.annotation.y - pos.y
 
         // store a reference to the data
         // the reason for this is because of multitouch
         // we want to track the movement of this particular touch
-        event.stopPropagationHint = true
+        // event.stopPropagationHint = true
         event.stopPropagation()
         this.dragData = event.data;
         // this.object.alpha = 0.5;
@@ -197,8 +195,8 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
             // me.position.x = newPosition.x;
             // me.position.y = newPosition.y;
             
-            this.updatePositionFromDrag(newPosition.x, newPosition.y)
-            // this.layerMgr.session.limitedUpdates$.next(this.annotation)
+            this.updatePositionFromDrag(newPosition.x + this.offsetX, newPosition.y + this.offsetY)
+            this.layerMgr.session.limitedUpdates$.next(this.annotation)
         }
     }
 
