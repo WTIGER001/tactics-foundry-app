@@ -173,6 +173,7 @@ export class GridLayer extends Plugin {
             let lineCountNS = Math.round(distanceEW / space) + 1
 
             // Set the options
+            // console.log("GRID == COLOR ", options.color)
             let colorPart = LangUtil.baseColor(options.color)
             let color = LangUtil.colorNum(colorPart)
             let alpha = LangUtil.colorAlpha(options.color)

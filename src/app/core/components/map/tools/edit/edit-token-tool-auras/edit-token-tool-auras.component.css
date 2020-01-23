@@ -1,0 +1,92 @@
+.shell {
+    display: grid;
+    grid-template-columns: auto 1fr 50px;
+    gap: .5em
+}
+
+.pills {
+    display: grid;
+    gap: 1em;
+    justify-content: space-between;
+    align-content: start;
+    background: #4d4d4d;
+    padding: 1em;
+    font-size: .95em;
+    height: 150px;
+    /* padding-top: 1.65em; */
+}
+
+.pill {
+    border-radius: 50%;
+    background: lightgrey;
+    color: black;
+    height: 2em;
+    width: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    filter: drop-shadow(1px 1px 2px #22222288);
+    text-shadow: 0px 0px transparent;
+    transition: all .5s;
+}
+
+.active-pill {
+    background: var(--detail-top-bg);
+    color: white;
+}
+
+.inner {
+    display: grid;
+    grid-template-columns: auto 1fr min-content;
+    gap: .5em;
+    color: white;
+    padding: 1em 0 .5em 1em;
+    text-align: right;
+    grid-template-rows: repeat(3, min-content);
+    align-items: center;
+}
+
+.inner h3 {
+    font-size: .8em;
+    text-shadow: 1px 1px black;
+}
+
+.inner h3.right {
+    text-align: right;
+}
+
+.inner input {
+    font-size: 1.1em;
+}
+
+.inner select {
+    padding: .1em .5em;
+}
+.format {
+    height: 30px;
+    width: 100%;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.addtext {
+    height: 150px;
+    text-align: center;
+    vertical-align: center;
+    font-size: 1.5em;
+    text-shadow: 1px 1px black;
+    padding: 2em;
+}
+
+.actions {
+    display: grid;
+    gap: .5em;
+    align-content: center;
+}
+
+.actions button {
+    color: white;
+}

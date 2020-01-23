@@ -1,9 +1,10 @@
 .color-pick {
-    height: 29px;
+    height: 30px;
     cursor: pointer;
+    height: 40px;
+    width: 55px;
+    border: 0px solid transparent;
     border-radius: 5px;
-    width: 75px;
-    border: 1px solid white;
 }
 
 .color-area {
@@ -20,6 +21,7 @@
     justify-items: center;
     overflow: auto;
     height: 142px;
+    /* height: 112px; */
     max-height: 175px;
     margin-bottom: 1em;
     padding-right: 5px;
@@ -29,9 +31,10 @@
 .preset-item {
     height: 40px;
     width: 55px;
-    border: 1px solid transparent;
+    border: 0px solid transparent;
     border-radius: 5px;
-    background: url('/assets/page/transparency.png');
+    /* height: 30px; */
+
 }
 
 .custom-area {
@@ -39,6 +42,14 @@
     grid-template-columns: 75px 100px 1fr;
     grid-template-rows: auto min-content auto min-content;
     gap : .5em;
+    padding-right: 5px;
+}
+
+.custom-color-area{
+    display: grid;
+    grid-template-columns: 75px 100px;
+    gap : .5em;
+    padding-right: 5px;
 }
 
 .shell {
@@ -60,6 +71,9 @@
     justify-self: right;
 }
 
+.notvisible {
+    visibility: hidden;
+}
 
 @media screen  and (max-height: 640px) {
     .preset-area {

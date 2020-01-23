@@ -24,6 +24,7 @@
     position: relative;
     display: grid;
     justify-content: stretch;
+    z-index: 2;
 }
 
 .input-holder input {

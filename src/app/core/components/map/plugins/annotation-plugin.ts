@@ -1,5 +1,5 @@
 import { Plugin, Viewport } from 'pixi-viewport';
-import { Annotation, MapData } from 'src/app/core/model';
+import { Annotation, MapData, Geom } from 'src/app/core/model';
 import { Container, DisplayObject, Graphics } from 'pixi.js';
 import { MapLayerManager } from '../map/layer-manager';
 import { MapComponent } from '../map/map.component';
@@ -39,6 +39,10 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
         return this.layerMgr.session.mapdata
     }
 
+    get scale() : number {
+        return this.map.viewport.scale.x
+    }
+
     getMainObject() {
         return this.object
     }
@@ -67,7 +71,9 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
             .on('touchend', this.onDragEnd, this)
             .on('touchendoutside', this.onDragEnd, this)
             .on('mousemove', this.onDragMove, this)
-            .on('touchmove', this.onDragMove, this);
+            .on('touchmove', this.onDragMove, this)
+            .on("mouseover", this.onMouseOver, this)
+            .on("mouseout", this.onMouseOut, this);
     }
 
     public remove() {
@@ -75,9 +81,13 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
             this.removeFromAllLayers()
         }
 
-        let index = this.layer.getChildIndex(this.object)
-        if (index >=0) {
-            this.layer.removeChildAt(index)
+        try {
+            let index = this.layer.getChildIndex(this.object)
+            if (index >=0) {
+                this.layer.removeChildAt(index)
+            }
+        } catch (error) {
+            
         }
 
         this.viewport.plugins.remove(this.annotation._id)
@@ -145,14 +155,19 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     data
     dragData
     dragging = false
+    isHovering = false
 
 
+    onMouseOver(event) {
+        this.isHovering = true
+    }
+
+    onMouseOut(event) {
+        this.isHovering = false
+    }
 
     onDragStart(event) {
-        console.log("SELECTING ", this.annotation)
         this.layerMgr.selection$.next(this.annotation)
-
-        console.log("DRAG START");
 
         // store a reference to the data
         // the reason for this is because of multitouch
@@ -183,7 +198,7 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
             // me.position.y = newPosition.y;
             
             this.updatePositionFromDrag(newPosition.x, newPosition.y)
-            this.layerMgr.session.limitedUpdates$.next(this.annotation)
+            // this.layerMgr.session.limitedUpdates$.next(this.annotation)
         }
     }
 
@@ -192,54 +207,98 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     
     }
 
-    down(event: PIXI.interaction.InteractionEvent): void {
-        // if (event.target && event.target == this.object) {
-        //     console.log("DOWN .... ", event.target, event.data)
-        //        //   // Start the drag
-        // //   let me: any = <any>this
-        // //   // store a reference to the data
-        // //   // the reason for this is because of multitouch
-        // //   // we want to track the movement of this particular touch
-        //     event.stopPropagation()
-        //     this.dragData = event.data;
-        //     //   me.data = event.data;
-        //     this.dragging = true;
-        //     event.target.alpha = 0.5
-        // }
+
+}
 
 
+/**
+ * This is a grab handle for  resizing
+ */
+export class Handle {
+    enabled = true
+    handle = new Graphics()
+    x: number
+    y: number
+    w = 7.5
+    color = 0
+
+    constructor() {
+        this.handle = new Graphics()
+        this.handle.interactive = true
+        this.handle.buttonMode = true
+        this.handle
+            .on('mousedown', this.onDragStart, this)
+            .on('touchstart', this.onDragStart, this)
+            .on('mouseup', this.onDragEnd, this)
+            .on('mouseupoutside', this.onDragEnd, this)
+            .on('touchend', this.onDragEnd, this)
+            .on('touchendoutside', this.onDragEnd, this)
+            .on('mousemove', this.onDragMove, this)
+            .on('touchmove', this.onDragMove, this)
+            .on("mouseover", this.onMouseOver, this)
+            .on("mouseout", this.onMouseOut, this);
     }
 
-    up(event: PIXI.interaction.InteractionEvent): void {
-        // if (event.target && event.target == this.object) {
-        //     console.log("UP .... ", event.target, event.data)
-        //     // let me: any = <any>this
-        //     event.target.alpha = 1
-        //     this.dragging = false;
-        //     // // set the interaction data to null
-        //     this.dragData = null;
-        // }
+    update(plugin : AnnotationPlugin<Annotation>, enabled : boolean ) {
+        this.handle.clear()
+        if (enabled) {
 
+            this.handle.beginFill(this.color, 1)
+            this.handle.lineStyle(1, 0xFFFFFF, 1, 0.5, true)
+            const r = Geom.centerHandle(this.x, this.y, this.w / plugin.scale)
+            this.handle.drawShape(r)
+            this.handle.endFill()
+        }
     }
 
-    move(event: PIXI.interaction.InteractionEvent): void {
-        // if (event.target && event.target == this.object) {
-        //     console.log("MOVING .... ", event.target, event.data)
-        //      //     const x = event.data.global.x
-        // //     const y = event.data.global.y
+    /** DRAG SUPPORT */
+    data
+    dragData
+    dragging = false
+    isHovering = false
 
 
-
-        // //     let me: any = <any>this
-
-        // if (this.dragging) {
-        //     let d: any = this.dragData
-        //     var newPosition = d.getLocalPosition(event.target.parent);
-        //     event.target.position.x = newPosition.x;
-        //     event.target.position.y = newPosition.y;
-        // }
-        // }
-
+    onMouseOver(event) {
+        this.isHovering = true
     }
+
+    onMouseOut(event) {
+        this.isHovering = false
+    }
+
+    onDragStart(event) {
+     
+        // store a reference to the data
+        // the reason for this is because of multitouch
+        // we want to track the movement of this particular touch
+        event.stopPropagationHint = true
+        event.stopPropagation()
+        this.dragData = event.data;
+        this.dragging = true;
+    }
+
+    onDragEnd(event) {
+        if (this.dragging) {
+            event.stopPropagationHint = true
+            event.stopPropagation()
+        }
+        let me: any = <any>this
+        this.dragging = false;
+        me.dragData = null;
+        
+    }
+
+    onDragMove(event) {
+        if (this.dragging) {
+            var newPosition = this.dragData.getLocalPosition(this.handle.parent);
+            // me.position.x = newPosition.x;
+            // me.position.y = newPosition.y;
+            
+            this.x = newPosition.x
+            this.y = newPosition.y
+        }
+    }
+
+
 
 }

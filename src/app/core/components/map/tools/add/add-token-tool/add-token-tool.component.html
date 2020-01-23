@@ -1,18 +1,21 @@
-<div class="shell">
-    <div class="header">
-        <div class="input-holder">
-            <input type="text" [(ngModel)]="searchTerm" placeholder="Enter Search"
-                (input)="onSearchChange($event.target.value)">
-            <fa-icon class="search-x" icon="times" size="lg" (click)="clearSearch()"></fa-icon>
+
+<tool-item (onClose)="close()" [image]="image" [imageOverlap]="imageOverlap">
+    <div class="shell">
+        <div class="header">
+            <div class="input-holder">
+                <input type="text" [(ngModel)]="searchTerm" placeholder="Enter Search"
+                    (input)="onSearchChange($event.target.value)">
+                <fa-icon class="search-x" icon="times" size="lg" (click)="clearSearch()"></fa-icon>
+            </div>
+            <button class="icon-btn"><fa-icon class="icon-shadow white" icon="sliders-h" size="2x" (click)="showFilter()"></fa-icon></button>
         </div>
-        <button class="icon-btn"><fa-icon class="icon-shadow white" icon="sliders-h" size="2x" (click)="showFilter()"></fa-icon></button>
-    </div>
-    <div class="result-area dark-scroller scroller">
-        <div *ngFor="let item of results" class="card">
-            <figure [class.selected]="isSelected(item)">
-                <img [src]="item.token">
-                <figcaption>{{item.name}}</figcaption>
-            </figure>
+        <div class="result-area dark-scroller scroller">
+            <div *ngFor="let item of results" class="card">
+                <figure [class.selected]="isSelected(item)">
+                    <img [src]="item.token">
+                    <figcaption>{{item.name}}</figcaption>
+                </figure>
+            </div>
         </div>
     </div>
-</div>
+</tool-item>

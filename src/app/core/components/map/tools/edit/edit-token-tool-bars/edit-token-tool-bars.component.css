@@ -1,6 +1,6 @@
 .shell {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr 50px;
     gap: .5em
 }
 
@@ -26,20 +26,22 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    filter: drop-shadow(1px 1px 3px black);
+    text-shadow: 0px 0px transparent;
+    transition: all .5s;
 }
 
 .active-pill {
     background: var(--detail-top-bg);
     color: white;
+    filter: drop-shadow(1px 1px 2px #22222288);
 }
 
 .inner {
     display: grid;
-    grid-template-columns: auto 1fr min-content 1fr auto;
+    grid-template-columns: auto 1fr min-content 1fr;
     gap: .5em;
     color: white;
-    padding: 1em 45px 1em .5em;
+    padding: 1em 0 .5em 1em;
     text-align: right;
     grid-template-rows: repeat(3, min-content);
     align-items: center;
@@ -60,15 +62,11 @@
 
 .format {
     height: 30px;
-    width: 40px;
+    width: 100%;
     border-radius: 5px;
     background: white;
     cursor: pointer;
     border: 0px solid white;
-}
-
-.slash {
-    font-size: 4em;
 }
 
 .addtext {
@@ -77,4 +75,15 @@
     vertical-align: center;
     font-size: 1.5em;
     text-shadow: 1px 1px black;
+    padding: 2em;
+}
+
+.actions {
+    display: grid;
+    gap: .5em;
+    align-content: center;
+}
+
+.actions button {
+    color: white;
 }

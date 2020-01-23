@@ -1,1 +1,44 @@
-<p>edit-token-tool-auras works!</p>
+<div class="shell">
+    <div class="pills">
+        <div *ngFor="let a of item.auras; index as i" class="pill" (click)="showPill(a)" [class.active-pill]="a == aura">
+            {{i+1}}
+        </div>
+        <div *ngIf="item.auras.length < 3" class="pill" (click)="addAura()">
+            <fa-icon icon='plus'></fa-icon>
+        </div>
+    </div>
+
+    <ng-container *ngIf="aura">
+        <div class="inner">
+            <h3 class="right">Aura</h3>
+            <input class="grid-span-2" type="text" [(ngModel)]="aura.name" (blur)="update()">
+
+            <h3 class="right">Radius</h3>
+            <input type="text" focus-select class="form-control" [(ngModel)]="aura.radius" (ngModelChange)="update()">
+            <select [(ngModel)]="aura.radiusUnit">
+                <option value="ft">Feet</option>
+            </select>
+            <h3 class="right">Format</h3>
+            <color-dialog [item]="aura" (onUpdate)="update()"></color-dialog>
+            <!-- <div class="format" (click)="showFormatDialog()" [style.background]="aura.fillColor" [style.border-color]="aura.color" [style.border-width.px]="aura.weight"></div> -->
+
+        </div>
+        <div class="actions">
+            <button class="icon-btn icon-shadow" (click)="toggleVisiblity($event)">
+                <fa-icon *ngIf="aura.visible==0" [fixedWidth]="true" icon="eye-slash" [style.color]="'grey'" placement="bottom" ngbTooltip="Never visible (click to change)" container="body"></fa-icon>
+                <fa-icon *ngIf="aura.visible==1" [fixedWidth]="true" icon="eye" [style.color]="'white'"  placement="bottom" ngbTooltip="Always visible (click to change)" container="body"></fa-icon>
+                <fa-icon *ngIf="aura.visible==2" [fixedWidth]="true" icon="hand-pointer" [style.color]="'white'"  placement="bottom" ngbTooltip="Visible when selected (click to change)" container="body"></fa-icon>
+                <fa-icon *ngIf="aura.visible==3" [fixedWidth]="true" icon="mouse-pointer" [style.color]="'white'"  placement="bottom" ngbTooltip="Visible on hover or when selected (click to change)" container="body"></fa-icon>                
+                <label>Show</label>
+            </button>
+            <button class="icon-btn icon-shadow" (click)="delete()">
+                <fa-icon icon="trash-alt"></fa-icon>
+                <label>Delete</label>
+            </button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!aura">
+        <div class="addtext grid-span-2">Add an aura with the plus button on the left</div>
+    </ng-container>
+</div>

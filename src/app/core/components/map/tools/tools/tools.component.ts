@@ -1,45 +1,46 @@
-import { Component, OnInit, ViewChild, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ComponentFactoryResolver, AfterViewInit, ViewChildren } from '@angular/core';
 import { PlaceholderDirective } from 'src/app/core/directives/placeholder.directive';
 import { ToolDialogComponent } from '../tool-dialog/tool-dialog.component';
 import { ToolTabsComponent } from '../tool-tabs/tool-tabs.component';
-import { Annotation, TokenAnnotation } from 'src/app/core/model';
+import { Annotation, TokenAnnotation, CircleAnnotation } from 'src/app/core/model';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
+import { TabSet } from '../tool.service';
 
 @Component({
   selector: 'tools',
   templateUrl: './tools.component.html',
   styleUrls: ['./tools.component.css']
 })
-export class ToolsComponent implements OnInit, AfterViewInit {
+export class ToolsComponent  {
   @ViewChild(ToolDialogComponent, {static: true}) dialog: ToolDialogComponent;
-  @ViewChild(ToolTabsComponent, {static: true}) tabs: ToolTabsComponent;
+  @ViewChildren(ToolTabsComponent) tabs : ToolTabsComponent
+  shown : string
 
   addtools = false
   dialogShown = false
-  tabsShown = false
+  contextName =''
+
   selected : Annotation
   constructor(private componentFactoryResolver: ComponentFactoryResolver, private session : LivePageComponent) { 
     this.session.layerMgr$.subscribe( lmgr => {
       if (lmgr) {
         lmgr.selection$.subscribe( item => {
-          this.selected = item;
-          console.log("Checking if token", this.selected)
+          if (item || this.selected) {
+            this.closeDialog()
+            this.closeTab()
+            this.selected = item;
+          } else {
+            this.selected = item;
+          }
+          // console.log("SELECTION RECIEVED : ", item);
         })
       }
     })
   }
 
-  ngOnInit() {
-   
-  }
-
-  ngAfterViewInit() {
-    
-  }
-
-  showDialog(component : any)  : any {
+  showDialog(component : any, contextName : string)  : any {
     // if (this.dialogShown) {
-    //   this.dialogShown = false
+      // this.dialogShown = false
     // } else {
       this.dialogShown = true
 
@@ -62,16 +63,20 @@ export class ToolsComponent implements OnInit, AfterViewInit {
     this.addtools = false
   }
 
-  onAddToolActivate($event ?: any) {
+  onActivate($event ?: any) {
     
   }
 
   closeDialog($event ?: any) {
-
+    this.dialogShown = false
   }
 
-  closeTab(event) {
-    
+  closeSelection() {
+    this.session.layerMgr.selection$.next(null)
+  }
+
+  closeTab(event ?: any) {
+    this.shown = undefined
   }
 
 
@@ -81,5 +86,20 @@ export class ToolsComponent implements OnInit, AfterViewInit {
 
   isTokenSelected() {
     return TokenAnnotation.is(this.selected)
+  }
+
+  isCircleSelected() {
+    return CircleAnnotation.is(this.selected)
+  }
+
+  showTabs(name : string) {
+    // Dismiss any tabs or dialog that are currently shown
+    if (this.shown) {
+      // CLOSE
+      this.closeDialog()
+      this.closeTab()
+    }
+
+    this.shown = name
   }
 }

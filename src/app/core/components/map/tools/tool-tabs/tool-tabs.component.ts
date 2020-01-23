@@ -63,9 +63,9 @@ export class ToolTabsComponent implements OnInit, AfterContentInit {
   }
 
   showDialog(component : any)  : any {
-    if (this.dialogShown) {
-      this.dialogShown = false
-    } else {
+    // if (this.dialogShown) {
+    //   this.dialogShown = false
+    // } else {
       this.dialogShown = true
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component)
@@ -74,7 +74,7 @@ export class ToolTabsComponent implements OnInit, AfterContentInit {
       viewContainerRef.clear()
       const componentRef = viewContainerRef.createComponent(componentFactory);
       return componentRef.instance
-    }
+    // }
   }
 
 }

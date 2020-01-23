@@ -60,9 +60,9 @@ export abstract class Annotation extends ObjectType {
         // if (ShapeAnnotation.is(obj)) {
         //   rtn = new ShapeAnnotation().copyFrom(obj)
         // }
-        // if (ImageAnnotation.is(obj)) {
-        //   rtn = new ImageAnnotation().copyFrom(obj)
-        // }
+        if (ImageAnnotation.is(obj)) {
+          rtn = new ImageAnnotation().copyFrom(obj)
+        }
         if (TokenAnnotation.is(obj)) {
             rtn = new TokenAnnotation().copyFrom(obj)
         }
@@ -81,7 +81,10 @@ export abstract class Annotation extends ObjectType {
     }
 
     static is(obj: any): obj is Annotation {
-        return obj.objType !== undefined && obj.objType === Annotation.TYPE
+        if (obj) {
+            return obj.type === Annotation.TYPE
+        } 
+        return false
     }
 
     /**
@@ -106,6 +109,10 @@ export class MarkerTypeAnnotation extends Annotation {
     center(): Point {
         return this.centerPt
     }
+
+    static is(obj: any): obj is ShapeAnnotation {
+        return Annotation.is(obj) && obj.subtype == MarkerTypeAnnotation.SUBTYPE
+    }
 }
 
 /**
@@ -124,6 +131,10 @@ export class ImageAnnotation extends Annotation {
 
     center(): Point {
         return Geom.center(this.location)
+    }
+
+    static is(obj: any): obj is ShapeAnnotation {
+        return Annotation.is(obj) && obj.subtype == ImageAnnotation.SUBTYPE
     }
 }
 
@@ -183,6 +194,10 @@ export abstract class ShapeAnnotation extends Annotation {
     fillColor: string
 
     abstract toShape(): PIXI.Circle | PIXI.Ellipse | PIXI.Polygon | PIXI.Rectangle | PIXI.RoundedRectangle
+
+    static is(obj: any): obj is ShapeAnnotation {
+        return Annotation.is(obj) && obj.subtype == ShapeAnnotation.SUBTYPE
+    }
 }
 
 export class CircleAnnotation extends ShapeAnnotation {
@@ -202,7 +217,7 @@ export class CircleAnnotation extends ShapeAnnotation {
     }
 
     static is(obj: any): obj is CircleAnnotation {
-        return obj.type === Annotation.TYPE && obj.subtype == ShapeAnnotation.SUBTYPE && obj.shapetype == ShapeType.Cirle
+        return ShapeAnnotation.is(obj) && obj.shapetype == ShapeType.Cirle
     }
 }
 
@@ -266,9 +281,9 @@ export class TokenBar {
     source: string
     warnRange: number = 0.25
     bgColor: string = '#444444'
-    color: string = 'blue'
+    color: string = '#000000'
     warnColor: string = 'red'
-    visible: AuraVisible = AuraVisible.NotVisible
+    visible: AuraVisible = AuraVisible.Visible
     value: number = 100
     max: number = 100
 }

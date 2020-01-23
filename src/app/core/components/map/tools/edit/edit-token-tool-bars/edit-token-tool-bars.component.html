@@ -1,39 +1,52 @@
 <div class="shell">
     <div class="pills">
-        <div *ngFor="let b of item.bars; index as i" class="pill" (click)="showPill(b)"
-            [class.active-pill]="b == bar">{{i+1}}
+        <div *ngFor="let b of item.bars; index as i" class="pill" (click)="showPill(b)" [class.active-pill]="b == bar">
+            {{i+1}}
         </div>
         <div *ngIf="item.bars.length < 3" class="pill" (click)="addBar()">
             <fa-icon icon='plus'></fa-icon>
         </div>
     </div>
 
-    <div class="inner">
-
-        <ng-container *ngIf="bar">
+    <ng-container *ngIf="bar">
+        <div class="inner">
             <h3 class="right">Bar</h3>
-            <input class="grid-span-4" type="text" [(ngModel)]="bar.name" (blur)="update()">
+            <input class="grid-span-3" type="text" [(ngModel)]="bar.name" (blur)="update()">
 
             <h3 class="right">Current</h3>
             <input type="text" addsub focus-select class="form-control" [ngModel]="bar.value"
                 [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="updateBarValue(bar, $event)">
 
-            <h3 class="slash">/</h3>
+            <h3>Max</h3>
             <input type="text" addsub focus-select class="form-control" [ngModel]="bar.max"
                 [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="updateBarMax(bar, $event)">
-            <h3 >Max</h3>
-            <h3 class="right">Bg</h3>
-            <div class="format" (click)="showFormatDialog()" 
-                [style.background]="item.bgColor" ></div>
-            <div></div>
-            <div class="format" (click)="showFormatDialog()" 
-                [style.background]="item.color" ></div>
-            <h3>Color</h3>
-        </ng-container>
-        <ng-container *ngIf="!bar">
-            <div class="addtext grid-span-5">Add a bar with the plus button on the left</div>
-        </ng-container>
-        
-    </div>
 
+            <h3>Bg</h3>
+            <!-- <div class="format" (click)="showFormatDialog()" [style.background]="item.bgColor"></div> -->
+            <color-dialog [color]="item.bgColor" (onUpdateColor)="updatebg($event)"></color-dialog>
+
+            <h3>Color</h3>
+            <!-- <div class="format" (click)="showFormatDialog()" [style.background]="item.color"></div> -->
+            <color-dialog [color]="item.color" (onUpdateColor)="updateclr($event)"></color-dialog>
+
+
+        </div>
+        <div class="actions">
+            <button class="icon-btn icon-shadow" (click)="toggleVisiblity($event)">
+                <fa-icon *ngIf="bar.visible==0" [fixedWidth]="true" icon="eye-slash" [style.color]="'grey'" placement="bottom" ngbTooltip="Never visible (click to change)" container="body"></fa-icon>
+                <fa-icon *ngIf="bar.visible==1" [fixedWidth]="true" icon="eye" [style.color]="'white'"  placement="bottom" ngbTooltip="Always visible (click to change)" container="body"></fa-icon>
+                <fa-icon *ngIf="bar.visible==2" [fixedWidth]="true" icon="hand-pointer" [style.color]="'white'"  placement="bottom" ngbTooltip="Visible when selected (click to change)" container="body"></fa-icon>
+                <fa-icon *ngIf="bar.visible==3" [fixedWidth]="true" icon="mouse-pointer" [style.color]="'white'"  placement="bottom" ngbTooltip="Visible on hover or when selected (click to change)" container="body"></fa-icon>                
+                <label>Show</label>
+            </button>
+            <button class="icon-btn icon-shadow" (click)="delete()">
+                <fa-icon icon="trash-alt"></fa-icon>
+                <label>Delete</label>
+            </button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!bar">
+        <div class="addtext grid-span-2">Add a bar with the plus button on the left</div>
+    </ng-container>
 </div>

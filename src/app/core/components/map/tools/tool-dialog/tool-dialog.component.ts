@@ -27,21 +27,22 @@ export class ToolDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+  
+  }
+
+  componentToCreate 
+  observeMe = new Subject<any>()
+
+  show(component : any) : any {
+    this.componentToCreate = component
     if (this.componentToCreate) {
       const cf = this.cfr.resolveComponentFactory(this.componentToCreate)
       const viewContainerRef = this.host.viewContainerRef
       viewContainerRef.clear()
       const componentRef = viewContainerRef.createComponent(cf);
       this.onShow.emit(componentRef.instance)
-      componentRef.instance
+      return componentRef.instance
     }
-  }
-
-  componentToCreate 
-  observeMe = new Subject<any>()
-
-  show(component : any) {
-    this.componentToCreate = component
   }
 
 

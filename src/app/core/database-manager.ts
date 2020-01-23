@@ -112,10 +112,13 @@ export class DatabaseManager<T extends ObjectType> {
 
     let obs = from(this.localdb.upsert<T>(item._id, (doc: {} & T) => {
       // Make Changes to the doc object and
+      const rev = doc._rev
       item.copyTo(doc)
-
+      doc._rev = rev
       return doc
     }))
+
+
 
     obs.subscribe(res => {
       console.log("Stored Object Successfully, ", res)

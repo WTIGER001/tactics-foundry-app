@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, NgZone, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
 import { DbWatcher, RemovedDocument } from '../../database-manager';
-import { Game, RouteContext, SessionCommand, MapData, PanZoomMapCommand, GridOptions, Annotation, CircleAnnotation, ObjectType, Player } from '../../model';
+import { Game, RouteContext, SessionCommand, MapData, PanZoomMapCommand, GridOptions, Annotation, CircleAnnotation, ObjectType, Player, TokenAnnotation, DistanceUnit, Geom } from '../../model';
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map/map.component';
@@ -48,6 +48,12 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   public commands: SessionCommand[] = []
   public layerMgr: MapLayerManager
   public selected: Annotation
+
+  // Active tool that is being shown. Can be undefined
+  public activeTool 
+  
+
+  public keyhandler = new KeyboardHandler(this)
 
   tab: number = 0
   selecting = false;
@@ -134,6 +140,19 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   setMap(doc: any) {
 
 
+  }
+
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event : KeyboardEvent) {
+    console.log("KEY DOWN ", event.key)
+    // this.keyhandler.keydown(event)
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event : KeyboardEvent) {
+    console.log("KEY DOWN ", event.key)
+    
   }
 
   onBack() {
@@ -250,8 +269,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showGmTools() {
-    this.gmtool = 'grid'
-    // this.toolsvc.openTabs('GM')
+    this.tools.showTabs('gmtools')
   }
 
   closeGmTools() {
@@ -283,13 +301,11 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   startMeasure() {
-    this.circle = true
+    
   }
 
   addToMap() {
-    this.addtool = 'add'
-    this.addtools = true
-    this.tools.setTool('add')
+    this.tools.showTabs('addtools')
   }
 
   updateGrid($event) {
@@ -304,22 +320,78 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mdUpatesSmall$.next(this.mapdata)
   }
 
-  onAddToolsClose() {
-    this.addtools = false
-  }
 
-  onAddToolActivate(tool: ToolTabComponent) {
+}
 
-  }
 
-  onGMToolActivate(tool: ToolTabComponent) {
+class KeyboardHandler {
+  constructor( private session : LivePageComponent) {
 
   }
 
-  onCircleClose() {
-    this.circle = false
+  keydown(e: any) {
+    console.log("Checking for Move", e.keyCode)
+
+    const item = this.session.layerMgr.selection$.getValue()
+
+
+    if (item && TokenAnnotation.is(item)) {
+      // figure out which (if any) direction is triggered
+      const direction = this.triggers.find(t => t.matches(e))
+      if (direction) {
+        this.move(item, direction.direction, 5, DistanceUnit.Feet)
+      }
+    }
+      
+    
   }
 
 
+  move(token: TokenAnnotation, direction: number, distance: number, unit: DistanceUnit) {
+    const distanceM = unit.toFeet(distance)
 
+    const plugin = this.session.layerMgr.modelMap.get(token)
+    const bounds = token.location
+    const newBounds = Geom.offset(bounds, direction, distance, unit)
+    token.location = newBounds
+    this.session.layerMgr.storeAnnotation(token)
+  }
+  
+  triggers = [
+    // DOWN LEFT, numpad 1, #1
+    new Direction(1, 49, 97),
+
+    // DOWN, down arrow, numpad 2, #2, s
+    new Direction(2, 40, 98, 50, 83),
+
+    // DOWN RIGHT, numpagd 3, #3
+    new Direction(3, 99, 51),
+
+    // LEFT, left arrow, numpagd 4, #4, a
+    new Direction(4, 37, 100, 52, 65),
+
+    // RIGHT, right arrow, numpad 6, #6, d
+    new Direction(6, 39, 102, 54, 68),
+
+    // UP LEFT, numpagd 7, #7,
+    new Direction(7, 103, 55),
+
+    // UP, up arrow, numpad 8, #8, w
+    new Direction(8, 38, 104, 56, 87),
+
+    // UP RIGHT,  numpad 9, #9
+    new Direction(9, 105, 57),
+  ]
+
+}
+
+class Direction {
+  codes: number[]
+  constructor(public direction: number, ...codes: number[]) {
+    this.codes = codes
+  }
+
+  matches(e: any) {
+    return this.codes.includes(e.keyCode)
+  }
 }

@@ -20,8 +20,9 @@ export enum AuraVisible {
     color: string = '#00000069'
     fill : boolean = true
     fillColor: string = '#b520204e'
-    radius: Distance = new Distance(5, DistanceUnit.Feet.abbr)
-    visible: number = AuraVisible.NotVisible
+    radius: number = 10;
+    radiusUnit: string = "ft"
+    visible: number = AuraVisible.Visible
     visibleTo : number = AuraVisibleTo.Everyone
     weight: number = 1
     style: string

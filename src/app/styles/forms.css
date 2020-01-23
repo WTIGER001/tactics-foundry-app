@@ -65,6 +65,8 @@ button:focus {
     padding: .25em;
     border: 0px;
     background: transparent;
+    display: grid;
+    align-items: center;
 }
 
 input {

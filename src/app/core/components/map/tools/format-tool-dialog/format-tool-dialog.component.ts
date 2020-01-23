@@ -12,9 +12,12 @@ import { ColorPickerDirective } from 'ngx-color-picker';
 })
 export class FormatToolDialogComponent implements OnInit {
   @Input() item: Formatted
+  @Input() color: string = "#000000"
   @Output() onUpdate = new EventEmitter<boolean>()
+  @Output() onUpdateColor = new EventEmitter<string>()
+
   @ViewChild(ColorPickerDirective, {static : false}) colorpick : ColorPickerDirective
-  presetItems = []
+  presetItems : Formatted[] = []
   colorpickerhide = true
   colorpickerhide2 = true
 
@@ -58,50 +61,68 @@ export class FormatToolDialogComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.presetItems.push({fillColor:"#00000088", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#0000FF88", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#00FF0088", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#FF000088", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#FF000088", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#FFFF0088", color:"#FFFFFF", weight: 1 })
+    this.presetItems.push({fillColor:"#00000088", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#0000FF88", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#00FF0088", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#FF000088", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#FF000088", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#FFFF0088", color:"#FFFFFF", weight: 1 , fill:true, border:true})
 
-    this.presetItems.push({fillColor:"#FF00FF", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#FF00FF", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#AAAAAA", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#BBBBBB", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#444444", color:"#FFFFFF", weight: 1 })
-    this.presetItems.push({fillColor:"#222222", color:"#FFFFFF", weight: 1 })
+    this.presetItems.push({fillColor:"#FF00FF", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#FF00FF", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#AAAAAA", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#BBBBBB", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#444444", color:"#FFFFFF", weight: 1 , fill:true, border:true})
+    this.presetItems.push({fillColor:"#222222", color:"#FFFFFF", weight: 1 , fill:true, border:true})
 
-    this.presetItems.push({fillColor:"#000000", color:"#000000", weight: 2 })
-    this.presetItems.push({fillColor:"#000000", color:"#000000", weight: 2 })
-    this.presetItems.push({fillColor:"#0000FF", color:"#000000", weight: 2 })
-    this.presetItems.push({fillColor:"#00FF00", color:"#000000", weight: 2 })
-    this.presetItems.push({fillColor:"#FF0000", color:"#000000", weight: 2 })
-    this.presetItems.push({fillColor:"#FFFF00", color:"#000000", weight: 2 })
+    this.presetItems.push({fillColor:"#000000", color:"#000000", weight: 2 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#000000", color:"#000000", weight: 2 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#0000FF", color:"#000000", weight: 2 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#00FF00", color:"#000000", weight: 2 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#FF0000", color:"#000000", weight: 2 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#FFFF00", color:"#000000", weight: 2 , fill:true, border:true })
 
-    this.presetItems.push({fillColor:"#000000", color:"#FFFFFF", weight: 3 })
-    this.presetItems.push({fillColor:"#0000FF", color:"#FFFFFF", weight: 3 })
-    this.presetItems.push({fillColor:"#00FF00", color:"#FFFFFF", weight: 3 })
-    this.presetItems.push({fillColor:"#FF0000", color:"#FFFFFF", weight: 3 })
-    this.presetItems.push({fillColor:"#FF0000", color:"#FFFFFF", weight: 4 })
-    this.presetItems.push({fillColor:"#FFFF00", color:"#FFFFFF", weight: 5 })
+    this.presetItems.push({fillColor:"#000000", color:"#FFFFFF", weight: 3 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#0000FF", color:"#FFFFFF", weight: 3 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#00FF00", color:"#FFFFFF", weight: 3 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#FF0000", color:"#FFFFFF", weight: 3 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#FF0000", color:"#FFFFFF", weight: 4 , fill:true, border:true })
+    this.presetItems.push({fillColor:"#FFFF00", color:"#FFFFFF", weight: 5 , fill:true, border:true })
 
-    this.presetItems.forEach(i => {
-      i.style = this.getStyle(i)
-    })
   }
 
-  usePreset(preset) {
-    this.item.weight = preset.weight
-    this.item.color = preset.color
-    this.item.fillColor = preset.fillColor
-    this.item.border = true
-    this.item.fill = true
+  usePreset(preset: Formatted) {
+    if (this.item) {
+      this.item.weight = preset.weight
+      this.item.color = preset.color
+      this.item.fillColor = preset.fillColor
+      this.item.border = preset.border
+      this.item.fill = preset.fill
+    } else {
+      this.color = preset.fillColor
+    }
+    this.update()
+
+  }
+  updateborder(color : string) {
+    this.item.color = color
+    this.update()
   }
 
+updatefill(color : string) {
+    if (this.item) {
+      this.item.fillColor = color
+    } else {
+      this.color = color
+    }
+    this.update()
+  }
+  
   update() {
-    console.log("COLOR ", this.item.color, "WEIGHT", this.item.weight);
-    
-    this.onUpdate.emit(true)
+    if (this.item) {
+      this.onUpdate.emit(true)
+    } else {
+      this.onUpdateColor.emit(this.color)
+    }
   }
 }

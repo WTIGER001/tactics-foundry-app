@@ -16,9 +16,10 @@
     </div>
     <div class="form-group">
         <label>Color</label>
-        <div class="form-control form-control-sm color-pick" [(colorPicker)]="mapdata.gridOptions.color"
+        <!-- <div class="form-control form-control-sm color-pick" [(colorPicker)]="mapdata.gridOptions.color"
             [style.background]="mapdata.gridOptions.color" cpAlphaChannel='always' cpPosition='top' cpOutputFormat='hex'
-            (colorPickerChange)="updateGrid()"></div>
+            (colorPickerChange)="updateGrid()"></div> -->
+        <color-dialog [color]="mapdata.gridOptions.color" (onUpdateColor)="updateColor($event)"></color-dialog>
     </div>
     <div>
         <label>Offset EW</label>

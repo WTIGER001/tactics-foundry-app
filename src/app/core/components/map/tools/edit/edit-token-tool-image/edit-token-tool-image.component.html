@@ -1,1 +1,16 @@
-<p>edit-token-tool-image works!</p>
+<div class="shell">
+    <img [src]="item.url">
+    <button class="icon-btn" (click)="search()">
+        <fa-icon class="icon icon-shadow" icon="search" size="lg"></fa-icon>
+        <label>Search</label>
+    </button>
+    <button class="icon-btn" (click)="upload.getFile()">
+        <fa-icon class="icon icon-shadow" icon="cloud-upload" size="lg"></fa-icon>
+        <label>Upload</label>
+    </button>
+    <button class="icon-btn">
+        <fa-icon class="icon icon-shadow" icon="edit" size="lg"></fa-icon>
+        <label>Edit</label>
+    </button>
+    <app-upload-button #upload (choice)="uploadImg($event)"></app-upload-button>
+</div>

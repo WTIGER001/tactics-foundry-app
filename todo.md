@@ -20,34 +20,32 @@ Legend
 ## Live Session
 
 ### Map
-- [+++] Add Circle
+- [+++] Add Circle (Mostly done)
 - [+++] Add Rectangle
 - [+++] Add Polygon
 - [+++] Add Polyline
 - [+++] Add character
-- [+++] Add token
+- [+++] Add token (This is from a library.. not sure if we are going to stll do that)
 - [++] Add monster
 - [+++] Add marker
 - [+++] Add flag
 - [++] Add image
-- [+++] Upload
+- [+++] Upload (mostly Done)
 - [++] Add Text
 - [+++] Fog Of War
 - [+++] Pinch zoom fix
 - [+++] Zoom Fit
-- [+++] Auto pan / zoom + Recenter
+- [+++] Auto pan / zoom + Recenter (on gm action)
 - [++] Scale Bar 
 - [+++] Encounter display
 - [+++] Encounter GM Control
 - [+++] Long press flag
-- [+] Flag Ripple effect
+- [+] Flag Ripple effect (tried this. Should be pretty easy)
 - [+] Audio effects
-- [+++] Annotation Drag
-- [+++] Annotation Select 
+- [+++] Annotation Drag (mostly working, has bugs)
+- [+++] Annotation Select (mostly working, has bugs)
 - [++] Restrict Dialog
 - [+++] Favorite Dialog
-- [++] Delete Dialog (Not sure if needed)
-- [+++] Support for Background, Player and GM Layers, and the abilty to change layer order
 - [+++] GM / Debug Layer Control, show all plugins per layer (layers are just containers)
 
 ### Chat
@@ -65,7 +63,6 @@ Legend
 -- toggle fog --> /fog
 -- Clear fog --> /fog clear
 -- set layer --> /layer player | gm | background
--- 
  
 ## Game Data Management
 
@@ -74,7 +71,6 @@ Legend
 - [+++] Upload a character from HeroLab
 - [+++] Upload a character from PCGen
 - [+++] Edit Character
-- [+++] Upload Character Image
 - [++] Crop Token Image
 
 ### Tokens
@@ -84,10 +80,6 @@ In general tokens are needed but the abilty to have the token libary prepopulate
 - [++] Create Token Sets
 - [+++] Upload single image as token
 - [++] Convert from a token to an image anv vice-a-versa
-- [+++] Token Plugin for pixijs (also handles characters and monsters)
-- [+++] Token edit tabs / dialogs
-- [+++] Drag and Drop of token
-- [+++] Move token to different layer
 - [+++] Arrow keys move the highlighted token
 
 ### Monsters 

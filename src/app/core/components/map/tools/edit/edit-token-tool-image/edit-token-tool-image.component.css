@@ -1,0 +1,21 @@
+.shell {
+    padding: 1em;
+    display: grid;
+    gap: 1em;
+    justify-items: center;
+    align-content: space-between;
+    grid-template-columns: auto auto auto auto;
+}
+
+.shell img {
+    width: 120px;
+    height: 120px;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.shell button {
+    font-size: 1.5em;
+    color: white;
+    text-shadow: 1px 1px black;
+}

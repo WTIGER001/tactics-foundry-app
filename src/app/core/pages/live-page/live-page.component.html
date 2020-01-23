@@ -26,24 +26,8 @@
         <fa-icon class="map-tool-icon clickable" icon="map-marked-alt" size="lg" (click)="addToMap()"></fa-icon>
     </div>
 
-    <tool-tabs *ngIf="gmtool" (onClose)="closeGmTools()" (onActivate)="onGMToolActivate($event)">
-        <tool-tab label="Grid" icon="border-all">
-            <grid-tool [mapdata]="mapdata" (update)="updateGrid($event)"></grid-tool>
-        </tool-tab>
-        <tool-tab label="Fog" icon="fog">
-            <fog-tool [mapdata]="mapdata" (update)="updateFog($event)"></fog-tool>
-        </tool-tab>
-        <tool-tab label="Calibrate" icon="pencil-ruler">
-            <calibrate-tool [mapdata]="mapdata" [mapview]="mapview" (update)="updateCalibrate($event)" #calibrate>
-            </calibrate-tool>
-        </tool-tab>
-    </tool-tabs>
 
-    <tool-tabs *ngIf="circleSelected()" (onClose)="onCircleClose()">
-        <tool-tab label="Circle" icon="draw-circle">
-            <edit-circle-tool [circle]="selected"></edit-circle-tool>
-        </tool-tab>
-    </tool-tabs>
+
     
     <tools></tools>
 

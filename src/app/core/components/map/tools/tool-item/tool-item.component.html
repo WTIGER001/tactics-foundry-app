@@ -1,0 +1,9 @@
+<div class="shell anchor">
+    <img *ngIf="image" [src]="image" [style.margin-bottom]="imageOverlap">
+    <div class="contents">
+        <button class="close-tool" (click)="close()">
+            <fa-icon icon="times" size="lg"></fa-icon>
+        </button>
+        <ng-content></ng-content>
+    </div>
+</div>

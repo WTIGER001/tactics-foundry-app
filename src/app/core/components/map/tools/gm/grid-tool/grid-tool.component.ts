@@ -23,4 +23,10 @@ export class GridToolComponent implements OnInit {
   toggleGrid() {
     this.updateGrid()
   }
+
+  updateColor(color: string) {
+    console.log("NEW COLOR : ", color)
+    this.mapdata.gridOptions.color = color
+    this.updateGrid()
+  }
 }

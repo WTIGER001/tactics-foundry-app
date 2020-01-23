@@ -46,25 +46,30 @@ export class AddToolComponent implements OnInit {
     circle.y = center.y 
 
     const bounds = map.viewport.getVisibleBounds()
-    const small = Math.min(bounds.width - bounds.x, bounds.height -bounds.y)
+    const small = Math.min(bounds.width , bounds.height )
     circle.radius = small / 10
+    if (circle.radius < 0) {
+      console.log("CIRCLE MATH ", bounds, " ", small)
+      circle.radius = 5
+    }
+    circle.radius = circle.radius / this.session.mapdata.ppf
     circle.layer = this.session.currentLayer
     
     this.session.layerMgr.storeAnnotation(circle)
   }
 
   startRectangle()  { }
-  startCharacter()  { }
+  startCharacter()  { 
+    this.tools.showTabs('addcharacter')
+  }
   startToken()  { 
-    // Close the current dialog
-    this.tabs.closeTools()
-
-    // Create the dialog
-    const comp = this.tools.showDialog(AddTokenToolComponent)
-    comp.type = 'token'
+    this.tools.showTabs('addtoken')
   }
 
-  startMonster()  { }
+  startMonster()  { 
+    this.tools.showTabs('addmonster')
+  }
+
   startPolygon()  { }
   startLine()  { }
   startMarker()  { }

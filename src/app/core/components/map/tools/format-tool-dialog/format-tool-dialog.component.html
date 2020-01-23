@@ -1,48 +1,63 @@
 <div class='shell'>
     <div class="color-area" [class.hide]="colorpickerhide">
-        <div #colorpick [(colorPicker)]="item.color" cpDialogDisplay='inline' cpAlphaChannel='always'
-            cpCloseClickOutside='true' cpOutputFormat='hex' (colorPickerChange)="update()" cpDisableInput='true'>
+        <div #colorpick [(colorPicker)]="item?item.color:color" cpDialogDisplay='inline' cpAlphaChannel='always'
+            cpCloseClickOutside='true' cpOutputFormat='hex' (colorPickerChange)="updateborder($event)" cpDisableInput='true'>
         </div>
     </div>
     <div class="color-area" [class.hide]="colorpickerhide2">
-        <div #colorpick2 [(colorPicker)]="item.fillColor" cpDialogDisplay='inline' cpAlphaChannel='always'
-            cpCloseClickOutside='true' cpOutputFormat='hex' (colorPickerChange)="update()" cpDisableInput='true'>
+        <div #colorpick2 [(colorPicker)]="item?item.fillColor:color" cpDialogDisplay='inline' cpAlphaChannel='always'
+            cpCloseClickOutside='true' cpOutputFormat='hex' (colorPickerChange)="updatefill($event)" cpDisableInput='true'>
         </div>
     </div>
     <h3>Presets</h3>
     <div class="preset-area scroller-dark scroller">
-        <div *ngFor="let item of presetItems" class="preset-item" [ngStyle]="item.style" (click)="usePreset(item)">
-        </div>
+        <ng-container *ngIf="item">
+            <color-cell *ngFor="let item of presetItems" class="color-pick" [item]="item" (click)="usePreset(item)">
+            </color-cell>
+        </ng-container>
+        <ng-container *ngIf="!item">
+            <color-cell *ngFor="let item of presetItems" class="color-pick" [color]="item.fillColor"
+                (click)="usePreset(item)"></color-cell>
+        </ng-container>
     </div>
-    <h3>Custom</h3>
-    <div class="custom-area">
-        <h4>Border</h4>
-        <h4>Color</h4>
-        <h4>Weight</h4>
+    <ng-container *ngIf="item">
+        <h3>Custom</h3>
+        <div class="custom-area">
+            <h4>Border</h4>
+            <h4 [class.notvisible]="!item.border">Color</h4>
+            <h4 [class.notvisible]="!item.border">Weight</h4>
 
-        <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch" [(ngModel)]="item.border"
-                (change)="update()">
+            <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch"
+                    [(ngModel)]="item.border" (change)="update()">
+            </div>
+
+            <color-cell [class.notvisible]="!item.border" class="color-pick" [color]="item.color"
+                (click)="colorpick.click(); colorpickerhide=false"></color-cell>
+
+            <div class="slidecontainer" [class.notvisible]="!item.border">
+                <input class="slider" type="range" min="0" max="10" step="1" [(ngModel)]="item.weight"
+                    (change)="update()">
+            </div>
+
+            <h4>Fill</h4>
+            <h4 [class.notvisible]="!item.fill">Color</h4>
+            <h4></h4>
+
+            <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch" [(ngModel)]="item.fill"
+                    (change)="update()" placement="bottom" ngbTooltip="Enable / Disable Gridlines" container="body">
+            </div>
+
+            <color-cell [class.notvisible]="!item.fill" class="color-pick" [color]="item.fillColor"
+                (click)="colorpick2.click(); colorpickerhide2=false"></color-cell>
+
+            <!-- <button class="btn">Save as Preset</button> -->
         </div>
-
-        <div class="form-control form-control-sm color-pick" (click)="colorpick.click(); colorpickerhide=false"
-            [style.background]="item.color">
+    </ng-container>
+    <ng-container *ngIf="!item">
+        <h3>Custom </h3>
+        <div class="custom-color-area">
+            <color-cell class="color-pick" [color]="color" (click)="colorpick2.click(); colorpickerhide2=false">
+            </color-cell>
         </div>
-
-        <div class="slidecontainer">
-            <input class="slider" type="range" min="0" max="10" step="1" [(ngModel)]="item.weight" (change)="update()">
-        </div>
-
-        <h4>Fill</h4>
-        <h4>Color</h4>
-        <h4></h4>
-
-        <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch" [(ngModel)]="item.fill"
-                (change)="update()" placement="bottom" ngbTooltip="Enable / Disable Gridlines" container="body">
-        </div>
-
-        <div class="form-control form-control-sm color-pick" (click)="colorpick2.click(); colorpickerhide2=false"
-            [style.background]="item.fillColor" >
-        </div>
-        <button class="btn">Save as Preset</button>
-    </div>
+    </ng-container>
 </div>

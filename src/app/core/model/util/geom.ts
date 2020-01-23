@@ -1,7 +1,13 @@
 import { Rectangle, Point } from 'pixi.js';
 import { Bounds } from 'pixi-viewport';
+import { DistanceUnit } from '../distance-unit';
 
 export class Geom {
+  
+    static centerHandle(x: number, y: number, size: number) {
+      return new Rectangle(x - size, y-size, size+size, size +size)
+    }
+
     static center(r: Rectangle | Bounds): Point {
         return new Point(r.x + r.width / 2, r.y + r.height / 2)
     }
@@ -50,4 +56,49 @@ export class Geom {
         
         return Geom.toRect(minX, minY, maxX, maxY)
     }
+
+    static offset(bounds: Rectangle | Bounds, direction: number, distance: number, unit?: DistanceUnit): Rectangle {
+        // 1, 4, 7 = LEFT
+        // 9, 6, 3 = RIGHT
+        // 7, 8, 9 = UP
+        // 1, 2, 3 = DOWN
+    
+        let east = bounds.x + bounds.width
+        let west = bounds.x
+        let north = bounds.y
+        let south = bounds.x + bounds.height
+    
+        const dist = unit ? unit.toFeet(distance) : distance
+        // Shift LEFT or RIGHT
+        if ([1, 4, 7].includes(direction)) {
+          east = east - dist
+          west = west - dist
+        } else if ([9, 6, 3].includes(direction)) {
+          east = east + dist
+          west = west + dist
+        }
+    
+        // Shift UP or DOWN
+        if ([7, 8, 9].includes(direction)) {
+          north = north + dist
+          south = south + dist
+        } else if ([1, 2, 3].includes(direction)) {
+          north = north - dist
+          south = south - dist
+        }
+        
+        return this.toRect(west, north, east, south)
+      }
+    
+    
+      /**
+       * Creates an equal buffer around an existing bounds
+       * @param bounds Input Bounds
+       * @param bufferSize Size of the buffer (assumed to be meters)
+       * @param unit Unit of the bufferSize
+       */
+      public static buffer(bounds: Rectangle | Bounds, bufferSize: number, unit?: DistanceUnit): Rectangle {
+        const buff = unit ? unit.toFeet(bufferSize) : bufferSize
+        return new Rectangle(bounds.x - buff, bounds.y - buff, bounds.width + buff +buff, bounds.height + buff + buff)
+      }
 }

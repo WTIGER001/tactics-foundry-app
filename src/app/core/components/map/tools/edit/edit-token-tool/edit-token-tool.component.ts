@@ -11,6 +11,7 @@ export class EditTokenToolComponent implements OnInit, AfterContentInit {
   @ViewChild(ToolTabsComponent, {static: false}) tabs : ToolTabsComponent
   @Input() item : TokenAnnotation
   @Output() onUpdate = new EventEmitter<TokenAnnotation>()
+  @Output() onClose = new EventEmitter()
   
   constructor() { }
 
@@ -26,5 +27,7 @@ export class EditTokenToolComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     
   }
-
+  close() {
+    this.onClose.emit()
+  }
 }

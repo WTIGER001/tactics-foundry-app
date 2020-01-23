@@ -68,6 +68,9 @@ import { EditTokenToolImageComponent } from './components/map/tools/edit/edit-to
 import { FavToolComponent } from './components/map/tools/fav-tool/fav-tool.component';
 import { AddsubDirective } from './directives/addsub.directive';
 import { FocusSelectDirective } from './directives/focus-select.directive';
+import { ColorDialogComponent } from './components/color-dialog/color-dialog.component';
+import { ColorCellComponent } from './components/color-cell/color-cell.component';
+import { ToolItemComponent } from './components/map/tools/tool-item/tool-item.component';
 
 
 @NgModule({
@@ -128,7 +131,10 @@ import { FocusSelectDirective } from './directives/focus-select.directive';
     EditTokenToolImageComponent,
     FavToolComponent,
     AddsubDirective,
-    FocusSelectDirective
+    FocusSelectDirective,
+    ColorDialogComponent,
+    ColorCellComponent,
+    ToolItemComponent
   ],
   imports: [
     CommonModule,

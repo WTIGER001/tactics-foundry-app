@@ -1,0 +1,8 @@
+.format {
+    height: 30px;
+    width: 100%;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    border: 1px solid transparent;   
+}

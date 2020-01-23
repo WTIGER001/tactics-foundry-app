@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TokenAnnotation, TokenBar } from 'src/app/core/model';
 import { FormatToolDialogComponent } from '../../format-tool-dialog/format-tool-dialog.component';
 import { ToolTabsComponent } from '../../tool-tabs/tool-tabs.component';
+import { AuraVisible } from 'src/app/core/model/aura';
 
 @Component({
   selector: 'edit-token-tool-bars',
@@ -15,6 +16,9 @@ export class EditTokenToolBarsComponent implements OnInit {
   constructor(private tabs : ToolTabsComponent) { }
 
   ngOnInit() {
+    if (this.item.bars.length > 0 ) {
+      this.bar = this.item.bars[0]
+    }
   }
 
   update() {
@@ -66,16 +70,6 @@ export class EditTokenToolBarsComponent implements OnInit {
     this.emitChanges()
   }
 
-  delete(bar: TokenBar) {
-    const indx = this.item.bars.indexOf(bar)
-    if (indx >= 0) {
-      this.item.bars.splice(indx, 1)
-      this.emitChanges()
-    } else {
-      // SHOW ERROR and RECORD
-    }
-  }
-
   addBar() {
     const bar = new TokenBar()
     bar.name = "New Bar " + (this.item.bars.length+1)
@@ -101,5 +95,46 @@ export class EditTokenToolBarsComponent implements OnInit {
       
       
     })
+  }
+
+  toggleVisiblity(event) {
+    const reverse = event.ctrlKey
+
+    if (this.bar.visible == AuraVisible.NotVisible) {
+      this.bar.visible = reverse ? AuraVisible.OnHover : AuraVisible.Visible
+    } else if (this.bar.visible == AuraVisible.Visible) {
+      this.bar.visible = reverse ? AuraVisible.NotVisible : AuraVisible.OnSelect
+    } else if (this.bar.visible == AuraVisible.OnSelect) {
+      this.bar.visible = reverse ? AuraVisible.Visible : AuraVisible.OnHover
+    } else if (this.bar.visible == AuraVisible.OnHover) {
+      this.bar.visible = reverse ? AuraVisible.OnSelect : AuraVisible.NotVisible
+    } else {
+      this.bar.visible = AuraVisible.NotVisible
+    }
+    this.emitChanges()
+  }
+
+  delete(bar : TokenBar) {
+    let i = this.item.bars.indexOf(this.bar)
+    this.item.bars.splice(i, 1)
+    
+    if (this.item.bars.length == 0) {
+      this.bar = null
+    } else if (this.item.bars.length == 1) {
+      this.bar = this.item.bars[0]
+    } else {
+      this.bar = this.item.bars[this.item.bars.length-1]
+    }
+    this.emitChanges()
+  }
+
+  updatebg(color : string) {
+    this.bar.bgColor = color
+    this.update()
+  }
+  
+  updateclr(color : string) {
+    this.bar.color = color
+    this.update()
   }
 }

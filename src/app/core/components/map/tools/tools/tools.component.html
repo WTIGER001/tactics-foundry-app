@@ -1,4 +1,7 @@
-<tool-tabs *ngIf="addtools" (onClose)="onAddToolsClose()" (onActivate)="onAddToolActivate($event)">
+<!-- Tabs to add items-->
+<ng-container *ngIf="session.mapdata">
+
+<tool-tabs *ngIf="shown==='addtools'"  (onClose)="closeTab()" (onActivate)="onActivate($event)">
     <tool-tab label="New" icon="plus-hexagon">
         <add-tool></add-tool>
     </tool-tab>
@@ -7,12 +10,33 @@
     </tool-tab>
 </tool-tabs>
 
-<div class="tools-anchor" >
-    <tool-dialog  [shown]="dialogShown" (onClose)="closeDialog($event)"></tool-dialog>
-</div>
-<div class="tools-anchor" [class.hide]="!tabsShown" >
-    <tool-tabs (onClose)="closeTab($event)"></tool-tabs>
-</div>
+<tool-tabs *ngIf="shown==='gmtools'" (onClose)="closeTab()" (onActivate)="onActivate($event)">
+    <tool-tab label="Grid" icon="border-all">
+        <grid-tool [mapdata]="session.mapdata" (update)="updateGrid($event)"></grid-tool>
+    </tool-tab>
+    <tool-tab label="Fog" icon="fog">
+        <fog-tool [mapdata]="session.mapdata" (update)="updateFog($event)"></fog-tool>
+    </tool-tab>
+    <tool-tab label="Calibrate" icon="pencil-ruler">
+        <calibrate-tool [mapdata]="session.mapdata" [mapview]="session.mapview" (update)="updateCalibrate($event)" #calibrate>
+        </calibrate-tool>
+    </tool-tab>
+</tool-tabs>
+
+<!-- SELECTION TABS -->
+
+<edit-token-tool *ngIf="isTokenSelected()" [item]="selected" (onUpdate)="updateSelected()" (onClose)="closeSelection()"></edit-token-tool>
+
+<tool-tabs *ngIf="isCircleSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
+    <tool-tab label="Circle" icon="draw-circle">
+        <edit-circle-tool [circle]="selected"></edit-circle-tool>
+    </tool-tab>
+</tool-tabs>
 
 
-<edit-token-tool *ngIf="isTokenSelected()" [item]="selected" (onUpdate)="updateSelected()"></edit-token-tool>
+<!-- ITEMS -->
+<add-token-tool *ngIf="shown==='addtoken'" (onClose)="closeTab()" type='token'></add-token-tool>
+<add-token-tool *ngIf="shown==='addcharacter'" (onClose)="closeTab()" type='character'></add-token-tool>
+<add-token-tool *ngIf="shown==='addmonster'" (onClose)="closeTab()" type='monster'></add-token-tool>
+
+</ng-container>

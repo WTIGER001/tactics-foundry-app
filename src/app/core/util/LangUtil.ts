@@ -24,14 +24,15 @@ export class LangUtil {
     }
 
     static colorNum(color : string): number {
-      if (color.length > 7 || color.length<6) {
-        throw new Error("Invalid HEX Color " + color)
+      if (color.length<6) {
+        // console.log("Invalid HEX Color " + color)
+        return 0;
       }
-      let clr = color
-      if (color.startsWith('#')) {
-        return parseInt(color.replace(/^#/, ''), 16);
+      let clr = color.substring(0,7)
+      if (clr.startsWith('#')) {
+        return parseInt(clr.replace(/^#/, ''), 16);
       }
-      parseInt(color, 16);
+      parseInt(clr, 16);
     }
 
     public static baseColor(hexColor: string, defaultValue ?: string): string {

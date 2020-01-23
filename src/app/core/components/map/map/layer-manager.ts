@@ -37,6 +37,7 @@ import { TokenPlugin } from '../plugins/token-plugin';
  * - Images --- nope they are just images
  */
 export class MapLayerManager {
+    
     public modelMap = new Map<Annotation, AnnotationPlugin<Annotation>>()
     public modelIdMap = new Map<string, Annotation>()
     public layers = new Map<string, Container>()
@@ -123,7 +124,8 @@ export class MapLayerManager {
         a.fill = false
         a.color = "#FFFFFF88"
         a.weight = 1
-        a.radius = new Distance(15, 'ft')
+        a.radius = 15
+        a.radiusUnit = 'ft'
         token.auras.push(a)
 
         this.addAnnotation(token)
@@ -269,4 +271,7 @@ export class MapLayerManager {
         return new Graphics()
     }
 
+    isSelected(annotation: Annotation): boolean {
+        return this.selection$.getValue() && this.selection$.getValue()._id === annotation._id
+    }
 }

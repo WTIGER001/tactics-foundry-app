@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
+import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
+import { ToolItemComponent } from '../../tool-item/tool-item.component';
 
 /**
  * Add a token, character or monster
@@ -10,26 +12,32 @@ import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
   styleUrls: ['./add-token-tool.component.css']
 })
 export class AddTokenToolComponent implements OnInit {
+  @Output() onClose = new EventEmitter()
+  @Input() type : 'character' | 'token' | 'monster' = 'token'
+
   results = []
   filterUi = false
   searchTerm : string
-  type : 'character' | 'token' | 'monster' = 'token'
+  image = '/assets/pages/token-tool.png'
+  imageOverlap : string
+  height = '150px'
 
-  constructor( private parent: ToolDialogComponent) {
+  constructor(  private session : LivePageComponent) {
     
   }
 
   ngOnInit() {
     if (this.type == 'token') {
-     this.parent.image = '/assets/pages/token-tool.png'
-      this.parent.imageOverlap = '-35px'
-    } else if (this.type == 'character') {
-      this.parent.image = '/assets/pages/character.png'
-      this.parent.imageOverlap = '-35px'
-    } else if (this.type == 'monster') {
-      this.parent.image = '/assets/pages/monster-tool.png'
-      this.parent.imageOverlap = '-35px'
-    }
+      this.image = '/assets/pages/token-tool.png'
+       this.imageOverlap = '-35px'
+     } else if (this.type == 'character') {
+       this.image = '/assets/pages/character.png'
+       this.imageOverlap = '-35px'
+     } else if (this.type == 'monster') {
+       this.image = '/assets/pages/monster-tool.png'
+       this.imageOverlap = '-30px'
+       this.height = '250px'
+     }
   }
 
   isSelected(item : any) {}
@@ -50,5 +58,8 @@ export class AddTokenToolComponent implements OnInit {
 
   }
 
+  close() {
+    this.onClose.emit()
+  }
 
 }
