@@ -153,7 +153,7 @@ export class TokenAnnotation extends Annotation {
 
     dead = false
     bars: TokenBar[] = []
-    flyHeight = 0
+    fly = 0
     badge: string
     size: number //FT
     sizeW: number

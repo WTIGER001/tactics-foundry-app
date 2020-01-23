@@ -1,0 +1,34 @@
+[debug] [2020-01-23T03:49:20.452Z] ----------------------------------------------------------------------
+[debug] [2020-01-23T03:49:20.455Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\johnb\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-01-23T03:49:20.455Z] CLI Version:   7.11.0
+[debug] [2020-01-23T03:49:20.455Z] Platform:      win32
+[debug] [2020-01-23T03:49:20.455Z] Node Version:  v10.15.1
+[debug] [2020-01-23T03:49:20.461Z] Time:          Wed Jan 22 2020 22:49:20 GMT-0500 (Eastern Standard Time)
+[debug] [2020-01-23T03:49:20.461Z] ----------------------------------------------------------------------
+[debug] [2020-01-23T03:49:20.461Z] 
+[debug] [2020-01-23T03:49:20.493Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-01-23T03:49:20.495Z] > authorizing via signed-in user
+[debug] [2020-01-23T03:49:20.495Z] [iam] checking project tacticsfoundry for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-01-23T03:49:20.499Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-01-23T03:49:20.499Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-01-23T03:49:20.771Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-23T03:49:20.784Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/tacticsfoundry:testIamPermissions  
+
+[debug] [2020-01-23T03:49:21.069Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-23T03:49:21.071Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/tacticsfoundry  
+ 
+[debug] [2020-01-23T03:49:21.435Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'tacticsfoundry'...
+[info] 
+[info] i  deploying hosting
+[debug] [2020-01-23T03:49:21.447Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/tacticsfoundry/versions  
+
+[debug] [2020-01-23T03:49:22.437Z] <<< HTTP RESPONSE 200
+[info] i  hosting[tacticsfoundry]: beginning deploy...
+[info] i  hosting[tacticsfoundry]: found 57 files in dist/tactics-foundry-app
+[debug] [2020-01-23T03:49:24.220Z] [hosting] hash cache [ZGlzdFx0YWN0aWNzLWZvdW5kcnktYXBw] stored for 57 files
+[debug] [2020-01-23T03:49:24.221Z] [hosting][hash queue][FINAL]
+[debug] [2020-01-23T03:49:24.221Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/tacticsfoundry/versions/7803fc4f15bec59a:populateFiles  
+ <request body omitted>

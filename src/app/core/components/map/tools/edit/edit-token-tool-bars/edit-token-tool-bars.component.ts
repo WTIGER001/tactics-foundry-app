@@ -114,7 +114,7 @@ export class EditTokenToolBarsComponent implements OnInit {
     this.emitChanges()
   }
 
-  delete(bar : TokenBar) {
+  delete() {
     let i = this.item.bars.indexOf(this.bar)
     this.item.bars.splice(i, 1)
     

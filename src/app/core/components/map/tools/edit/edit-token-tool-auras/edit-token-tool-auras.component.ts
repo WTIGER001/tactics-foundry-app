@@ -62,7 +62,7 @@ export class EditTokenToolAurasComponent implements OnInit {
     this.emitChanges()
   }
 
-  delete(aura : Aura) {
+  delete() {
     let i = this.item.auras.indexOf(this.aura)
     this.item.auras.splice(i, 1)
     

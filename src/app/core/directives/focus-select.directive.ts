@@ -6,9 +6,10 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 export class FocusSelectDirective {
 
   @HostListener('click') 
-  click(event) {
+  click() {
     this.el.nativeElement.select()
   }
+  
   constructor(private el: ElementRef) {
   }
 

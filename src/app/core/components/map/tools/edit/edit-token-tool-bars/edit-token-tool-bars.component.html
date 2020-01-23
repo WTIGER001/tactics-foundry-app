@@ -23,11 +23,11 @@
 
             <h3>Bg</h3>
             <!-- <div class="format" (click)="showFormatDialog()" [style.background]="item.bgColor"></div> -->
-            <color-dialog [color]="item.bgColor" (onUpdateColor)="updatebg($event)"></color-dialog>
+            <color-dialog [color]="bar.bgColor" (onUpdateColor)="updatebg($event)"></color-dialog>
 
             <h3>Color</h3>
             <!-- <div class="format" (click)="showFormatDialog()" [style.background]="item.color"></div> -->
-            <color-dialog [color]="item.color" (onUpdateColor)="updateclr($event)"></color-dialog>
+            <color-dialog [color]="bar.color" (onUpdateColor)="updateclr($event)"></color-dialog>
 
 
         </div>

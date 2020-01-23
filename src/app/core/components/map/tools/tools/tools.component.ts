@@ -21,7 +21,7 @@ export class ToolsComponent  {
   contextName =''
 
   selected : Annotation
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private session : LivePageComponent) { 
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, public session : LivePageComponent) { 
     this.session.layerMgr$.subscribe( lmgr => {
       if (lmgr) {
         lmgr.selection$.subscribe( item => {
@@ -102,4 +102,17 @@ export class ToolsComponent  {
 
     this.shown = name
   }
+
+  updateGrid($event) {
+    this.session.mdUpatesSmall$.next(this.session.mapdata)
+  }
+
+  updateFog($event) {
+    this.session.mdUpatesSmall$.next(this.session.mapdata)
+  }
+
+  updateCalibrate($event) {
+    this.session.mdUpatesSmall$.next(this.session.mapdata)
+  }
+
 }

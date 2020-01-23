@@ -308,18 +308,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tools.showTabs('addtools')
   }
 
-  updateGrid($event) {
-    this.mdUpatesSmall$.next(this.mapdata)
-  }
-
-  updateFog($event) {
-    this.mdUpatesSmall$.next(this.mapdata)
-  }
-
-  updateCalibrate($event) {
-    this.mdUpatesSmall$.next(this.mapdata)
-  }
-
+ 
 
 }
 
