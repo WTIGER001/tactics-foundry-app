@@ -72,6 +72,9 @@ import { ColorDialogComponent } from './components/color-dialog/color-dialog.com
 import { ColorCellComponent } from './components/color-cell/color-cell.component';
 import { ToolItemComponent } from './components/map/tools/tool-item/tool-item.component';
 import { EditRectangleToolComponent } from './components/map/tools/edit/edit-rectangle-tool/edit-rectangle-tool.component';
+import { CharacterEditComponent } from './components/characters/character-edit/character-edit.component';
+import { CharacterViewComponent } from './components/characters/character-view/character-view.component';
+import { DiceDialogComponent } from './components/chat/dice-dialog/dice-dialog.component';
 
 
 @NgModule({
@@ -136,7 +139,10 @@ import { EditRectangleToolComponent } from './components/map/tools/edit/edit-rec
     ColorDialogComponent,
     ColorCellComponent,
     ToolItemComponent,
-    EditRectangleToolComponent
+    EditRectangleToolComponent,
+    CharacterEditComponent,
+    CharacterViewComponent,
+    DiceDialogComponent
   ],
   imports: [
     CommonModule,

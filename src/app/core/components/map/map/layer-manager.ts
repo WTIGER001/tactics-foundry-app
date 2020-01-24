@@ -17,6 +17,7 @@ import {DropShadowFilter} from '@pixi/filter-drop-shadow';
 import {GlowFilter} from '@pixi/filter-glow';
 import { TokenPlugin } from '../plugins/token-plugin';
 import { RectanglePlugin } from '../plugins/rectangle-plugin';
+import { FogPlugin } from '../plugins/fog-plugin';
 
 /**
  * The Map Manager is responsible for managing the layers and the contents of a map. 
@@ -43,6 +44,7 @@ export class MapLayerManager {
     public modelIdMap = new Map<string, Annotation>()
     public layers = new Map<string, Container>()
     public selection$ = new BehaviorSubject<Annotation>(null)
+    fogPlugin : FogPlugin
 
     constructor(public session: LivePageComponent) {
         this.layers.set('background', this.session.mapview.backgroundLayer)
@@ -56,7 +58,9 @@ export class MapLayerManager {
         session.mapData$.subscribe(m => this.clearAnnotations())
 
         new SelectionPlugin(this)
-        
+        // this.fogPlugin =  new FogPlugin(this)
+        // this.fogPlugin.add()
+
 
         this.selection$.pipe(pairwise()).subscribe( item => {
             let color = LangUtil.colorNum("#BBBBBB")

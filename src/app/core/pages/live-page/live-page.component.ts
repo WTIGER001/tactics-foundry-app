@@ -202,17 +202,6 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  center1() {
-    this.w = this.mapview.viewport.screenWidth
-    this.h = this.mapview.viewport.screenHeight
-  }
-  center2() {
-    this.mapview.viewport.fit()
-  }
-  center3() {
-    this.mapview.fit()
-  }
-
 
   setCenter(x: number, y: number) {
 
@@ -261,6 +250,8 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.w = this.mapview.viewport.screenWidth
       this.h = this.mapview.viewport.screenHeight
     })
+
+    // this.layerMgr.fogPlugin.updateMap()
   }
 
 
@@ -315,7 +306,9 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tools.showTabs('addtools')
   }
 
- 
+  zoomExtents() {
+    this.mapview.fit()
+  }
 
 }
 

@@ -1,1 +1,24 @@
-<p>fog-tool works!</p>
+<div class="shell">
+    <div class="inner">
+        <fa-icon class="icon clickable p-1" icon="eye-slash" (click)="toggleShowAll()" ></fa-icon>
+        <fa-icon class="icon clickable p-1" [class.active]="drawing=='rectangle'" icon="draw-square" (click)="startRectangle()"></fa-icon>
+        <fa-icon class="icon clickable p-1" [class.active]="drawing=='circle'" icon="draw-circle" (click)="startCircle()"></fa-icon>
+        <fa-icon class="icon clickable p-1" [class.active]="drawing=='polygon'" icon="draw-polygon" (click)="startPolygon()"></fa-icon>
+        <fa-icon class="icon clickable p-1" icon="sync-alt" (click)="refresh()"></fa-icon>
+        <div class="span-bar" [class.vis]="drawing">
+            <button (click)="show()"><fa-icon class="icon" icon="eye"></fa-icon> Show</button>
+            <button (click)="hide()"><fa-icon class="icon" icon="eye-slash"></fa-icon> Hide</button>
+            <button (click)="cancel()"><fa-icon class="icon" icon="times"></fa-icon> Cancel</button>
+        </div>
+    </div>
+    <div class="bottom">
+        <label>Color</label>
+        <color-dialog [color]="mapdata.fog.color" (onUpdate)="updatePlayerColor($event)"></color-dialog>
+        <label>Color</label>
+        <color-dialog [color]="mapdata.fog.gmcolor" (onUpdate)="updateGmColor($event)"></color-dialog>
+        <label>Blur</label>
+        <div class="slidecontainer">
+            <input class="slider" type="range" min="0" max="20" step=1 [(ngModel)]="mapdata.fog.blur"(change)="update()">
+        </div>
+    </div>
+</div>

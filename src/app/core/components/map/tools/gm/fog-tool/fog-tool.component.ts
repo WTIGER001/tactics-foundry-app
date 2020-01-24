@@ -10,9 +10,43 @@ export class FogToolComponent implements OnInit {
 
   @Input() mapdata : MapData
   @Output() updated = new EventEmitter<boolean>()
+  drawing : string
   constructor() { }
 
   ngOnInit() {
   }
+
+  toggleShowAll() {
+
+  }
+
+  startRectangle() {
+    this.drawing = 'rectangle'
+  }
+
+  startCircle() {
+    this.drawing = 'circle'
+  }
+
+  startPolygon() {
+    this.drawing = 'polygon'
+  }
+
+  cancel() {
+    this.drawing = undefined
+  }
+
+  updatePlayerColor(color: string) {
+    this.mapdata.fog.color = color
+  }
+
+  updateGmColor(color: string) {
+    this.mapdata.fog.gmcolor = color
+  }
+
+  update() {
+    
+  }
+
 
 }

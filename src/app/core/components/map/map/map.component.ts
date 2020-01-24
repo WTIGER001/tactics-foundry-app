@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone, Input, ElementRef, ViewChild, AfterContentInit, AfterViewInit } from '@angular/core';
-import { Application, Container, Sprite, Graphics, interaction, Rectangle, DisplayObject } from 'pixi.js'
+import { Application, Container, Sprite, Graphics, interaction, Rectangle, DisplayObject, Point } from 'pixi.js'
 import { Viewport, ViewportOptions, Plugin as Plg } from 'pixi-viewport'
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { GridLayer } from './annotations/grid-layer';
 import { MapLayerManager } from './layer-manager';
 import { TokenPlugin } from '../plugins/token-plugin';
 import { AuraVisible, Aura } from 'src/app/core/model/aura';
+import { FogPlugin } from '../plugins/fog-plugin';
 
 /**
  * The map component is a component, based on pixijs, to display a map and let people interact with it
@@ -63,9 +64,11 @@ export class MapComponent implements OnInit, AfterViewInit {
     // Load the Map Configuration
 
     // Create the PixiJs Application
+    const devicePixelRatio = window.devicePixelRatio
     this.zone.runOutsideAngular(() => {
       this.app = new Application({
-        resolution: devicePixelRatio
+        resolution: devicePixelRatio, 
+        autoDensity: true
       });
     });
     this.elementRef.nativeElement.appendChild(this.app.view);
@@ -149,16 +152,24 @@ export class MapComponent implements OnInit, AfterViewInit {
   private debugrect: Graphics
 
   public fit() {
+   
     let viewport = this.viewport
-    viewport.fitWorld()
-    viewport.left = 0
-    viewport.top = 0
+    viewport.fitWorld(true)
 
-    console.log(`MOVED  Left: ${viewport.left} Right: ${viewport.right} Top: ${viewport.top} Bottom: ${viewport.bottom} Scale: ${viewport.scale.x}`, this.viewport)
+    let xD = this.viewport.worldScreenWidth - this.mapdata.width
+    let yD = this.viewport.worldScreenHeight - this.mapdata.height
+
+    if (xD > yD) {
+      viewport.left = -xD/2
+      viewport.top = 0
+    } else  {
+      viewport.left = 0
+      viewport.top = -yD /2
+    }
   }
 
   public center(x: number, y: number) {
-
+    this.viewport.moveCenter(new Point(x,y))
   }
 
   public zoom(x: number, y: number) {
@@ -214,46 +225,8 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.viewport.worldWidth = m.width
       this.viewport.worldHeight = m.height
       this.viewport.interactive = true
-      this.viewport.fitWorld()
+      this.fit()
     }
-
-
-
-
-
-    // let layers = new MapLayerManager(this, this.mapdata)
-    // let container = layers.createToken(token)
-    // this.viewport.addChild(container) 
-
-    /// Create a center rec
-
-    //  let  graphics = new Graphics();
-    //   graphics.interactive = true;
-    //   graphics.lineStyle(0);
-    //   graphics.beginFill(0xFFFF0B, 0.5);
-    //   graphics.drawCircle(0, 0, 60);
-    //   graphics.endFill();
-    //   graphics.x = 100;
-    //   graphics.y = 100;
-    //   this.viewport.addChild(graphics);   
-
-    //   graphics
-    //   .on('mousedown', this.onDragStart)
-    //   .on('touchstart',this. onDragStart)
-    //   .on('mouseup', this.onDragEnd)
-    //   .on('mouseupoutside', this.onDragEnd)
-    //   .on('touchend', this.onDragEnd)
-    //   .on('touchendoutside', this.onDragEnd)
-    //   .on('mousemove', this.onDragMove)
-    //   .on('touchmove', this.onDragMove);
-
-    //   graphics.position.x = 200;
-    //   graphics.position.y = 200;
-    //   graphics.buttonMode = true
-    //   this.rect = graphics
-
-    // let debugMe = new DebugPlugin(this.viewport, this.app)
-    // this.viewport.plugins.add('test', debugMe, 1)
 
     if (!this.grid) {
       this.grid = new GridLayer(this, m, this.gridLayer)
@@ -261,6 +234,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     } else {
       this.grid.mapData = m
     }
+
 
   }
 

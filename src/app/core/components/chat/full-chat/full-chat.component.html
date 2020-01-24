@@ -8,6 +8,9 @@
             </div>
         </div>
     </div>
-    <chat-text [dice]="dice" class="chattxt"></chat-text>
+    <chat-text [dice]="dice" class="chattxt" (toggleDiceDialog)="showroller = !showroller" #chat></chat-text>
     <fa-icon class="upper-right" size="lg" icon="times"></fa-icon>
+    <div class="roller" [class.hide]="!showroller">
+        <dice-dialog (onClose)="showroller = !showroller" (onComplete)="chat.roll($event)"></dice-dialog>
+    </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { DiceCanvasComponent } from '../dice-canvas/dice-canvas.component';
@@ -14,9 +14,12 @@ export class ChatTextComponent implements OnInit {
   @ViewChild('actionBox', {static: true}) actionbox: any
   @Input() dice: DiceCanvasComponent
   @Input() size : 'normal' | 'preview' = 'normal'
+  @Output() toggleDiceDialog = new EventEmitter()
+
   commands = new Map<string, IChatCommand>()
   gameid : string
   action
+  
   constructor(private data : DataService, private route : ActivatedRoute, private zone : NgZone) { }
 
   ngOnInit() {
@@ -29,6 +32,10 @@ export class ChatTextComponent implements OnInit {
     this.dice.diceroll.subscribe( roll => {
       this.sendMessage(roll)
     })
+  }
+
+  public roll(exp : string) {
+    this.dice.rollDice(exp)
   }
 
 
@@ -76,7 +83,7 @@ export class ChatTextComponent implements OnInit {
   }
 
   showRoller() {
-
+    this.toggleDiceDialog.emit()
   }
 }
 

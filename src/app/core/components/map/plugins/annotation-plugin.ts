@@ -217,7 +217,7 @@ export class Handle {
     handle = new Graphics()
     x: number
     y: number
-    w = 5
+    w = 7.5 * window.devicePixelRatio
     color = 0
 
     constructor() {

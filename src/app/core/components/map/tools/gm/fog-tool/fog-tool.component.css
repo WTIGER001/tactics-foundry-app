@@ -1,0 +1,58 @@
+.shell {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    /* align-content: stretch; */
+    grid-template-rows: 2fr 1fr;
+    padding: .75em;
+    gap: .75em;
+}
+
+.inner {
+    display: grid;
+    font-size: 1.7em;
+    grid-template-columns: repeat(5, auto);
+    justify-content: center;
+    justify-items: center;
+}
+
+.inner .active  {
+    background-color: #7a7a7a;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: -6px;
+    border-bottom: 0;
+    color: #fff;
+}
+
+.span-bar {
+    grid-column: span 5;
+    background: #7a7a7a;
+    display: flex;
+    visibility: hidden;
+    height: 30px;
+    justify-content: center;;
+}
+
+.vis {
+    visibility: visible;
+}
+
+.bottom {
+    display: grid;
+    grid-template-columns: auto 40px auto 40px auto 1fr;
+    gap: .5em;
+}
+
+.span-bar button {
+    color: white;
+    background: transparent;
+    border: 0;
+    font-size: .7em;
+    padding: .2em .5em;
+    cursor: pointer;
+}
+
+.p-1 {
+    padding: 0.2em .5em;
+}

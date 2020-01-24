@@ -39,6 +39,18 @@ input {
     border: 0px;
     padding: .25em 0.5em;
     font-size: 1.5em;
+    min-width: 1em;
+    -moz-appearance:textfield;
+}
+
+input::-webkit-inner-spin-button, 
+input::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input.nospin {
+  -moz-appearance:textfield;
 }
 
 input.joined {

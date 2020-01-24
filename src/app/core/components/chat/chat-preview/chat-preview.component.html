@@ -20,7 +20,10 @@
             </div>
         </div>
     </div>
-    <chat-text class="chatbox" [size]="chatTextSize" [dice]="dice"></chat-text>
+    <chat-text class="chatbox" [size]="chatTextSize" [dice]="dice" (toggleDiceDialog)="showroller = !showroller" #chat></chat-text>
     <fa-icon class="upper-right" size="lg" [icon]="large?'chevron-down':'chevron-up'" (click)="large = !large">
     </fa-icon>
+    <div class="roller" [class.hide]="!showroller">
+        <dice-dialog (onClose)="showroller = !showroller" (onComplete)="chat.roll($event)"></dice-dialog>
+    </div>
 </div>

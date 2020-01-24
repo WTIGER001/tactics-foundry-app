@@ -1,0 +1,65 @@
+<div class="outer">
+<img src="/assets/pages/d20.png">
+<div class="shell">
+    <button class="close-tool" (click)="close()">
+                <fa-icon icon="times" size="lg"></fa-icon>
+            </button>
+    <div class="explabel">
+        <input type="text" [(ngModel)]="label" placeholder="Expression Label">
+    </div>
+    <div class="dice-holder">
+        <fa-icon class="icon dice clickable" icon="coin" (click)="select(2)" size="3x"></fa-icon>
+        <fa-icon class="icon dice clickable" icon="dice-d4" (click)="select(4)" size="3x"></fa-icon>
+        <fa-icon class="icon dice clickable" icon="dice-d6" (click)="select(6)" size="3x"></fa-icon>
+        <fa-icon class="icon dice clickable" icon="dice-d8" (click)="select(8)" size="3x"></fa-icon>
+        <fa-icon class="icon dice clickable" icon="dice-d10" (click)="select(10)" size="3x"></fa-icon>
+
+        <h4>d2</h4>
+        <h4>d4</h4>
+        <h4>d6</h4>
+        <h4>d8</h4>
+        <h4>d10</h4>
+
+        <fa-icon class="icon dice clickable" icon="dice-d12" (click)="select(12)" size="3x"></fa-icon>
+        <fa-icon class="icon dice clickable" icon="dice-d20" (click)="select(20)" size="3x"></fa-icon>
+        <div class="d100-holder clickable" (click)="select(100)">
+            <fa-icon class="icon dice " icon="dice-d10" size="3x"></fa-icon>
+            <fa-icon class="icon dice d100" icon="dice-d10" size="3x"></fa-icon>
+        </div>
+        <div class="custom">
+            <input type="number"  min=2 step=1 [(ngModel)]="customDie">
+            <button class="btn" (click)="selectCustom()">+</button>
+        </div>
+
+        <h4>d12</h4>
+        <h4>d20</h4>
+        <h4>d100</h4>
+
+    </div>
+    <div class="inner">
+        <h3>Modifier</h3>
+        <!-- <h3>Target</h3>
+        <h3>Critical Success</h3>
+        <h3>Critical Failure</h3> -->
+        <h3>Private Roll</h3>
+
+        <div class="modifier">
+            <fa-icon class="mod-icon-left clickable" icon="plus" (click)="modPlus()"></fa-icon>
+            <input addsub type="number" [(ngModel)]="modifier" (change)="updateExpression()">
+            <fa-icon class="mod-icon-right clickable" icon="minus" (click)="modMinus()"></fa-icon>
+        </div>
+        <!-- <input type="number" [(ngModel)]="target">
+        <input type="number" [(ngModel)]="critSuccess">
+        <input type="number" [(ngModel)]="critFailure"> -->
+        <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch"
+            [(ngModel)]="privateroll" (change)="update()">
+        </div>
+    </div>
+    <div class="bottom">
+        <input type="text" [(ngModel)]="expression" (change)="parse()">
+        <button class="btn btn-primary" (click)="roll()">Roll!</button>
+    </div>
+
+</div>
+
+</div>

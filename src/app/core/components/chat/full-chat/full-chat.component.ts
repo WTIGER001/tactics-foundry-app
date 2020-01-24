@@ -16,6 +16,7 @@ export class FullChatComponent implements OnInit {
   gameid
   watcher : DbWatcher
   messages : ChatRecord[] = []
+  showroller
 
   constructor(private data : DataService, private route : ActivatedRoute, private zone : NgZone) { }
 
@@ -67,5 +68,8 @@ export class FullChatComponent implements OnInit {
 
   }
 
+  diceDialogComplete($event) {
+    
+  }
 
 }
