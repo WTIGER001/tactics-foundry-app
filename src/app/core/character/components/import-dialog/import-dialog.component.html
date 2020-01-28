@@ -1,0 +1,54 @@
+<div class="dialog layout" (click)="$event.stopPropagation()">
+    <h1>Import Character</h1>
+    
+    <div class="instructions" *ngIf="!show">
+        <button class="img-btn" (click)="show = 'herolab'">
+            <img src="/assets/logos/herolab.png">
+        </button>
+        <button class="img-btn" (click)="show = 'pcgen'">
+            <img src="/assets/logos/pcgen.png">
+        </button>
+    </div>
+
+    <div class="instructions" *ngIf="show == 'pcgen'">
+        <img src="/assets/logos/pcgen.png">
+        <p>Import XML Characters from PC Gen. Please follow the instructions below.</p>
+        <p>In Hero Lab:</p>
+
+        <ol class="steps">
+            <li> Open your character</li>
+            <li> Select the File Menu</li>
+            <li> Select ‘Export’</li>
+            <li> Select ‘csheet_fantasy_generic_export.xml.ftl’</li>
+            <li> Click on the export button</li>
+            <li> Select the export file and click save</li>
+        </ol>
+
+        <button class='btn btn-primary'  (click)="upload.getFile()">
+            <fa-icon icon="cloud-upload" size="lg"></fa-icon> Upload
+        </button>
+    </div>
+
+    <div class="instructions" *ngIf="show == 'herolab'">
+        <img src="/assets/logos/herolab.png">
+
+        <p>Import XML Characters from Hero Lab. Please follow the instructions below.</p>
+        <p>In Hero Lab:</p>
+
+        <ol class="steps">
+            <li> Open your portfolio</li>
+            <li> Select the File Menu</li>
+            <li> Select ‘Save Custom Output’</li>
+            <li> Select ‘Generate XML File’</li>
+        </ol>
+        <button class='btn btn-primary'  (click)="upload.getFile()">
+            <fa-icon icon="cloud-upload" size="lg"></fa-icon> Upload
+        </button>
+    </div>
+
+    <app-upload-button #upload (choice)="uploadFile($event)" [accept]="'.xml'" [multiple]="multiple"></app-upload-button>
+
+    <button class="close-tool" (click)="cancel()">
+        <fa-icon icon="times" size="lg"></fa-icon>
+    </button>
+</div>

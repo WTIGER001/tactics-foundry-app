@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChild, ComponentFactoryResolver, AfterViewInit, 
 import { PlaceholderDirective } from 'src/app/core/directives/placeholder.directive';
 import { ToolDialogComponent } from '../tool-dialog/tool-dialog.component';
 import { ToolTabsComponent } from '../tool-tabs/tool-tabs.component';
-import { Annotation, TokenAnnotation, CircleAnnotation, RectangleAnnotation } from 'src/app/core/model';
+import { Annotation, TokenAnnotation, CircleAnnotation, RectangleAnnotation, PolygonAnnotation } from 'src/app/core/model';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
-import { TabSet } from '../tool.service';
 
 @Component({
   selector: 'tools',
@@ -63,6 +62,10 @@ export class ToolsComponent  {
     this.addtools = false
   }
 
+  showGmTools() {
+    this.shown = 'gmtools'
+  }
+
   onActivate($event ?: any) {
     
   }
@@ -80,6 +83,30 @@ export class ToolsComponent  {
   }
 
 
+  isGM() {
+    return this.session.isGM()
+  }
+
+  
+  needsRecenter() {
+    return false
+  }
+
+  recenter() {
+
+  }
+
+  startMeasure() {
+    
+  }
+
+  addToMap() {
+    this.showTabs('addtools')
+  }
+
+  zoomExtents() {
+    this.session.mapview.fit()
+  }
   updateSelected() {
 
   }
@@ -94,6 +121,10 @@ export class ToolsComponent  {
 
   isRectangleSelected() {
     return RectangleAnnotation.is(this.selected)
+  }
+
+  isPolygonSelected() {
+    return PolygonAnnotation.is(this.selected)
   }
 
   showTabs(name : string) {

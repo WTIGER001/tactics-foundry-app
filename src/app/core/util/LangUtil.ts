@@ -1,4 +1,5 @@
 import { isArray } from 'util';
+import { Observable, Subject } from 'rxjs';
 
 export class LangUtil {
     static compareStrings( a: string, b: string, order: 'desc' | 'asc' = 'asc') {
@@ -73,4 +74,13 @@ export class LangUtil {
       return 1
     }
 
+    public static readFile(f: File): Observable<string> {
+      const rtn = new Subject<string>()
+      const r = new FileReader()
+      r.onload = (ev) => {
+        rtn.next(r.result.toString())
+      }
+      r.readAsText(f)
+      return rtn
+    }
 }

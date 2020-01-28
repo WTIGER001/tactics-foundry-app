@@ -1,0 +1,14 @@
+<div class="shell">
+    <div class="name">
+        <h1>{{score.abbr}}</h1>
+        <h2>{{score.name}}</h2>
+    </div>
+    <input focus-select type="number" [(ngModel)]="score.score">
+    <div class="mod">
+        <h2>{{score.mod| plus}}</h2>
+    </div>
+    <input focus-select type="number" [(ngModel)]="score.tempAdjustment">
+    <div class="mod">
+        <h2>{{score.tempMod | plus}}</h2>
+    </div>
+</div>

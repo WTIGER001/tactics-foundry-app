@@ -11,7 +11,10 @@
     <ng-container *ngIf="bar">
         <div class="inner">
             <h3 class="right">Bar</h3>
-            <input class="grid-span-3" type="text" [(ngModel)]="bar.name" (blur)="update()">
+            <input class="grid-span-3" type="text" [(ngModel)]="bar.name" (blur)="updateBarName()" list="attributes" (keyup.enter)="updateBarName()">
+            <datalist id="attributes">
+                <option *ngFor="let a of chr?chr.attributes:[]" [value]="a.name">{{a.name}}</option>
+            </datalist>
 
             <h3 class="right">Current</h3>
             <input type="text" addsub focus-select class="form-control" [ngModel]="bar.value"
@@ -19,7 +22,7 @@
 
             <h3>Max</h3>
             <input type="text" addsub focus-select class="form-control" [ngModel]="bar.max"
-                [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="updateBarMax(bar, $event)">
+                [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="updateBarMax(bar, $event)" [readonly]="maxreadonly">
 
             <h3>Bg</h3>
             <!-- <div class="format" (click)="showFormatDialog()" [style.background]="item.bgColor"></div> -->
@@ -28,8 +31,6 @@
             <h3>Color</h3>
             <!-- <div class="format" (click)="showFormatDialog()" [style.background]="item.color"></div> -->
             <color-dialog [color]="bar.color" (onUpdateColor)="updateclr($event)"></color-dialog>
-
-
         </div>
         <div class="actions">
             <button class="icon-btn icon-shadow" (click)="toggleVisiblity($event)">

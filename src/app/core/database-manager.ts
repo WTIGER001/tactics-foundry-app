@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { NgZone } from '@angular/core';
 
 export class DatabaseManager<T extends ObjectType> {
+ 
   public localdb: PouchDB.Database
   public remotedb: PouchDB.Database
   private syncFilter: any
@@ -52,6 +53,20 @@ export class DatabaseManager<T extends ObjectType> {
   private registerFilter() {
     let filter = this.createIdFilter()
     this.remotedb.putIfNotExists(filter)
+  }
+
+  findIds(ids : string[], fields ?:string[]) {
+    let query : any= {
+      selector : {
+        owner : {
+          $in : ids
+        }
+      }
+    }
+    if (fields) {
+      query.fields = fields
+    }
+    return from(this.localdb.find(query))
   }
 
   private startSync() {

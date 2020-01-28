@@ -1,0 +1,17 @@
+.shell {
+    display: grid;
+    gap: .5em;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 75px 50px 50px 50px 50px;
+    gap: 1em;
+    justify-content: center;
+}
+
+.header label {
+    text-align: center;
+    text-transform: capitalize;
+    font-size: .7em;
+}

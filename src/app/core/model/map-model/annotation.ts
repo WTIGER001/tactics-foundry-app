@@ -42,6 +42,7 @@ export abstract class Annotation extends ObjectType {
     sourceDB: string
     description?: string
     map: string
+    owner: string
 
     group: string
     mapLink: string
@@ -63,9 +64,9 @@ export abstract class Annotation extends ObjectType {
         if (RectangleAnnotation.is(obj)) {
             rtn = new RectangleAnnotation().copyFrom(obj)
         }
-        // if (ShapeAnnotation.is(obj)) {
-        //   rtn = new ShapeAnnotation().copyFrom(obj)
-        // }
+        if (PolygonAnnotation.is(obj)) {
+          rtn = new PolygonAnnotation().copyFrom(obj)
+        }
         if (ImageAnnotation.is(obj)) {
           rtn = new ImageAnnotation().copyFrom(obj)
         }
@@ -158,6 +159,9 @@ export class TokenAnnotation extends Annotation {
     itemId: string
     itemType: string
     instanceId: number
+    linkType : string
+    linkId : string
+    linkDb : string
 
     dead = false
     bars: TokenBar[] = []
@@ -255,7 +259,7 @@ export class RectangleAnnotation extends ShapeAnnotation {
 
 export class PolygonAnnotation extends ShapeAnnotation {
     shapetype = ShapeType.Polygon
-    points: number[]
+    points: number[] = []
 
     center(): Point {
         return Geom.center(Geom.boundsXY(this.points))
@@ -263,6 +267,9 @@ export class PolygonAnnotation extends ShapeAnnotation {
 
     toShape(): Polygon {
         return new Polygon(this.points)
+    }
+    static is(obj: any): obj is CircleAnnotation {
+        return ShapeAnnotation.is(obj) && obj.shapetype == ShapeType.Polygon
     }
 }
 

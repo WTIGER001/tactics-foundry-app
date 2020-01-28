@@ -5,6 +5,7 @@ button.btn {
     border: 0px;
     font-size: 1.5em;
 }
+
 button.btn:active {
     transform: translate(1px, 1px);
 }
@@ -26,12 +27,29 @@ button.btn-secondary {
     text-shadow: 1px 1px black;
     background: rgb(90, 106, 132);
     box-shadow: 1px 1px 5px #444444;
-    
 }
+
+button.btn-submit {
+    border-radius: 5px;
+    cursor: pointer;
+    padding: .25em 0.5em;
+    border: 0px;
+    color: white;
+    background: green;
+    box-shadow: 1px 1px 5px #444444;
+}
+button.btn-submit:disabled {
+    background: transparent;
+}
+
 
 button.btn-big {
     padding: .5em 1.5em;
     font-size: 2em;
+}
+
+button.btn-dialog {
+    margin: 0 2em;
 }
 
 input {
@@ -79,10 +97,18 @@ button:focus {
     background: transparent;
     display: grid;
     align-items: center;
+    color: white;
+    filter: var(--filter-shadow);
 }
 
 input {
     min-width: 2em;
+}
+
+textarea {
+    border-radius: 7px;
+    font-size: 1.1em;
+    padding: .1em;
 }
 
 select {
@@ -95,6 +121,8 @@ select {
 .icon-btn:active {
     transform: translate(1px, 1px);
 }
+
+
 
 .pic-btn {
     height: 100px;
@@ -126,6 +154,11 @@ select {
     position: absolute;
 }
 
+.button-bar-h3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: .5em;  
+}
 
 /* Detail Page Styles */
 .detail-page-top-btn {
@@ -209,6 +242,7 @@ select {
 .switch-holder {
     display: grid;
     align-items: center;
+    justify-content: center;
 }
 
 input.switch{
@@ -229,6 +263,30 @@ input.switch:checked {
     border-color: #7c7c7c;
     transition: all .2s;
 }
+
+/* DIALOGS */
+.dialog {
+    border-radius: 7px;
+    color: white;
+    background: var(--detail-top-bg);
+    box-shadow: 1px 1px 4px black;
+    padding: 1em;
+    position: relative;;
+}
+
+.dialog-anchor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    padding: 1em;
+    backdrop-filter: blur(8px);
+}
+
 
 /*  Scrollbars
     -------------------*/
@@ -308,3 +366,26 @@ input.switch:checked {
         filter: brightness(0) invert(1) blur(5px);
         -webkit-filter: brightness(0) invert(1) blur(5px);
       }
+
+/* CLose */
+.close-tool {
+    position: absolute;
+    border-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: rgb(191, 144, 0);
+    top: -10px;
+    right: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 1.25em;
+    padding: .1em .25em;
+    border: 0;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.dialog-shell {
+    border-radius: 7px;
+    background: var(--detail-top-bg);
+}

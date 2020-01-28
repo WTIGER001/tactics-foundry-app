@@ -29,6 +29,7 @@ export class RectanglePlugin extends AnnotationPlugin<RectangleAnnotation> {
 
         this.sprite = new Graphics()
         this.sprite.interactive = true
+        this.sprite.buttonMode = true
         this.container.addChild(this.sprite)
 
         this.handletl = new Handle()
@@ -122,7 +123,7 @@ export class RectanglePlugin extends AnnotationPlugin<RectangleAnnotation> {
         this.finishFill(this.annotation, this.sprite)
 
         // Update handles
-        const editing = this.dragging || this.layerMgr.isSelected(this.annotation)
+        const editing = !this.dragging && this.layerMgr.isSelected(this.annotation)
 
         // Update the other handles
 

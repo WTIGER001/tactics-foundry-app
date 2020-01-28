@@ -1,6 +1,6 @@
 import { MapData, CircleAnnotation, ShapeAnnotation, ShapeType, PolygonAnnotation, TokenAnnotation, TokenBar, Annotation, Distance, RectangleAnnotation } from 'src/app/core/model';
 import { MapComponent } from './map.component'
-import { GraphicsGeometry, Graphics, SpriteMaskFilter, Rectangle, Sprite, Container, DisplayObject } from 'pixi.js';
+import { GraphicsGeometry, Graphics, SpriteMaskFilter, Rectangle, Sprite, Container, DisplayObject, Polygon, Point } from 'pixi.js';
 import { LangUtil } from 'src/app/core/util/LangUtil';
 import { Aura, AuraVisible } from 'src/app/core/model/aura';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
@@ -11,13 +11,15 @@ import { CirclePlugin } from '../plugins/circle-plugin';
 import { ReplaySubject, BehaviorSubject } from 'rxjs';
 import { SelectionPlugin } from '../plugins/selection-plugin';
 import { RemovedDocument } from 'src/app/core/database-manager';
-import {OutlineFilter} from '@pixi/filter-outline';
-import {ShockwaveFilter} from '@pixi/filter-shockwave';
-import {DropShadowFilter} from '@pixi/filter-drop-shadow';
-import {GlowFilter} from '@pixi/filter-glow';
+import { OutlineFilter } from '@pixi/filter-outline';
+import { ShockwaveFilter } from '@pixi/filter-shockwave';
+import { DropShadowFilter } from '@pixi/filter-drop-shadow';
+import { GlowFilter } from '@pixi/filter-glow';
 import { TokenPlugin } from '../plugins/token-plugin';
 import { RectanglePlugin } from '../plugins/rectangle-plugin';
 import { FogPlugin } from '../plugins/fog-plugin';
+import { PathPlugin } from '../plugins/polygon-plugin';
+import { FlagPlugin } from '../plugins/flag-plugin';
 
 /**
  * The Map Manager is responsible for managing the layers and the contents of a map. 
@@ -39,12 +41,13 @@ import { FogPlugin } from '../plugins/fog-plugin';
  * - Images --- nope they are just images
  */
 export class MapLayerManager {
-    
+
     public modelMap = new Map<Annotation, AnnotationPlugin<Annotation>>()
     public modelIdMap = new Map<string, Annotation>()
     public layers = new Map<string, Container>()
     public selection$ = new BehaviorSubject<Annotation>(null)
-    fogPlugin : FogPlugin
+    fogPlugin: FogPlugin
+    flagPlugin: FlagPlugin
 
     constructor(public session: LivePageComponent) {
         this.layers.set('background', this.session.mapview.backgroundLayer)
@@ -60,9 +63,10 @@ export class MapLayerManager {
         new SelectionPlugin(this)
         // this.fogPlugin =  new FogPlugin(this)
         // this.fogPlugin.add()
+        this.flagPlugin = new FlagPlugin(this)
 
 
-        this.selection$.pipe(pairwise()).subscribe( item => {
+        this.selection$.pipe(pairwise()).subscribe(item => {
             let color = LangUtil.colorNum("#BBBBBB")
             if (item[0]) {
                 const plugin = this.modelMap.get(item[0])
@@ -79,8 +83,8 @@ export class MapLayerManager {
                 if (plugin) {
                     const obj = plugin.getMainObject()
                     if (obj) {
-                        obj.filters = [ 
-                            new OutlineFilter(), 
+                        obj.filters = [
+                            new OutlineFilter(),
                             // new DropShadowFilter()
                             // new GlowFilter()
                         ]
@@ -97,11 +101,42 @@ export class MapLayerManager {
 
     }
 
+    public addToCenter(t: TokenAnnotation, avoidCollisions: boolean = true) {
+        const map: MapComponent = this.session.mapview
+        const proposedLocation: Point = map.getCenter()
+
+        let gridSquare = map.grid.getGridCell(proposedLocation)
+        let finder = new GridSearchCircularPattern()
+        finder.start(gridSquare)
+        let limit = 100
+        let cnt = 9
+        while (this.hasToken(gridSquare) || cnt >= limit) {
+            gridSquare = finder.next()
+            cnt++
+        }  
+
+        t.x = gridSquare.x
+        t.y = gridSquare.y
+    }
+
+    public hasToken(gridSquare: Rectangle): boolean {
+        let found = false
+        this.modelMap.forEach( (k, a) => {
+            if (
+                Math.abs(a.x) - Math.abs(gridSquare.x) < 0.001 &&
+                Math.abs(a.y) - Math.abs(gridSquare.y) < 0.001 
+            ) {
+                found = true
+            }
+        })
+        return found
+    }
+
     public addAnnotation(a: Annotation) {
         console.log("Adding Annotation ", a)
 
         // Create the correct plugin
-        const plugin : AnnotationPlugin<Annotation> = this.create(a)
+        const plugin: AnnotationPlugin<Annotation> = this.create(a)
         console.log("Created Plugin ", plugin)
 
         // Track the model and the item
@@ -118,14 +153,17 @@ export class MapLayerManager {
             return new TokenPlugin(this)
         } else if (RectangleAnnotation.is(annotation)) {
             return new RectanglePlugin(this)
+        } else if (PolygonAnnotation.is(annotation)) {
+            return new PathPlugin(this)
         }
         console.log("Invalid Annotation Type " + annotation.type)
     }
 
-    storeAnnotation(a : Annotation) {
+    storeAnnotation(a: Annotation) {
         a.map = this.session.mapdata._id
         a.sourceDB = this.session.game._id
-        this.session.data.store(a)
+        this.session.limitedUpdates$.next(a)
+        // this.session.data.store(a)
     }
 
     public updateAnnotation(a: Annotation) {
@@ -162,7 +200,7 @@ export class MapLayerManager {
         }
     }
 
-    private trackAnnotation(plugin : AnnotationPlugin<Annotation>, a : Annotation) {
+    private trackAnnotation(plugin: AnnotationPlugin<Annotation>, a: Annotation) {
         this.modelMap.set(a, plugin)
         this.modelIdMap.set(a._id, a)
     }
@@ -190,5 +228,53 @@ export class MapLayerManager {
 
     isSelected(annotation: Annotation): boolean {
         return this.selection$.getValue() && this.selection$.getValue()._id === annotation._id
+    }
+}
+
+
+class GridSearchCircularPattern {
+    private center: Rectangle
+    level = 0
+    locCnt = 0
+    location = 0
+    start(center: Rectangle) {
+        this.center = center
+        this.level = 0
+        this.locCnt = 0
+        this.location = 0
+    }
+
+    next(): Rectangle {
+        if (this.locCnt >= 8 * this.level - 1) {
+            this.level += 1;
+            this.locCnt = 0
+        } else {
+            this.locCnt += 1
+        }
+        let x, y : number
+
+        // Now get the square
+        if (this.locCnt == 0) {
+            // Upper right
+            x = this.center.x + this.center.width * this.level
+            y = this.center.y - this.center.height * this.level
+            this.locCnt+=1
+        } else if (this.locCnt <= this.level * 2 ) {
+            // Go Left
+            // Upper
+            y = this.center.y - this.center.height * this.level
+            //Left
+            x = this.center.x + (this.center.width * this.level) - (this.center.width * this.locCnt)
+        } else if (this.locCnt <= this.level * 4+1) {
+            // Go Down
+            let cnt = this.locCnt  - this.level*2
+            x = this.center.x - (this.center.width * this.level)
+            y = this.center.y - (this.center.height * (this.level -1)) + (this.center.height * (cnt -1))
+        } else {
+            // GO RIGHT
+            let cnt = this.locCnt - this.level*4
+            x = this.center.x - (this.center.width * (this.level -1)) + (this.center.width * (cnt-1))
+        }
+        return new Rectangle(x, y, this.center.width, this.center.height)
     }
 }

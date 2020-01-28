@@ -48,5 +48,16 @@ export class FogToolComponent implements OnInit {
     
   }
 
+  refresh() {
 
+
+  }
+
+  show() {
+
+  }
+
+  hide() {
+    
+  }
 }

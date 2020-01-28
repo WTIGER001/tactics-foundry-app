@@ -1,0 +1,27 @@
+<detail-page [showBack]="true" title="My Characters" [backLink]="'home'">
+    <div class="character-page-top" top>
+        <img class="detail-page-top-image character-img" src="/assets/pages/character.png">
+
+        <div class="buttons">
+            <button class="detail-page-top-btn" (click)="newCharacter()">Create</button>
+            <button class="detail-page-top-btn" (click)="import()">Import</button>
+            <div class="sort">
+                <fa-icon icon="calendar-alt" class="detail-page-top-icon"></fa-icon>
+                <div class="text">Active: </div>
+                <fa-icon icon="toggle-on" size="2x" style="color: rgb(130,171,102);"></fa-icon>
+            </div>
+        </div>
+    </div>
+    <div class="results scroller scroller-dark" main>
+        <div class="inner">
+            <div class="character" *ngFor="let chr of characters" (click)="open(chr)">
+                <img [src]="chr.url?chr.url:'/assets/pages/character.png'">
+                <label>{{chr.name}}</label>
+            </div>
+        </div>
+    </div>
+</detail-page>
+
+<div class="dialog-anchor"  *ngIf="showImportDialog"  (click)="cancelImport()">
+    <import-dialog (onSave)="save($event)" (onCancel)="cancelImport()" multiple='true'></import-dialog>
+</div>

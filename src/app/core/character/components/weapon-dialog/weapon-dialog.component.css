@@ -1,0 +1,69 @@
+.layout {
+    display: grid;
+    gap: .5em;
+    grid-template-columns: 1fr auto;
+}
+.layout h1 {
+    text-shadow: 1px 1px black;
+}
+
+.layout input {
+    font-size: 1.2em;
+}
+.two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5em;
+    grid-column: span 2;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    margin-top: 1em;
+    grid-column: span 2;
+}
+
+.two input {
+    text-align: center;
+}
+
+.value {
+    background: white;
+    text-align: center;
+    font-size: 1.4em;
+    border-radius: 7px;
+    color: black;
+}
+
+.small {
+    font-size: .9em;
+}
+
+.button-bar {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: .5em;
+    justify-content: right;
+    justify-items: end;
+}
+
+.three {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: .5em;
+    grid-column: span 2;
+}
+
+.ability-wrapper {
+    display: grid;
+}
+
+.tools {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: .5em;
+    align-content: end;
+}
+
+

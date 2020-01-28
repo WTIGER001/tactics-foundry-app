@@ -5,12 +5,13 @@ import { PlaceholderDirective } from 'src/app/core/directives/placeholder.direct
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
 import { ToolsComponent } from '../../tools/tools.component';
 import { ImageUtil } from 'src/app/core/util/ImageUtil';
-import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom } from 'src/app/core/model';
+import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation } from 'src/app/core/model';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
 import { MapComponent } from '../../../map/map.component';
-import { Point, Rectangle } from 'pixi.js';
+import { Point, Rectangle, Polygon } from 'pixi.js';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
+import { PathPlugin } from '../../../plugins/polygon-plugin';
 
 @Component({
   selector: 'add-tool',
@@ -85,10 +86,24 @@ export class AddToolComponent implements OnInit {
     this.tools.showTabs('addmonster')
   }
 
-  startPolygon()  { }
+  startPolygon()  { 
+
+    // Enter the mode where we are editing initially
+    const plugin = new PathPlugin(this.session.layerMgr)
+    plugin.saved = false
+    const annotation = new PolygonAnnotation()
+    this.defaultFormat(annotation)
+    annotation.layer = this.session.currentLayer
+    plugin.setAnnotation(annotation)
+
+    plugin.add()
+  }
   startLine()  { }
   startMarker()  { }
-  startFlag()  { }
+  startFlag()  { 
+    this.session.layerMgr.flagPlugin.add()
+
+  }
   startImage()  { }
   startText() {
 

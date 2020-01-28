@@ -1,0 +1,32 @@
+<div class="dialog layout" (click)="$event.stopPropagation()">
+    <div class="header">
+        <h1>Roll</h1>
+        <div class="button-bar " *ngIf="showTools">
+            <button class="icon-btn" (click)="delete()">
+                <fa-icon icon="trash-alt" size="2x"></fa-icon>
+                <label>Delete</label>
+            </button>
+            <button class="icon-btn" (click)="copy()">
+                <fa-icon icon="copy" size="2x"></fa-icon>
+                <label>Duplicate</label>
+            </button>
+        </div>
+    </div>
+    
+    <label for="name">Name</label>
+    <input type="text" [(ngModel)]="item.name" name="name">
+  
+    <label for="formula" >Formula or Base Value</label>
+    <textarea  name="formula" [(ngModel)]="item.formula" rows="3" (change)="calcValue()"></textarea>
+
+    <label for="expression">Expression</label>
+    <div class="value" >{{item.expression}}</div>
+
+    <label for="description"  >Description</label>
+    <textarea  name="description" [(ngModel)]="item.description" rows="3"></textarea>
+
+    <button class="btn btn-submit btn-dialog " (click)="save()" [disabled]="!canSave()">OK</button>
+    <button class="close-tool" (click)="cancel()">
+        <fa-icon icon="times" size="lg"></fa-icon>
+    </button>
+</div>

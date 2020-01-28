@@ -1,0 +1,18 @@
+<div class="outter scroller scroller-dark">
+    <div class="shell">
+        <skill [item]="skill" [chr]="item" *ngFor="let skill of skills" (click)="show(skill)"></skill>
+        <div class="bottom-spacer"></div>
+    </div>
+</div>
+<button class="fab btn btn-primary" (click)="add()">
+    <fa-icon icon="plus" size="lg"></fa-icon>
+</button>
+<div class="dialog-anchor" *ngIf="showdialog" (click)="cancel()">
+    <skill-dialog [item]="showdialog" [chr]="item"
+     (onSave)="save($event)" 
+     (onCancel)="cancel()"
+     (onDelete)="delete()"
+     (onCopy)="copy($event)"
+     (onDerive)="derive($event)">
+    </skill-dialog>
+</div>

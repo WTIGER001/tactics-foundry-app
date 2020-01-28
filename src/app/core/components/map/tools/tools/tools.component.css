@@ -1,4 +1,8 @@
 
+.hide-toolbar {
+    display: none !important;
+}
+
 .tools-anchor {
     position: fixed;
     bottom: 0;
@@ -9,12 +13,47 @@
     filter: drop-shadow(1px 1px 4px black);
 }
 
+
+.map-tools {
+    position: fixed;
+    right: 10px;
+    bottom: 130px;
+    font-size: 1.5em;
+    gap: .5em;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+}
+
+.map-tool-icon {
+    color: black;
+    filter : 
+        drop-shadow(1px 1px 1px #929292)
+        drop-shadow(-1px -1px 1px #929292)
+        drop-shadow(1px -1px 1px #929292)
+        drop-shadow(-1px 1px 1px #929292);
+}
+
+
 @media screen and (min-height: 1024px) and (max-width: 1023px) {
-  
+    
+}
+
+@media screen and (min-width: 640px) {
+    .map-tools {
+        bottom: 50px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
+    .map-tools {
+        bottom: 10px;
+        right: 360px;
+    }
     .tools-anchor {
         right: 350px;
     }
+    .hide-toolbar {
+        display: block;
+    }
 }
+

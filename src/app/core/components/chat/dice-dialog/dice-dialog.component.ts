@@ -15,6 +15,8 @@ export class DiceDialogComponent implements OnInit {
   modifier : number = 0
   expression : string
   label: string
+  privateroll = false
+
   constructor() { }
 
   ngOnInit() {
@@ -34,6 +36,10 @@ export class DiceDialogComponent implements OnInit {
   modPlus() {
     this.modifier += 1
     this.updateExpression()
+  }
+
+  update() {
+    
   }
 
   modMinus() {

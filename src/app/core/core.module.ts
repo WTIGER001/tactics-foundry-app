@@ -7,6 +7,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
 import { PlatformModule } from '@angular/cdk/platform';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { PlayerHomeComponent } from './pages/player-home/player-home.component'
 import { WelcomeComponent } from './pages/welcome/welcome.component';
@@ -19,7 +20,7 @@ import { ContenteditableModule } from '@ng-stack/contenteditable';
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { TabItemComponent } from './components/tab-item/tab-item.component';
-import { CharactersPageComponent } from './pages/characters-page/characters-page.component';
+import { CharactersPageComponent } from './character/pages/characters-page/characters-page.component';
 import { GamesPageComponent } from './pages/games-page/games-page.component';
 import { PicturebtnComponent } from './components/picturebtn/picturebtn.component';
 import { GamePageComponent } from './pages/game-page/game-page.component';
@@ -58,7 +59,6 @@ import { EditCircleToolComponent } from './components/map/tools/edit/edit-circle
 import { ToolDialogHostDirective } from './components/map/tools/tool-dialog/tool-dialog-host.directive';
 import { PlaceholderDirective } from './directives/placeholder.directive';
 import { ToolsComponent } from './components/map/tools/tools/tools.component';
-import { ToolService } from './components/map/tools/tool.service';
 import { LayerPickComponent } from './components/map/tools/layer-pick/layer-pick.component';
 import { EditTokenToolComponent } from './components/map/tools/edit/edit-token-tool/edit-token-tool.component';
 import { EditTokenToolPersonalComponent } from './components/map/tools/edit/edit-token-tool-personal/edit-token-tool-personal.component';
@@ -72,9 +72,27 @@ import { ColorDialogComponent } from './components/color-dialog/color-dialog.com
 import { ColorCellComponent } from './components/color-cell/color-cell.component';
 import { ToolItemComponent } from './components/map/tools/tool-item/tool-item.component';
 import { EditRectangleToolComponent } from './components/map/tools/edit/edit-rectangle-tool/edit-rectangle-tool.component';
-import { CharacterEditComponent } from './components/characters/character-edit/character-edit.component';
-import { CharacterViewComponent } from './components/characters/character-view/character-view.component';
 import { DiceDialogComponent } from './components/chat/dice-dialog/dice-dialog.component';
+import { EditPolygonComponent } from './components/map/tools/edit/edit-polygon/edit-polygon.component';
+import { BannerComponent } from './components/banner/banner.component';
+import { CharacterPageComponent } from './character/pages/character-page/character-page.component';
+import { AbilityScoresComponent } from './character/components/ability-scores/ability-scores.component';
+import { AbilityScoreComponent } from './character/components/ability-score/ability-score.component';
+import { PlusPipe } from './pipes/plus.pipe';
+import { AttributeComponent } from './character/components/attribute/attribute.component';
+import { AttributesComponent } from './character/components/attributes/attributes.component';
+import { AttributeDialogComponent } from './character/components/attribute-dialog/attribute-dialog.component';
+import { SkillsComponent } from './character/components/skills/skills.component';
+import { SkillComponent } from './character/components/skill/skill.component';
+import { SkillDialogComponent } from './character/components/skill-dialog/skill-dialog.component';
+import { RollsComponent } from './character/components/rolls/rolls.component';
+import { RollComponent } from './character/components/roll/roll.component';
+import { RollDialogComponent } from './character/components/roll-dialog/roll-dialog.component';
+import { WeaponsComponent } from './character/components/weapons/weapons.component';
+import { WeaponComponent } from './character/components/weapon/weapon.component';
+import { WeaponDialogComponent } from './character/components/weapon-dialog/weapon-dialog.component';
+import { ImportDialogComponent } from './character/components/import-dialog/import-dialog.component';
+import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
 
 
 @NgModule({
@@ -140,9 +158,13 @@ import { DiceDialogComponent } from './components/chat/dice-dialog/dice-dialog.c
     ColorCellComponent,
     ToolItemComponent,
     EditRectangleToolComponent,
-    CharacterEditComponent,
-    CharacterViewComponent,
-    DiceDialogComponent
+    DiceDialogComponent,
+    EditPolygonComponent,
+    BannerComponent,
+    CharacterPageComponent,
+    AbilityScoresComponent,
+    AbilityScoreComponent, 
+    PlusPipe, AttributeComponent, AttributesComponent, AttributeDialogComponent, SkillsComponent, SkillComponent, SkillDialogComponent, RollsComponent, RollComponent, RollDialogComponent, WeaponsComponent, WeaponComponent, WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent
   ],
   imports: [
     CommonModule,
@@ -153,11 +175,11 @@ import { DiceDialogComponent } from './components/chat/dice-dialog/dice-dialog.c
     RouterModule,
     ColorPickerModule,
     EmojifyModule,
-    PlatformModule
+    PlatformModule, 
+    ImageCropperModule
   ],
   providers: [
-    DataService, 
-    ToolService
+    DataService
   ],
   entryComponents: [
     ToolDialogComponent,

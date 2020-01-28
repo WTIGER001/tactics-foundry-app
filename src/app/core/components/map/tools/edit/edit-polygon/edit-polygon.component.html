@@ -1,0 +1,15 @@
+<div class="shell">
+    <fav-tool [item]="item" (onUpdate)="updated($event)"></fav-tool>
+
+    <div class="inner">
+        <h3>Name</h3>
+        <input class="grid-span" type="text" [(ngModel)]="item.name" (change)="updated($event)">
+
+        <h3>Format</h3>
+        <div class="format" (click)="showFormatDialog()" 
+            [style.background]="item.fill?item.fillColor:''" 
+            [style.border-color]="item.border?item.color:''" 
+            [style.border-width.px]="item.border?item.weight:0"></div>
+    </div>
+    <layer-pick [item]="item" (updated)="updated($event)"></layer-pick>
+</div>

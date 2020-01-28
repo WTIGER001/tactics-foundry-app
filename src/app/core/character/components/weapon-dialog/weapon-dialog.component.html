@@ -1,0 +1,57 @@
+<div class="dialog layout" (click)="$event.stopPropagation()">
+    <div class="header">
+        <h1>Skill</h1>
+        <div class="button-bar " *ngIf="showTools">
+            <button class="icon-btn" (click)="delete()">
+                <fa-icon icon="trash-alt" size="2x"></fa-icon>
+                <label>Delete</label>
+            </button>
+            <button class="icon-btn" (click)="copy()">
+                <fa-icon icon="copy" size="2x"></fa-icon>
+                <label>Duplicate</label>
+            </button>
+        </div>
+    </div>
+    
+    <label for="name"  class="grid-span-2">Name</label>
+    <input type="text" class="grid-span-2" [(ngModel)]="item.name" name="name">
+
+    <label>Type</label>
+    <label>Equiped</label>
+
+    <input type="text"  [(ngModel)]="item.type" name="type">
+    <div class="switch-holder">
+        <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="item.equiped" >
+    </div>
+
+    <label for="name"  class="grid-span-2">Material</label>
+    <input type="text" class="grid-span-2" [(ngModel)]="item.material" name="name">
+
+    <div class="two">
+        <label for="attackBonus">Attack Bonus</label>
+        <label for="range">Range</label>
+
+        <input type="number" focus-select [(ngModel)]="item.attackBonus" name="attackBonus">
+        <input type="number" focus-select [(ngModel)]="item.range" name="range">
+
+        <label for="damageType">Damage Type</label>
+        <label for="hp">HP</label>
+
+        <input type="text" focus-select [(ngModel)]="item.damageType" name="damageType">
+        <input type="number" focus-select [(ngModel)]="item.hp" name="hp">
+    </div>
+
+    <label for="ammo"  class="grid-span-2">Ammunition</label>
+    <input type="text" class="grid-span-2" [(ngModel)]="item.ammunition" name="ammo">
+
+    <label for="damage"  class="grid-span-2">Damage</label>
+    <input type="text" class="grid-span-2" [(ngModel)]="item.damage" name="damage">
+
+    <label for="description" class="grid-span-2" >Description</label>
+    <textarea  class="grid-span-2" name="description" [(ngModel)]="item.description" rows="3"></textarea>
+
+    <button class="btn btn-submit btn-dialog grid-span-2" (click)="save()" [disabled]="!canSave()">OK</button>
+    <button class="close-tool" (click)="cancel()">
+        <fa-icon icon="times" size="lg"></fa-icon>
+    </button>
+</div>

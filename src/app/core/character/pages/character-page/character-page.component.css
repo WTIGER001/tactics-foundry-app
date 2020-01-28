@@ -1,0 +1,54 @@
+.character-img {
+    height: 85%;
+}
+
+
+.game-img {
+    object-fit: cover;
+    object-position: top;
+    width: 100%;
+    height: 100%;
+}
+
+.top-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:  1fr;
+    gap: 10px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.top-icons {
+    justify-self: end;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: .75em;
+    color: white;
+}
+
+.top-banner {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    right: 20px;
+}
+
+.selection {
+    margin-top: 1em;
+    display: grid;
+    gap: 1em;
+}
+
+.skill-options {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: .5em;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-bottom: .2em;
+    color: white;
+    text-shadow: 1px 1px black;
+}

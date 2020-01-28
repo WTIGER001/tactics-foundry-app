@@ -144,3 +144,23 @@ h4 {
 .text-shadow {
     text-shadow: 1px 1px black;
 }
+
+h1.banner {
+    background: black;
+    font:white;
+    font-variant: small-caps;
+    font-family: ringbearer;
+}
+h1.banner::before {
+    content: '';
+    background: url('/assets/character/left.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+h1.banner::after {
+    content: '';
+    background: url('/assets/character/right.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+

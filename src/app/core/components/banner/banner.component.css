@@ -1,0 +1,23 @@
+h1.banner {
+    background: black;
+    color:white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-variant: small-caps;
+    text-align: center;
+}
+
+div.banner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    filter: drop-shadow(2px 2px 4px #816f6f);
+    cursor: pointer;
+}
+
+.banner img {
+    height: 2em;
+}
+
+.overlay {
+    position: absolute;
+    right: 10px;
+}

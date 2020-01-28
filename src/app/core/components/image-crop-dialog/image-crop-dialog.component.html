@@ -1,0 +1,18 @@
+<div class="dialog layout">
+    <h1>Crop Character Image</h1>
+    <image-cropper
+        [imageFile]="image"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="120"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+    <button class="btn btn-submit btn-dialog" (click)="save()">Done</button>
+    <button class="close-tool" (click)="cancel()">
+        <fa-icon icon="times" size="lg"></fa-icon>
+    </button>
+</div>

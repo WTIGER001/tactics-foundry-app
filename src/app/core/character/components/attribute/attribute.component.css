@@ -1,0 +1,62 @@
+.shell {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-rows: 10px 10px auto;
+
+}
+.banner {
+    height: 20px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin-right: -10px;
+    grid-row: span 2;
+}
+
+.banner img {
+    height: 20px;
+    object-fit: contain;
+}
+
+.banner h1 {
+    font-size: .8em;
+    margin: 0;
+    padding: 0 2em;
+    background: black;
+    text-align: center;
+    color: white;
+}
+
+.subheader {
+    background: black;
+    color: white;
+    font-size: .5em;
+    text-align: center;
+    padding: 0 2em;
+    height: 10px;
+}
+
+
+
+.name {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    font-size: 1em;
+    margin-top: -10px;
+    padding: 1px;
+    padding-top: 10px;
+}
+
+.value {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    text-align: center;
+    font-size: 1em;
+}
+
+.current {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    text-align: center;
+    font-size: 1em;
+}

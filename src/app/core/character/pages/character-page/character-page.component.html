@@ -1,0 +1,54 @@
+<detail-page [showBack]="true" [title]="character.name" [backLink]="'/characters'" [editTitle]='true'
+    (titleUpdated)="updateTitle($event)">
+    <div class="character-page-top" top>
+        <!-- <img class="detail-page-top-image character-img" src="/assets/pages/character.png"> -->
+        <img *ngIf="character.url" [src]="character.url" class="detail-page-top-image character-img">
+        <img *ngIf="!character.url" src="/assets/pages/character.png" class="detail-page-top-image character-img">
+
+        <div class="top-buttons" *ngIf="!tab">
+            <button class="detail-page-top-btn" (click)="import()">Import</button>
+            <button class="detail-page-top-btn" (click)="delete()">Delete</button>
+            <div class="top-icons">
+                <fa-icon (click)="search()" icon="search" class="detail-page-top-icon icon"></fa-icon>
+                <fa-icon (click)="upload.getFile()" icon="cloud-upload" class="detail-page-top-icon icon"></fa-icon>
+            </div>
+        </div>
+        <app-upload-button #upload (choice)="uploadImg($event)"></app-upload-button>
+
+        <banner class="top-banner" *ngIf="tab" [text]="tab" (click)="select()"></banner>
+        <div class="skill-options" *ngIf="tab==='Skills'">
+            <label>Hide Untrained </label>
+            <div class="switch-holder">
+                <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="skillOptions.hideUntrained"
+                    (change)="updateSkills()">
+            </div>
+        </div>
+    </div>
+    <div class="main" main>
+        <div class="selection" *ngIf="!tab">
+            <banner text="Ability Scores" (click)="select('Ability Scores')"></banner>
+            <banner text="Attributes" (click)="select('Attributes')"></banner>
+            <banner text="Skills" (click)="select('Skills')"></banner>
+            <banner text="Rolls" (click)="select('Rolls')"></banner>
+            <banner text="Weapons" (click)="select('Weapons')"></banner>
+            <banner text="Miscelaneous" (click)="select('Miscelaneous')"></banner>
+        </div>
+
+        <ability-scores *ngIf="tab=='Ability Scores'" [item]="character"></ability-scores>
+        <attributes *ngIf="tab=='Attributes'" [item]="character"></attributes>
+        <skills *ngIf="tab=='Skills'" [item]="character" [options]="skillOptions"></skills>
+        <rolls *ngIf="tab=='Rolls'" [item]="character"></rolls>
+        <weapons *ngIf="tab=='Weapons'" [item]="character"></weapons>
+    </div>
+
+   
+
+</detail-page>
+<div class="dialog-anchor"  *ngIf="showImportDialog"  (click)="cancelImport()">
+    <import-dialog (onSave)="save($event)" (onCancel)="cancelImport()"></import-dialog>
+</div>
+
+<div class="dialog-anchor"  *ngIf="showCropDialog">
+    <image-crop-dialog [image]="uploadfile" (onCancel)="cancelCrop()"  (onSave)="saveImage($event)"></image-crop-dialog>
+</div>
+

@@ -1,0 +1,10 @@
+.layout {
+    position: absolute;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 1em;
+    left: 20px;
+    right: 20px;
+    top: 20px;
+    bottom: 20px;
+}

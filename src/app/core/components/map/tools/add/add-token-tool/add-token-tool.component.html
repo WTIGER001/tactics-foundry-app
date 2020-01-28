@@ -10,9 +10,9 @@
             <button class="icon-btn"><fa-icon class="icon-shadow white" icon="sliders-h" size="2x" (click)="showFilter()"></fa-icon></button>
         </div>
         <div class="result-area dark-scroller scroller">
-            <div *ngFor="let item of results" class="card">
-                <figure [class.selected]="isSelected(item)">
-                    <img [src]="item.token">
+            <div *ngFor="let item of items" class="card">
+                <figure [class.selected]="isSelected(item)" (click)="select(item)">
+                    <img [src]="item.url">
                     <figcaption>{{item.name}}</figcaption>
                 </figure>
             </div>

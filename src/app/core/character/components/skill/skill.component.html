@@ -1,0 +1,31 @@
+<div class="shell">
+    <div class='banner'>
+        <img src="/assets/character/banner-left.png">
+        <h1>Skill</h1>
+        <img src="/assets/character/banner-right.png">
+    </div>
+    <div class="grid-span-4"></div>
+    <div class="subheader grid-span-3"></div>
+    <div class="subheader">Class</div>
+
+    <div class="name grid-span-4">{{item.name}}</div>
+    <div class="right center">
+        <fa-icon class="class-check classSkill" *ngIf="!item.classSkill" [icon]="['fal', 'square']"></fa-icon>
+        <fa-icon class="class-check classSkill" *ngIf="item.classSkill" icon="times-square"></fa-icon>
+    </div>
+    
+    <div class="subheader">Ability</div>
+    <div class="subheader">Ranks</div>
+    <div class="subheader">Misc. Mod</div>
+    <div class="subheader">Tools</div>
+    <div class="subheader">Total</div>
+
+    <div class="left">{{item.ability}}</div>
+    <div class="left">{{item.ranks |plus}}</div>
+    <div class="left">{{item.mod |plus}}</div>
+    <div class="left">
+        <fa-icon *ngIf="item.needsTools && !item.tools" [icon]="['fal', 'square']"></fa-icon>
+        <fa-icon *ngIf="item.needsTools && item.tools" icon="times-square"></fa-icon>
+    </div>
+    <div class="left right">{{item.total(chr) | plus}}</div>
+</div>

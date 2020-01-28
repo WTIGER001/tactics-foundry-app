@@ -12,6 +12,25 @@
     gap: .5em;
 }
 
+.card {
+    padding: 2px;
+    cursor: pointer;
+}
+
+.card:hover {
+    background: grey;
+}
+
+.selected {
+    background: grey;
+}
+
+.card figure {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
 .search-x {
     position: absolute;
     right: 10px;
@@ -37,8 +56,9 @@
 }
 .result-area {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: .5em;
+    padding: .5em;
 }
 
 @media screen and (max-height:600px) {

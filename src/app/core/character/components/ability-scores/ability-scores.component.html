@@ -1,0 +1,10 @@
+<div class="shell">
+    <div class="header">
+        <label></label>
+        <label>Ability Score</label>
+        <label>Ability Modifier</label>
+        <label>Temp Adjustment</label>
+        <label>Temp Modifier</label>
+    </div>
+    <ability-score *ngFor="let score of item.abilityScores" [score]="score"></ability-score>
+</div>

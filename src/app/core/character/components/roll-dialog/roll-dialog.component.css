@@ -1,0 +1,43 @@
+.layout {
+    display: grid;
+    gap: .5em;
+    grid-template-columns: 1fr;
+    min-width: 350px;
+}
+.layout h1 {
+    text-shadow: 1px 1px black;
+}
+
+.layout input {
+    font-size: 1.2em;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    margin-top: 1em;
+}
+
+.value {
+    background: white;
+    text-align: center;
+    font-size: 1.4em;
+    border-radius: 7px;
+    color: black;
+    height: 1.5em;
+}
+
+.small {
+    font-size: .9em;
+}
+
+.button-bar {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: .5em;
+    justify-content: right;
+    justify-items: end;
+}
+
+
+

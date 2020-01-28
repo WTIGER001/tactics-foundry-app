@@ -1,0 +1,51 @@
+<div class="dialog layout" (click)="$event.stopPropagation()">
+    <div class="header grid-span-2">
+        <h1>Attribute</h1>
+        <div class="button-bar " *ngIf="showTools">
+            <button class="icon-btn" (click)="delete()">
+                <fa-icon icon="trash-alt" size="2x"></fa-icon>
+                <label>Delete</label>
+            </button>
+            <button class="icon-btn" (click)="copy()">
+                <fa-icon icon="copy" size="2x"></fa-icon>
+                <label>Duplicate</label>
+            </button>
+            <button class="icon-btn" (click)="derive()">
+                <fa-icon icon="function" size="2x"></fa-icon>
+                <label>Derive</label>
+            </button>
+        </div>
+    </div>
+    
+    <label for="name">Name</label>
+    <label class="small">Plus/Minus</label>
+
+    <input type="text" [(ngModel)]="item.name" name="name">
+    <div class="switch-holder">
+        <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="item.format" >
+    </div>
+
+    <label for="formula" class="grid-span-2">Formula or Base Value</label>
+    <textarea class="grid-span-2" name="formula" [(ngModel)]="item.formula" rows="3" (change)="calcValue()"></textarea>
+
+    <div class="two">
+        <label for="value">Calculated</label>
+        <label for="current">Override</label>
+        <label for="current">Current</label>
+
+        <div class="value" *ngIf="!item.format">{{item.value}}</div>
+        <div class="value" *ngIf="item.format">{{item.value | plus}}</div>
+
+        <input type="text" focus-select [(ngModel)]="item.override" name="current">
+        <div class="value" *ngIf="!item.format">{{item.current}}</div>
+        <div class="value" *ngIf="item.format">{{item.current | plus}}</div>
+    </div>
+
+    <label for="description" class="grid-span-2">Description</label>
+    <textarea class="grid-span-2" name="description" [(ngModel)]="item.description" rows="3"></textarea>
+
+    <button class="btn btn-submit btn-dialog grid-span-2" (click)="save()" [disabled]="!canSave()">OK</button>
+    <button class="close-tool" (click)="cancel()">
+        <fa-icon icon="times" size="lg"></fa-icon>
+    </button>
+</div>

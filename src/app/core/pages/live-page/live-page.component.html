@@ -2,21 +2,8 @@
     <map class="map-container" [mapdata]="mapdata" #mapview></map>
 
     <chat-preview *ngIf="chatPreview"></chat-preview>
-
     <full-chat *ngIf="!chatPreview" class="chat"></full-chat>
-
     <button class="detail-page-back" (click)='onBack()'><img src="/assets/components/back.png"></button>
-
-    <div class="map-tools">
-        <fa-icon class="map-tool-icon clickable" icon="expand"  size="lg" (click)="zoomExtents()"></fa-icon>
-        <fa-icon class="map-tool-icon clickable" icon="tools"  size="lg" (click)="showGmTools()"
-            *ngIf="isGM()"></fa-icon>
-        <fa-icon class="map-tool-icon clickable" icon="location" size="lg" (click)="recenter()" *ngIf="needsRecenter()">
-        </fa-icon>
-        <fa-icon class="map-tool-icon clickable" icon="ruler" size="lg" (click)="startMeasure()"></fa-icon>
-        <fa-icon class="map-tool-icon clickable" icon="map-marked-alt" size="lg" (click)="addToMap()"></fa-icon>
-    </div>
-
     <tools ></tools>
 
 </div>

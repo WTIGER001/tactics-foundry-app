@@ -1,0 +1,24 @@
+<div class="shell">
+    <div class='banner'>
+        <img src="/assets/character/banner-left.png">
+        <h1>Weapon</h1>
+        <img src="/assets/character/banner-right.png">
+    </div>
+    <div class="grid-span-2"></div>
+    <div class="subheader">Attack Bonus</div>
+    <div class="subheader">Cricial</div>
+
+    <div class="name grid-span-3">{{item.name}}</div>
+    <div class="left">{{item.attackBonus |plus}}</div>
+    <div class="left right">{{item.attackBonus |plus}}</div>
+    
+    <div class="subheader">Type</div>
+    <div class="subheader">Range</div>
+    <div class="subheader">Ammunition</div>
+    <div class="subheader grid-span-2">Damage</div>
+
+    <div class="left">{{item.type}}</div>
+    <div class="left">{{item.range}}</div>
+    <div class="left">{{item.ammunition}}</div>
+    <div class="left right grid-span-2">{{item.damage}}</div>
+</div>

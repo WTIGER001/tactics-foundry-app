@@ -1,0 +1,17 @@
+<div class="outter scroller scroller-dark">
+    <div class="shell">
+        <weapon [item]="weapon" [chr]="item" *ngFor="let weapon of weapons" (click)="show(weapon)"></weapon>
+        <div class="bottom-spacer"></div>
+    </div>
+</div>
+<button class="fab btn btn-primary" (click)="add()">
+    <fa-icon icon="plus" size="lg"></fa-icon>
+</button>
+<div class="dialog-anchor" *ngIf="showdialog" (click)="cancel()">
+    <weapon-dialog [item]="showdialog" [chr]="item"
+     (onSave)="save($event)" 
+     (onCancel)="cancel()"
+     (onDelete)="delete()"
+     (onCopy)="copy($event)">
+    </weapon-dialog>
+</div>

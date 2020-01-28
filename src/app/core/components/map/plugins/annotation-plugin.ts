@@ -10,6 +10,16 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     layer: Container
     object: DisplayObject
     layerMgr: MapLayerManager
+    _saved = true
+
+    get saved() : boolean {
+        return this._saved
+    }
+
+    set saved(s : boolean) {
+        this._saved = s
+    }
+
     constructor(l: MapLayerManager) {
         super(l.session.mapview.viewport)
         this.layerMgr = l
@@ -145,8 +155,8 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     dragData
     dragging = false
     isHovering = false
-    offsetX
-    offsetY
+    offsetX = 0
+    offsetY = 0
 
 
     onMouseOver(event) {
@@ -164,8 +174,14 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
         // console.log(event.data.getLocalPosition(this.object),this.annotation['x'], this.annotation['y']) 
 
         const pos = event.data.getLocalPosition(this.object)
-        this.offsetX = this.annotation.x - pos.x
-        this.offsetY = this.annotation.y - pos.y
+        if (this.annotation.x && this.annotation.y) {
+            this.offsetX = this.annotation.x - pos.x
+            this.offsetY = this.annotation.y - pos.y
+        } else {
+            const bounds = Geom.boundsXY(this.annotation.points)
+            this.offsetX = bounds.x - pos.x
+            this.offsetY = bounds.y - pos.y
+        }
 
         // store a reference to the data
         // the reason for this is because of multitouch
@@ -196,7 +212,9 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
             // me.position.y = newPosition.y;
             
             this.updatePositionFromDrag(newPosition.x + this.offsetX, newPosition.y + this.offsetY)
-            this.layerMgr.session.limitedUpdates$.next(this.annotation)
+            if (this.saved) {
+                this.layerMgr.session.limitedUpdates$.next(this.annotation)
+            }
         }
     }
 
@@ -204,8 +222,6 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     updatePositionFromDrag(x: number, y: number) {
     
     }
-
-
 }
 
 
@@ -214,11 +230,15 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
  */
 export class Handle {
     enabled = true
-    handle = new Graphics()
+    public handle = new Graphics()
     x: number
     y: number
-    w = 7.5 * window.devicePixelRatio
+    w = 10 * (window.devicePixelRatio/2)
     color = 0
+    downTime = 0
+
+    onClick : (event : interaction.InteractionEvent) => void = () =>{}
+    onMove : (event : interaction.InteractionEvent) => void = () =>{}
 
     constructor() {
         this.handle = new Graphics()
@@ -234,7 +254,9 @@ export class Handle {
             .on('mousemove', this.onDragMove, this)
             .on('touchmove', this.onDragMove, this)
             .on("mouseover", this.onMouseOver, this)
-            .on("mouseout", this.onMouseOut, this);
+            .on("mouseout", this.onMouseOut, this)
+            .on('click', this.click, this)
+            .on('tap',this.click, this)
     }
 
     update(plugin : AnnotationPlugin<Annotation>, enabled : boolean ) {
@@ -242,10 +264,17 @@ export class Handle {
         if (enabled) {
 
             this.handle.beginFill(this.color, 1)
-            this.handle.lineStyle(1, 0xFFFFFF, 1, 0.5, true)
+            this.handle.lineStyle(1, 0xFFFFFF, 1, 1, true)
             const r = Geom.centerHandle(this.x, this.y, this.w / plugin.scale)
             this.handle.drawShape(r)
             this.handle.endFill()
+        }
+    }
+
+    click(event : interaction.InteractionEvent) {
+        const time = new Date().getTime()
+        if (time - this.downTime < 500) {
+            this.onClick(event)
         }
     }
 
@@ -265,7 +294,8 @@ export class Handle {
     }
 
     onDragStart(event) {
-     
+        this.downTime = new Date().getTime()
+
         // store a reference to the data
         // the reason for this is because of multitouch
         // we want to track the movement of this particular touch
@@ -294,6 +324,7 @@ export class Handle {
             
             this.x = newPosition.x
             this.y = newPosition.y
+            this.onMove(event)
         }
     }
 

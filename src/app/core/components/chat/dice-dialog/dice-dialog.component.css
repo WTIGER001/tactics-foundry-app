@@ -5,14 +5,21 @@
     gap: .5em;
     background: var(--detail-top-bg);
     color: white;
-    max-width: 350px;
     font-size: .9em;
     position: relative;
+    border-radius: 7px;
 }
 
 .shell h3 {
     color: white;
     text-shadow: 1px 1px black;
+    font-weight: 200;
+}
+
+.shell h4 {
+    color: white;
+    text-shadow: 1px 1px black;
+    font-weight: 200;
 }
 
 .dice-holder {
@@ -80,18 +87,11 @@
     text-align: center;
 }
 .outer img {
-    z-index: 11;
+    z-index: 1;
     margin-bottom: -20px;
 }
 
-.outer {
-    position: fixed;
-    bottom: 100px;
-    right: 0px;
-    display: grid;
-    justify-items: center;
-    z-index: 10;
-}
+
 
 .modifier {
     display: grid;
@@ -146,18 +146,34 @@
     text-align: center;
 }
 
-.close-tool {
-    position: absolute;
-    border-radius: 0;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background: rgb(191, 144, 0);
-    top: -10px;
-    right: 10px;
-    color: white;
-    cursor: pointer;
-    font-size: 1.25em;
-    padding: .2em .25em;
-    border: 0;
-    cursor: pointer;
+.outer {
+    position: fixed;
+    bottom: 130px;
+    right: 0px;
+    display: grid;
+    justify-items: center;
+    max-width: 100vw;
+    width : 100%;
+}
+
+@media screen and (max-height: 640px) {
+    .outer  {
+        max-width: 350px;
+        bottom: 45px;
+        justify-items: end;
+    }
+    .outer img {
+        display: none;
+    }
+}
+
+@media screen and (min-height: 1024px) and (max-width: 1023px) {
+  
+}
+
+@media screen and (min-width: 1024px) {
+    .outer {
+        bottom: 100px;
+        max-width: 350px;
+    }
 }

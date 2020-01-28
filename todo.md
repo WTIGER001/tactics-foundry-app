@@ -101,3 +101,5 @@ Monsters are not required right away. They can be replicated with tokens. Most o
 
 ## Settings
 - [+++] Settings framework
+
+

@@ -1,4 +1,8 @@
-<router-outlet>
+<div class="app-shell">
+    <img class="left" [src]="imgLeft">
+    <img class="right" [src]="imgRight">
 
-  
-</router-outlet>
+    <div class="contents" [class.fw]="fw">
+        <router-outlet></router-outlet>
+    </div>
+</div>

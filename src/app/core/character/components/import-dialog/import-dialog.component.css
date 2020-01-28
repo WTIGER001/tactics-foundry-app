@@ -1,0 +1,31 @@
+.layout {
+    display: grid;
+    gap: .5em;
+    grid-template-columns: 1fr;
+    min-width: 350px;
+    max-width: 100vw;
+
+}
+.layout h1 {
+    text-shadow: 1px 1px black;
+}
+
+.layout .img-btn {
+    border: 0;
+    width: 100%;
+    background: transparent;
+}
+
+.layout img {
+    max-width: 90vw;
+    object-fit: contain;
+}
+
+.layout li {
+    margin-left: 2em;
+}
+
+.instructions {
+    display: grid;
+    gap: 1em;
+}

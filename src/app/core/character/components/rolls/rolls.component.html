@@ -1,0 +1,17 @@
+<div class="outter scroller scroller-dark">
+    <div class="shell">
+        <roll [item]="roll" [chr]="item" *ngFor="let roll of rolls" (click)="show(roll)"></roll>
+        <div class="bottom-spacer"></div>
+    </div>
+</div>
+<button class="fab btn btn-primary" (click)="add()">
+    <fa-icon icon="plus" size="lg"></fa-icon>
+</button>
+<div class="dialog-anchor" *ngIf="showdialog" (click)="cancel()">
+    <roll-dialog [item]="showdialog" [chr]="item"
+     (onSave)="save($event)" 
+     (onCancel)="cancel()"
+     (onDelete)="delete()"
+     (onCopy)="copy($event)">
+    </roll-dialog>
+</div>

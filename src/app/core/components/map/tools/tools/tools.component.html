@@ -1,6 +1,14 @@
 <!-- Tabs to add items-->
 <ng-container *ngIf="session.mapdata">
 
+<div class="map-tools" [class.hide]="shown" [class.hide-toolbar]="!session.showToolbar">
+    <fa-icon class="map-tool-icon clickable" icon="expand"  size="lg" (click)="zoomExtents()"></fa-icon>
+    <fa-icon class="map-tool-icon clickable" icon="tools"  size="lg" (click)="showGmTools()" *ngIf="isGM()"></fa-icon>
+    <fa-icon class="map-tool-icon clickable" icon="location" size="lg" (click)="recenter()" *ngIf="needsRecenter()"></fa-icon>
+    <fa-icon class="map-tool-icon clickable" icon="ruler" size="lg" (click)="startMeasure()"></fa-icon>
+    <fa-icon class="map-tool-icon clickable" icon="map-marked-alt" size="lg" (click)="addToMap()"></fa-icon>
+</div>
+
 <tool-tabs *ngIf="shown==='addtools'"  (onClose)="closeTab()" (onActivate)="onActivate($event)">
     <tool-tab label="New" icon="plus-hexagon">
         <add-tool></add-tool>
@@ -37,6 +45,12 @@
 <tool-tabs *ngIf="isRectangleSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
     <tool-tab label="Rectangle" icon="draw-square">
         <edit-rectangle-tool [item]="selected"></edit-rectangle-tool>
+    </tool-tab>
+</tool-tabs>
+
+<tool-tabs *ngIf="isPolygonSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
+    <tool-tab label="Polygon" icon="draw-polygon">
+        <edit-polygon [item]="selected"></edit-polygon>
     </tool-tab>
 </tool-tabs>
 

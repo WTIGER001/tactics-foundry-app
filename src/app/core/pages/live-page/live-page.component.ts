@@ -13,6 +13,7 @@ import { ToolsComponent } from '../../components/map/tools/tools/tools.component
 // import { ToolService } from '../../components/map/tools/tool.service';
 import { Session } from 'protractor';
 import { MapLayerManager } from '../../components/map/map/layer-manager';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'live-page',
@@ -51,7 +52,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Active tool that is being shown. Can be undefined
   public activeTool 
-  
+  public showToolbar = true
 
   public keyhandler = new KeyboardHandler(this)
 
@@ -72,7 +73,9 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public data: DataService,
     private route: ActivatedRoute, private router: Router, private zone: NgZone,
-    private element: ElementRef) { }
+    private element: ElementRef, private app: AppComponent) { 
+      this.app.fw = true
+    }
 
   ngOnInit() {
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
@@ -256,6 +259,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngOnDestroy(): void {
+    this.app.fw = false
     if (this.watcher) { this.watcher.cancel() }
   }
 
@@ -290,25 +294,6 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     return ''
   }
 
-  needsRecenter() {
-    return false
-  }
-
-  recenter() {
-
-  }
-
-  startMeasure() {
-    
-  }
-
-  addToMap() {
-    this.tools.showTabs('addtools')
-  }
-
-  zoomExtents() {
-    this.mapview.fit()
-  }
 
 }
 

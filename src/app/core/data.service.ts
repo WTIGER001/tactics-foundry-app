@@ -9,6 +9,7 @@ import { BehaviorSubject, ReplaySubject, Observable, from } from 'rxjs';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { IdUtil } from './util/IdUtil';
 import { map, filter, tap, take } from 'rxjs/operators';
+import { Character } from './character/character';
 
 const PLAYER_DB = 'players'
 const TOKEN_DB = 'tokens'
@@ -43,7 +44,7 @@ export class DataService {
 
   }
 
-  public get coreDB() : DatabaseManager<Player | Game> {
+  public get coreDB() : DatabaseManager<Player | Game | Character> {
     return this.DBs.get(DataService.COREDB_NAME)
   }
 
@@ -225,6 +226,9 @@ export class DataService {
     if (item.type == Game.TYPE) {
       return this.coreDB
     }
+    if (item.type == Character.TYPE) {
+      return this.coreDB
+    }
 
     throw new Error(`CANT FIND DB for ${item.type}`)
 
@@ -269,10 +273,15 @@ export class DataService {
       if (!item._id) {
         item._id = (item.type + "_" + IdUtil.genid()).toLowerCase()
       }
-
-      
-
       return this.coreDB.store(<Game>item)
+    }
+
+    if (item.type == Character.TYPE) {
+      // Games can be new
+      if (!item._id) {
+        item._id = (item.type + "_" + IdUtil.genid()).toLowerCase()
+      }
+      return this.coreDB.store(<Character>item)
     }
 
     if (item.type == MapData.TYPE) {

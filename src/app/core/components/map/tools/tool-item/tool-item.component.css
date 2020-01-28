@@ -34,12 +34,6 @@
     display: none !important;
 }
 
-@media screen and (max-height: 640px) {
-    .shell img {
-        display: none;
-    }
-}
-
 .anchor {
     position: fixed;
     bottom: 0;
@@ -49,6 +43,14 @@
     width: 100%;
     filter: drop-shadow(1px 1px 4px black);
 }
+
+
+@media screen and (max-height: 640px) {
+    .shell img {
+        display: none;
+    }
+}
+
 
 @media screen and (min-height: 1024px) and (max-width: 1023px) {
   

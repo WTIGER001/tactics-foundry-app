@@ -4,7 +4,7 @@
     height: 120px;
     left: 0;
     right: 0;
-    z-index: 1;
+    /* z-index: 1; */
     display: grid;
     justify-content: stretch;
     align-items: stretch;
@@ -34,7 +34,7 @@
 @media screen and (min-width: 600px) {
     .preview-area {
         grid-template-columns: 1fr 300px;
-        align-items: start;
+        align-items: end;
         justify-content: start;
     }
 }

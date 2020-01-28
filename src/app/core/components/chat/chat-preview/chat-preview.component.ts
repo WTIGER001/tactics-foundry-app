@@ -3,6 +3,7 @@ import { DbWatcher } from 'src/app/core/database-manager';
 import { ChatRecord, RouteContext, TextMessage, PingMessage, DiceRoll } from 'src/app/core/model';
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute } from '@angular/router';
+import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 
 @Component({
   selector: 'chat-preview',
@@ -16,8 +17,9 @@ export class ChatPreviewComponent implements OnInit {
   gameid
   watcher : DbWatcher
   messages : ChatRecord[] = []
+  showroller = false
 
-  constructor(private data : DataService, private route : ActivatedRoute, private zone : NgZone) { }
+  constructor(private data : DataService, private route : ActivatedRoute, private zone : NgZone, private session : LivePageComponent) { }
   ngOnInit() {
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
       this.gameid = data.ctx.id
@@ -77,6 +79,11 @@ export class ChatPreviewComponent implements OnInit {
 
   diceRolled(roll: DiceRoll) {
 
+  }
+
+  toggleRoller() {
+    this.showroller = !this.showroller
+    this.session.showToolbar = !this.showroller
   }
   
 

@@ -52,32 +52,6 @@
     transform: translate(1px, 1px);
 }
 
-.map-tools {
-    z-index: 2;
-    position: fixed;
-    right: 10px;
-    bottom: 130px;
-    font-size: 1.5em;
-    gap: .5em;
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-}
-
-.map-tool-icon {
-    color: black;
-    filter : 
-        drop-shadow(1px 1px 1px #929292)
-        drop-shadow(-1px -1px 1px #929292)
-        drop-shadow(1px -1px 1px #929292)
-        drop-shadow(-1px 1px 1px #929292);
-}
-
-.tools-anchor {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-}
-
 
 @media screen and (min-height: 1024px) and (max-width: 1023px) {
     .chat {
@@ -94,14 +68,5 @@
         height: 100vh;
         /* height: 500px; */
         left: unset;
-    }
-
-    .map-tools {
-        bottom: 10px;
-        right: 360px;
-    }
-
-    .tools-anchor {
-        right: 350px;
     }
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DiceCanvasComponent } from '../dice-canvas/dice-canvas.component';
 import { DiceRoller } from 'src/app/core/util/dice';
 import { ChatRecord, TextMessage, PingMessage, DiceRoll, RouteContext } from 'src/app/core/model';
+import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 
 @Component({
   selector: 'chat-text',
@@ -20,7 +21,7 @@ export class ChatTextComponent implements OnInit {
   gameid : string
   action
   
-  constructor(private data : DataService, private route : ActivatedRoute, private zone : NgZone) { }
+  constructor(private data : DataService, private route : ActivatedRoute, private zone : NgZone, private session : LivePageComponent) { }
 
   ngOnInit() {
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
