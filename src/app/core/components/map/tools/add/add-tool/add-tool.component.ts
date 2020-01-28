@@ -5,13 +5,14 @@ import { PlaceholderDirective } from 'src/app/core/directives/placeholder.direct
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
 import { ToolsComponent } from '../../tools/tools.component';
 import { ImageUtil } from 'src/app/core/util/ImageUtil';
-import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation } from 'src/app/core/model';
+import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation, MarkerTypeAnnotation } from 'src/app/core/model';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
 import { MapComponent } from '../../../map/map.component';
 import { Point, Rectangle, Polygon } from 'pixi.js';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 import { PathPlugin } from '../../../plugins/polygon-plugin';
+import { MarkerService } from 'src/app/core/marker.service';
 
 @Component({
   selector: 'add-tool',
@@ -19,9 +20,9 @@ import { PathPlugin } from '../../../plugins/polygon-plugin';
   styleUrls: ['./add-tool.component.css']
 })
 export class AddToolComponent implements OnInit {
-  constructor(private tabs : ToolTabsComponent, private tools: ToolsComponent, public session : LivePageComponent,
-     private route: ActivatedRoute, private data : DataService) { }
-  gameid : string
+  constructor(private tabs: ToolTabsComponent, private tools: ToolsComponent, public session: LivePageComponent,
+    private route: ActivatedRoute, private data: DataService, private markers: MarkerService) { }
+  gameid: string
 
   ngOnInit() {
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
@@ -29,7 +30,7 @@ export class AddToolComponent implements OnInit {
     })
   }
 
-  startCircle()  { 
+  startCircle() {
     const circle = new CircleAnnotation()
     circle.x = 300
     circle.y = 300
@@ -41,13 +42,13 @@ export class AddToolComponent implements OnInit {
     circle.name = "TEST"
     circle.radius = 20
 
-    const map : MapComponent = this.session.mapview
-    const center : Point = map.getCenter()
-    circle.x = center.x  
-    circle.y = center.y 
+    const map: MapComponent = this.session.mapview
+    const center: Point = map.getCenter()
+    circle.x = center.x
+    circle.y = center.y
 
     const bounds = map.viewport.getVisibleBounds()
-    const small = Math.min(bounds.width , bounds.height )
+    const small = Math.min(bounds.width, bounds.height)
     circle.radius = small / 10
     if (circle.radius < 0) {
       console.log("CIRCLE MATH ", bounds, " ", small)
@@ -55,38 +56,38 @@ export class AddToolComponent implements OnInit {
     }
     circle.radius = circle.radius / this.session.mapdata.ppf
     circle.layer = this.session.currentLayer
-    
+
     this.session.layerMgr.storeAnnotation(circle)
   }
 
-  startRectangle()  { 
+  startRectangle() {
     const rect = new RectangleAnnotation()
     this.defaultFormat(rect)
     rect.name = "New Rectangle"
-    const center : Point = this.session.mapview.getCenter()
+    const center: Point = this.session.mapview.getCenter()
     const bounds = this.session.mapview.viewport.getVisibleBounds()
-    const r = new Rectangle(0,0, bounds.width / 10 /this.session.mapdata.ppf, bounds.height/10/ this.session.mapdata.ppf)
+    const r = new Rectangle(0, 0, bounds.width / 10 / this.session.mapdata.ppf, bounds.height / 10 / this.session.mapdata.ppf)
     const location = Geom.centerOn(r, center)
     rect.x = location.x
     rect.y = location.y
     rect.w = location.width
     rect.h = location.height
-    rect.layer = 'player'
+    rect.layer = this.session.currentLayer
 
     this.session.layerMgr.storeAnnotation(rect)
   }
-  startCharacter()  { 
+  startCharacter() {
     this.tools.showTabs('addcharacter')
   }
-  startToken()  { 
+  startToken() {
     this.tools.showTabs('addtoken')
   }
 
-  startMonster()  { 
+  startMonster() {
     this.tools.showTabs('addmonster')
   }
 
-  startPolygon()  { 
+  startPolygon() {
 
     // Enter the mode where we are editing initially
     const plugin = new PathPlugin(this.session.layerMgr)
@@ -98,13 +99,31 @@ export class AddToolComponent implements OnInit {
 
     plugin.add()
   }
-  startLine()  { }
-  startMarker()  { }
-  startFlag()  { 
+  startLine() { }
+
+  startMarker() {
+    const center: Point = this.session.mapview.getCenter()
+    const m = this.markers.defaultMarker
+    const a = new MarkerTypeAnnotation()
+    a.x = center.x
+    a.y = center.y
+    a.name = "New Marker"
+    a.layer = this.session.currentLayer
+    a.url = m.url
+    a.owner = this.session.data.player._id
+    a.w = m.w
+    a.h = m.h
+    a.ax = m.ax
+    a.ay = m.ay
+
+    this.session.layerMgr.storeAnnotation(a)
+  }
+
+  startFlag() {
     this.session.layerMgr.flagPlugin.add()
 
   }
-  startImage()  { }
+  startImage() { }
   startText() {
 
   }
@@ -113,7 +132,7 @@ export class AddToolComponent implements OnInit {
 
   }
 
-  defaultFormat(item : Formatted) {
+  defaultFormat(item: Formatted) {
     item.border = true
     item.color = '#FFFFFF'
     item.weight = 1
@@ -138,26 +157,26 @@ export class AddToolComponent implements OnInit {
 
       // TODO+: Spiral around the center square until an unoccupied square is found 
       // Place the token (start in the center and look for an open grid square)
-      const map : MapComponent = this.session.mapview
-      const center : Point = map.getCenter()
+      const map: MapComponent = this.session.mapview
+      const center: Point = map.getCenter()
       const gridSquare = map.grid.getGridCell(center)
 
       t.x = gridSquare.x
       t.y = gridSquare.y
-          
+
       // Save
       this.session.layerMgr.storeAnnotation(t)
     })
   }
 
-  setLayer(layer : 'player' | 'gm' | 'background') {
+  setLayer(layer: 'player' | 'gm' | 'background') {
     this.session.currentLayer = layer
   }
 
-  isGM() : boolean {
+  isGM(): boolean {
     return this.session.isGM()
   }
 
- 
+
 }
 

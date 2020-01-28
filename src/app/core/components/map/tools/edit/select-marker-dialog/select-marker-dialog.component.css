@@ -1,0 +1,21 @@
+.shell {
+    padding: .5em;
+    color: white;
+    text-shadow: 1px 1px black;
+    height: 300px;
+}
+
+.result-area {
+    display: grid;
+    gap: .5em;
+}
+
+.category-set {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: .5em;
+}
+
+.category {
+    grid-column: 1 / -1;
+}

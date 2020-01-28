@@ -37,6 +37,7 @@ export class TokenPlugin extends AnnotationPlugin<TokenAnnotation> {
         } else {
             this.tokenSprite = Sprite.from("/assets/sprites/sample-token.png")
         }
+
         this.tokenSprite.interactive = true
         this.tokenSprite.buttonMode = true
         this.tokenSprite.x = this.annotation.x

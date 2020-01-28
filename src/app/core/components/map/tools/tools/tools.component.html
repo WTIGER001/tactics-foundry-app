@@ -54,6 +54,13 @@
     </tool-tab>
 </tool-tabs>
 
+<tool-tabs *ngIf="isMarkerSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
+    <tool-tab label="Marker" icon="map-marker-alt">
+        <edit-marker [item]="selected"></edit-marker>
+    </tool-tab>
+</tool-tabs>
+
+
 <!-- ITEMS -->
 <add-token-tool *ngIf="shown==='addtoken'" (onClose)="closeTab()" type='token'></add-token-tool>
 <add-token-tool *ngIf="shown==='addcharacter'" (onClose)="closeTab()" type='character'></add-token-tool>

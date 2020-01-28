@@ -1,0 +1,25 @@
+.shell {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .5em
+}
+
+.inner input {
+    min-width: 1em;
+    font-size: 1.1em;
+}
+
+.inner {
+    display: grid;
+    grid-template-columns: auto 100px 1fr;
+    gap: .5em;
+    padding-top: 1em;
+    padding-right: 3em;
+    padding-bottom: 1em;
+    align-items: start;
+    grid-template-rows: repeat(3, min-content)
+}
+
+.format img {
+    height: 100%;
+}

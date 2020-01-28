@@ -1,4 +1,4 @@
-import { MapData, CircleAnnotation, ShapeAnnotation, ShapeType, PolygonAnnotation, TokenAnnotation, TokenBar, Annotation, Distance, RectangleAnnotation } from 'src/app/core/model';
+import { MapData, CircleAnnotation, ShapeAnnotation, ShapeType, PolygonAnnotation, TokenAnnotation, TokenBar, Annotation, Distance, RectangleAnnotation, MarkerTypeAnnotation } from 'src/app/core/model';
 import { MapComponent } from './map.component'
 import { GraphicsGeometry, Graphics, SpriteMaskFilter, Rectangle, Sprite, Container, DisplayObject, Polygon, Point } from 'pixi.js';
 import { LangUtil } from 'src/app/core/util/LangUtil';
@@ -20,6 +20,7 @@ import { RectanglePlugin } from '../plugins/rectangle-plugin';
 import { FogPlugin } from '../plugins/fog-plugin';
 import { PathPlugin } from '../plugins/polygon-plugin';
 import { FlagPlugin } from '../plugins/flag-plugin';
+import { MarkerPlugin } from '../plugins/marker-plugin';
 
 /**
  * The Map Manager is responsible for managing the layers and the contents of a map. 
@@ -155,6 +156,8 @@ export class MapLayerManager {
             return new RectanglePlugin(this)
         } else if (PolygonAnnotation.is(annotation)) {
             return new PathPlugin(this)
+        } else if (MarkerTypeAnnotation.is(annotation)) {
+            return new MarkerPlugin(this)
         }
         console.log("Invalid Annotation Type " + annotation.type)
     }

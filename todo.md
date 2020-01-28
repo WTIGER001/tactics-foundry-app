@@ -8,7 +8,6 @@ Legend
 
 ## Overall
 
-- [+] Change layout on large monitors to a maximum width and display a cool background
 - [+] Get restrictions working correctly
 - [++] Progressive Web App
 
@@ -20,21 +19,13 @@ Legend
 ## Live Session
 
 ### Map
-- [+++] Add Circle (Mostly done)
-- [+++] Add Rectangle
-- [+++] Add Polygon
 - [+++] Add Polyline
-- [+++] Add character
-- [+++] Add token (This is from a library.. not sure if we are going to stll do that)
 - [++] Add monster
 - [+++] Add marker
 - [+++] Add flag
 - [++] Add image
-- [+++] Upload (mostly Done)
 - [++] Add Text
 - [+++] Fog Of War
-- [+++] Pinch zoom fix
-- [+++] Zoom Fit
 - [+++] Auto pan / zoom + Recenter (on gm action)
 - [++] Scale Bar 
 - [+++] Encounter display
@@ -42,8 +33,6 @@ Legend
 - [+++] Long press flag
 - [+] Flag Ripple effect (tried this. Should be pretty easy)
 - [+] Audio effects
-- [+++] Annotation Drag (mostly working, has bugs)
-- [+++] Annotation Select (mostly working, has bugs)
 - [++] Restrict Dialog
 - [+++] Favorite Dialog
 - [+++] GM / Debug Layer Control, show all plugins per layer (layers are just containers)
@@ -67,11 +56,7 @@ Legend
 ## Game Data Management
 
 ### Character
-- [+++] Character UI
-- [+++] Upload a character from HeroLab
 - [+++] Upload a character from PCGen
-- [+++] Edit Character
-- [++] Crop Token Image
 
 ### Tokens
 In general tokens are needed but the abilty to have the token libary prepopulated is not high. As long as there is an easy way to add a token during planning or game

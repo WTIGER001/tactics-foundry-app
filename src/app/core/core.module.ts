@@ -93,6 +93,8 @@ import { WeaponComponent } from './character/components/weapon/weapon.component'
 import { WeaponDialogComponent } from './character/components/weapon-dialog/weapon-dialog.component';
 import { ImportDialogComponent } from './character/components/import-dialog/import-dialog.component';
 import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
+import { EditMarkerComponent } from './components/map/tools/edit/edit-marker/edit-marker.component';
+import { SelectMarkerDialogComponent } from './components/map/tools/edit/select-marker-dialog/select-marker-dialog.component';
 
 
 @NgModule({
@@ -164,7 +166,7 @@ import { ImageCropDialogComponent } from './components/image-crop-dialog/image-c
     CharacterPageComponent,
     AbilityScoresComponent,
     AbilityScoreComponent, 
-    PlusPipe, AttributeComponent, AttributesComponent, AttributeDialogComponent, SkillsComponent, SkillComponent, SkillDialogComponent, RollsComponent, RollComponent, RollDialogComponent, WeaponsComponent, WeaponComponent, WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent
+    PlusPipe, AttributeComponent, AttributesComponent, AttributeDialogComponent, SkillsComponent, SkillComponent, SkillDialogComponent, RollsComponent, RollComponent, RollDialogComponent, WeaponsComponent, WeaponComponent, WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent, EditMarkerComponent, SelectMarkerDialogComponent
   ],
   imports: [
     CommonModule,
@@ -184,7 +186,8 @@ import { ImageCropDialogComponent } from './components/image-crop-dialog/image-c
   entryComponents: [
     ToolDialogComponent,
     FormatToolDialogComponent,
-    AddTokenToolComponent
+    AddTokenToolComponent, 
+    SelectMarkerDialogComponent
   ]
 })
 export class CoreModule {

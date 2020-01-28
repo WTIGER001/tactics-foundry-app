@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "defaultMarker": {
+        "name": "Basic Marker",
+        "url": "/assets/markers/marker.png",
+        "w": 30,
+        "h": 46,
+        "ax": 15,
+        "ay": 46
+    },
+    "categories": [
+        {
+            "name": "General Purpose",
+            "order": 1,
+            "markers": [
+                {
+                    "name": "Basic Marker",
+                    "url": "/assets/markers/marker.png",
+                    "w": 30,
+                    "h": 46,
+                    "ax": 15,
+                    "ay": 46
+                }, 
+                {
+                    "name": "Basic Marker 2",
+                    "url": "/assets/markers/marker-2.png",
+                    "w": 31,
+                    "h": 46,
+                    "ax": 15,
+                    "ay": 46
+                }
+            ]
+        }
+    ]
+}

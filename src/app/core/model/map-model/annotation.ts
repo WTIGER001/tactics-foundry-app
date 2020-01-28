@@ -5,6 +5,7 @@ import { Point, Rectangle, Circle, Polygon } from 'pixi.js';
 import { Aura, AuraVisible } from '../aura';
 import { Geom } from '../util/geom';
 import { IdUtil } from '../../util/IdUtil';
+import { Marker } from '../../marker.service';
 
 export enum AnchorPostitionChoice {
     TopLeft = 0,
@@ -73,12 +74,9 @@ export abstract class Annotation extends ObjectType {
         if (TokenAnnotation.is(obj)) {
             rtn = new TokenAnnotation().copyFrom(obj)
         }
-        // if (rtn) {
-        //   if (rtn.points) {
-        //     rtn.points = LangUtil.map2Array(rtn.points)
-        //   }
-        //   return rtn
-        // }
+        if (MarkerTypeAnnotation.is(obj)) {
+            rtn = new MarkerTypeAnnotation().copyFrom(obj)
+        }
 
         if (rtn) {
             return rtn
@@ -110,12 +108,12 @@ export class MarkerTypeAnnotation extends Annotation {
     public static readonly SUBTYPE = 'markerType'
     readonly subtype: string = MarkerTypeAnnotation.SUBTYPE
 
-    markerType: string
-    
-
-    // center(): Point {
-    //     return this.centerPt
-    // }
+    w : number
+    h : number
+    ax : number = 0
+    ay : number = 0
+    url : string
+    scale: number = 1
 
     static is(obj: any): obj is ShapeAnnotation {
         return Annotation.is(obj) && obj.subtype == MarkerTypeAnnotation.SUBTYPE

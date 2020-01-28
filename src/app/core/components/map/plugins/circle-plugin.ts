@@ -51,6 +51,8 @@ export class CirclePlugin extends AnnotationPlugin<CircleAnnotation> {
     }
 
     updatePositionFromDrag(x: number, y:number) {
+        console.log(" CIRCLE DRAGGING ", x, y)
+
         this.annotation.x = x
         this.annotation.y = y
 

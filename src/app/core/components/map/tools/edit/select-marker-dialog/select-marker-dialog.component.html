@@ -1,0 +1,11 @@
+
+<div class='shell'>
+    <div class="shell dark-scroller scroller">
+        <div class="result-area">
+            <div  class="category-set" *ngFor="let category of categories">
+                <div class="category">{{category.name}}</div>
+                <img class="marker" *ngFor="let item of category.markers" [src]="item.url"  (click)="select(item)">
+            </div>
+        </div>
+    </div>
+</div>

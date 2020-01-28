@@ -1,0 +1,17 @@
+<div class="shell">
+    <fav-tool [item]="item" (onUpdate)="updated($event)"></fav-tool>
+
+    <div class="inner">
+        <h3 class="grid-span-3">Name</h3>
+        <input class="grid-span-3" type="text" [(ngModel)]="item.name" (change)="updated($event)">
+
+        <h3 class="row-span-2">Marker</h3>
+        <div class="format row-span-2" (click)="showMarkerDialog()"><img [src]="item.url"></div>
+
+        <h3>Size</h3>
+        <div class="slidecontainer">
+            <input class="slider" type="range" min="0" [max]="scales.length" [(ngModel)]="scale">
+        </div>
+    </div>
+    <layer-pick [item]="item" (updated)="updated($event)"></layer-pick>
+</div>

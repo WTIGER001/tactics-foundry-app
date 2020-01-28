@@ -1,5 +1,5 @@
 
-.shell {
+.tool-tabs-shell {
     position: fixed;
     bottom: 0;
     right: 0   ;
@@ -85,7 +85,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-    .shell {
+    .tool-tabs-shell {
         right: 350px;
     }
 }
