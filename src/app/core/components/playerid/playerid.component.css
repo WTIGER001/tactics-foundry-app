@@ -9,3 +9,10 @@
     color: var(--light-text);
     font-size: 1.4em;
 }
+
+.editting {
+    border-radius: 7px;
+    background: white;
+    width: 100%;
+    color: black;
+}

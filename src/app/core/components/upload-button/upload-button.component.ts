@@ -13,6 +13,7 @@ export class UploadButtonComponent implements OnInit {
   @Input() multiple = false
   @Input() searchTerm = ''
   @Input() accept = ".jpg,.png"
+  @Input() capture : string = undefined
 
 
   @ViewChild('fileupload', {static: true}) fileButton

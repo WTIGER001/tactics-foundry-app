@@ -8,7 +8,16 @@
         <p>This is your first time. Please enter a display name. If you already have a player id then enter it.</p>
         <h3>Display Name</h3>
         <input class="fullw" type="text" [(ngModel)]="displayName" (keydown.enter)="submit()" >
-        <playerid></playerid>
+
+        <div class="centered-row m-1 pid">
+            <span class="id m-1">ID:</span> 
+            <span class="playerid" [contenteditable]="editting" (keydown.enter)="commit($event)" (blur)="commit($event)" (keydown.esc)="cancelEdit()" [class.editting]="editting" [(ngModel)]="playerid">{{playerid}}</span>
+            <fa-icon class="clickable m-1" icon="paste" (click)="paste()"></fa-icon>
+            <fa-icon class="clickable m-1" icon="edit" (click)="edit()"></fa-icon>
+            <fa-icon class="clickable m-1" icon="sync-alt" (click)="generate()" ></fa-icon>
+        </div>
+        <div class="error" *ngIf="error">{{error}}</div>
+
         <button class="btn btn-primary btn-big" (click)="submit()" [disabled]="!displayName || displayName.length == 0">Continue</button>
     </div> 
 </div>

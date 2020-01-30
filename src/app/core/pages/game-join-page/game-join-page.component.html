@@ -1,0 +1,24 @@
+<div class="welcome-page page" *ngIf="player">
+    <button *ngIf="showBack" class="back-nav " (click)='onBack()'><img src="/assets/components/back.png"></button>
+
+    <div class="welcome-logo">
+        <h2>Join A Game In</h2>
+        <h1 class="logo">Tactics Foundry</h1>
+        <img src="/assets/pages/tflogo.png">
+    </div>
+    <div class="welcome-container">
+        <h3>Enter a Game Id or scan the QR code.</h3>
+        <div class="holder">
+            <input class="fullw" type="text" [(ngModel)]="gameId" (keydown.enter)="submit()" >
+            <fa-icon class="icon icon-shaddow icon-btn" icon="paste" (click)="paste()" size="2x"></fa-icon>
+            <fa-icon class="icon icon-shaddow icon-btn" icon="qrcode" (click)="upload.getFile()" size="2x"></fa-icon>
+        </div>
+        <div class="error-msg" *ngIf="error">{{error}}</div>
+        <button class="btn btn-primary btn-big" (click)="submit()" [disabled]="!gameId || gameId.length == 0">Join!</button>
+
+        <app-upload-button #upload (choice)="scanImage($event)" accept='image/*' capture='environment'></app-upload-button>
+
+        <ng2-qrcode-reader (result)="done($event)" qrr-show="false" [qrr-value]="qrcodefile" [qrr-type]="elementType"></ng2-qrcode-reader>
+
+    </div> 
+</div>

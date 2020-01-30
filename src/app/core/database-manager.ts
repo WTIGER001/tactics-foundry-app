@@ -55,6 +55,20 @@ export class DatabaseManager<T extends ObjectType> {
     this.remotedb.putIfNotExists(filter)
   }
 
+  findId(id : string, fields ?:string[]) {
+    let query : any= {
+      selector : {
+        _id : {
+          $eq : id
+        }
+      }
+    }
+    if (fields) {
+      query.fields = fields
+    }
+    return from(this.localdb.find(query))
+  }
+
   findIds(ids : string[], fields ?:string[]) {
     let query : any= {
       selector : {

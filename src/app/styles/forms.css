@@ -1,4 +1,4 @@
-button.btn {
+.btn {
     border-radius: 5px;
     cursor: pointer;
     padding: .25em 0.5em;
@@ -6,23 +6,23 @@ button.btn {
     font-size: 1.5em;
 }
 
-button.btn:active {
+.btn:active {
     transform: translate(1px, 1px);
 }
 
-button.btn-primary {
+.btn-primary {
     color: black;
     text-shadow: 1px 1px white;
     background-color: rgb(220, 216, 208);
     box-shadow: 1px 1px 5px #444444;
 }
-button.btn-primary:disabled {
+.btn-primary:disabled {
     background-color: rgb(220, 216, 208, 0);
     color: grey;
     text-shadow: unset;
 }
 
-button.btn-secondary {
+.btn-secondary {
     color: white;
     text-shadow: 1px 1px black;
     background: rgb(90, 106, 132);
@@ -43,7 +43,7 @@ button.btn-submit:disabled {
 }
 
 
-button.btn-big {
+.btn-big {
     padding: .5em 1.5em;
     font-size: 2em;
 }

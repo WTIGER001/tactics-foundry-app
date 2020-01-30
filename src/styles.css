@@ -3,6 +3,7 @@
 @import 'app/styles/forms.css';
 @import 'app/styles/slider.css';
 @import 'app/styles/typography.css';
+@import 'app/styles/welcome.css';
 
 @font-face {
     font-family: 'ringbearer';

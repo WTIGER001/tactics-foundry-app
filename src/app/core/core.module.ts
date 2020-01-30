@@ -8,6 +8,9 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
 import { PlatformModule } from '@angular/cdk/platform';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { QRCodeModule } from 'angularx-qrcode';
+import { NgQRCodeReaderModule } from 'ng2-qrcode-reader';
+
 
 import { PlayerHomeComponent } from './pages/player-home/player-home.component'
 import { WelcomeComponent } from './pages/welcome/welcome.component';
@@ -95,6 +98,8 @@ import { ImportDialogComponent } from './character/components/import-dialog/impo
 import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
 import { EditMarkerComponent } from './components/map/tools/edit/edit-marker/edit-marker.component';
 import { SelectMarkerDialogComponent } from './components/map/tools/edit/select-marker-dialog/select-marker-dialog.component';
+import { GameInvitePageComponent } from './pages/game-invite-page/game-invite-page.component';
+import { GameJoinPageComponent } from './pages/game-join-page/game-join-page.component';
 
 
 @NgModule({
@@ -166,7 +171,12 @@ import { SelectMarkerDialogComponent } from './components/map/tools/edit/select-
     CharacterPageComponent,
     AbilityScoresComponent,
     AbilityScoreComponent, 
-    PlusPipe, AttributeComponent, AttributesComponent, AttributeDialogComponent, SkillsComponent, SkillComponent, SkillDialogComponent, RollsComponent, RollComponent, RollDialogComponent, WeaponsComponent, WeaponComponent, WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent, EditMarkerComponent, SelectMarkerDialogComponent
+    PlusPipe, AttributeComponent,
+     AttributesComponent, AttributeDialogComponent, SkillsComponent,
+      SkillComponent, SkillDialogComponent, RollsComponent, RollComponent,
+       RollDialogComponent, WeaponsComponent, WeaponComponent, 
+       WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent,
+        EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent
   ],
   imports: [
     CommonModule,
@@ -178,7 +188,9 @@ import { SelectMarkerDialogComponent } from './components/map/tools/edit/select-
     ColorPickerModule,
     EmojifyModule,
     PlatformModule, 
-    ImageCropperModule
+    ImageCropperModule,
+    QRCodeModule, 
+    NgQRCodeReaderModule
   ],
   providers: [
     DataService

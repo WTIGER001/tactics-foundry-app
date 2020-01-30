@@ -8,7 +8,7 @@ import { Player, MapData, Game, Annotation, ObjectType } from './model';
 import { BehaviorSubject, ReplaySubject, Observable, from } from 'rxjs';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { IdUtil } from './util/IdUtil';
-import { map, filter, tap, take } from 'rxjs/operators';
+import { map, filter, tap, take, first, mergeMap } from 'rxjs/operators';
 import { Character } from './character/character';
 
 const PLAYER_DB = 'players'
@@ -59,12 +59,7 @@ export class DataService {
    * - Get the token db
    */
   private startup() {
-
-
-
     this.lookupUserId()
-
-
   }
 
   signout() {
@@ -75,6 +70,11 @@ export class DataService {
     })
   }
 
+  public setPlayerId(playerid: string) {
+     this.localStorage.set('playerid', playerid).subscribe( () => {
+      location.reload();
+    })
+  }
 
   public createPlayer(displayName: string, playerid: string = this.playerId$.getValue()) {
     let p = new Player()
@@ -319,8 +319,33 @@ export class DataService {
     // First get the 'live_session'
     // Then activate the map and reset all the map center and map zoom.
 
-
-
   }
 
+  public join(gameId : string) : Observable<string> {
+     // Look for game
+     return this.coreDB.findId(gameId).pipe(
+      first(),
+      filter( res => {
+        if (res.docs && res.docs.length == 1) {
+          let game = Game.to(res.docs[0])
+          let found = game.players.find( p => p._id == this.player._id) 
+          if (found) {
+            throw new Error("You are already a player in this game!")
+            return false
+          } else {
+            return true
+          }
+        } else {
+          throw new Error("Game Not Found!")
+          return false
+        }
+      }), 
+      mergeMap( res => {
+        let game = Game.to(res.docs[0])
+        game.players.push({_id : this.player._id, role:'Player', displayName: this.player.displayName})
+        return this.store(game)
+      }),
+      map( res => res["_id"])
+    )
+  }
 }

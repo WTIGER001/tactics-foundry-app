@@ -1,0 +1,17 @@
+<div class="welcome-page page">
+    <button class="back-nav " (click)='onBack()'><img src="/assets/components/back.png"></button>
+    <div class="welcome-logo">
+        <h2>Invite To</h2>
+        <h1 class="logo">{{gamename}}</h1>
+        <qrcode class="qrcode" [qrdata]="qrdata" [size]="256" [level]="'M'"></qrcode>
+    </div>
+    <div class="welcome-container">
+        <div class="id-container">
+            <div class="gameid">{{id}}</div>
+            <fa-icon icon="copy" size="lg" class="clickable" (click)="copy()"></fa-icon>
+        </div>
+
+        <a [href]="email" class="btn btn-primary btn-big" target="_blank">Invite By Email</a>
+        <a *ngIf="isMobile()" [href]="sms" class="btn btn-primary btn-big" target="_blank">Invite By SMS</a>
+    </div>
+</div>

@@ -60,32 +60,24 @@
     width: 100%;
 }
 
-.playerid {
-    font-family: 'Courier New', Courier, monospace;
-}
-.id {
-    font-weight: 200;
-}
-
-.pid {
-    color: var(--light-text);
-    font-size: 1.4em;
-}
-
-.editting {
-    border-radius: 7px;
-    background: white;
-    width: 100%;
-    color: black;
-    padding: .25em;
+.back-nav {
+    position: absolute;
+    /* box-shadow: 1px 1px 5px 1px rgba(0,0,0,0.6); */
+    cursor: pointer;
+    padding: 0;
+    border: 0;
+    left: -1px;
+    top: -1px;
+    background-color: rgb(0,0,0,0);
 }
 
-
-@media (min-width:750px) {
-    .welcome-page {
-        width: 100%;
-    }
+.back-nav img {
+    padding: 0;
 }
+.back-nav:active {
+    transform: translate(1px, 1px);
+}
+
 @media  (max-height: 750px) {
     .welcome-page {
         display: flex;

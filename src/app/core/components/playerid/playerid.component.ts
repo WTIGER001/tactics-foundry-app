@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../../data.service';
+import * as shortid from 'shortid'
 
 @Component({
   selector: 'playerid',
@@ -8,7 +9,10 @@ import { DataService } from '../../data.service';
 })
 export class PlayeridComponent implements OnInit {
   @Input() showSignOut = false
-  playerid = "UNSET"
+  @Input() playerid = "UNSET"
+  @Output() onUpdate = new EventEmitter<string>()
+  editting = false
+  error: string
   constructor(private data : DataService) { 
     data.playerId$.subscribe(player => {
       this.playerid = player
@@ -19,16 +23,35 @@ export class PlayeridComponent implements OnInit {
   }
 
   signout() {
-    this.data.signout();;
+    this.data.signout();
   }
 
   copy() {
-    
     navigator.clipboard.writeText(this.playerid);
-    console.log("TEXT COPPIED")
   }
 
   edit() {
+    this.editting = true
+  }
 
+  commit() {
+    // Validates 
+    this.editting = false
+    let valid = shortid.isValid(this.playerid) && this.playerid.length == 8
+    if (!valid) {
+      this.error = "Invalid Id Format"
+    } else {
+      this.onUpdate.emit(this.playerid)
+    }
+  }
+
+  generate() {
+    this.playerid = shortid.generate()
+    // this.data.setPlayerId(this.playerid)
+    this.onUpdate.emit(this.playerid)
+  }
+
+  canceEdit() {
+    this.editting = false
   }
 }

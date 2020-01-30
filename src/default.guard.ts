@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Resolve } from '@angular/router';
-import { Observable, from } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Resolve, Router } from '@angular/router';
+import { Observable, from, merge } from 'rxjs';
 import { ObjectType, RouteContext } from './app/core/model';
 import { DataService } from './app/core/data.service';
 import { DatabaseManager } from './app/core/database-manager';
-import { id } from './app/core/model/modelutil';
-import { take, map } from 'rxjs/operators';
-
+import { delay, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,14 +14,30 @@ export class DefaultGuard implements CanActivate, Resolve<RouteContext> {
    * Need to determine how to wait for the dataaservice to be completely initialized and redirect if there is no player id. And how to handle errors. 
    * @param data 
    */
-  constructor(private data: DataService) {
+  constructor(private data: DataService, private router: Router) {
 
   }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    // get some route parameters
+    let gameToJoin = next.queryParamMap.get("id")
+    let params : any = {}
+    if (gameToJoin) {
+      params.gameToJoin = gameToJoin
+    }
+    let failure = this.router.createUrlTree(["/home"], {queryParams : params})
+
+    let d$ :Observable<UrlTree | boolean>= from([failure]).pipe(delay(3000))
+    let p$ :Observable<UrlTree | boolean>= this.data.player$.pipe(map(p => {
+      if (p && p.displayName) {
+        return true
+      } else {
+        return failure
+      }
+    }))
+
+    let merged =  merge(d$, p$, 2)
+    return merged
   }
 
   /**
@@ -37,6 +51,8 @@ export class DefaultGuard implements CanActivate, Resolve<RouteContext> {
     const gs = route.paramMap.get("gsid")
     const sessionId = route.paramMap.get("sessionid")
     const id = route.paramMap.get("id")
+
+
 
     // Path structure
     // Patern is /game/[gameid]/[item]/[itemid] or /game/[gameid]/session/[sessionid]/[item]/[itemid]

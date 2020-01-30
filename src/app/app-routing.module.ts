@@ -13,6 +13,9 @@ import { DefaultGuard } from 'src/default.guard';
 import { MapPageComponent } from './core/pages/map-page/map-page.component';
 import { LivePageComponent } from './core/pages/live-page/live-page.component';
 import { CharacterPageComponent } from './core/character/pages/character-page/character-page.component';
+import { GameInviteComponent } from './core/components/game-invite/game-invite.component';
+import { GameJoinPageComponent } from './core/pages/game-join-page/game-join-page.component';
+import { GameInvitePageComponent } from './core/pages/game-invite-page/game-invite-page.component';
 
 
 const routes: Routes = [
@@ -20,26 +23,28 @@ const routes: Routes = [
 
   // GAMES
   { path: 'home', component: PlayerHomeComponent},
-  { path: 'my-settings', component: CharactersPageComponent },
-  { path: 'test', component: TestBindingContainerComponent },
+  { path: 'my-settings', component: CharactersPageComponent, canActivate : [DefaultGuard]  },
+  { path: 'test', component: TestBindingContainerComponent, canActivate : [DefaultGuard]  },
   
-  { path: 'characters', component: CharactersPageComponent },
-  { path: 'characters/:id', component: CharacterPageComponent,  resolve: { 'ctx': DefaultGuard } },
+  { path: 'characters', component: CharactersPageComponent , canActivate : [DefaultGuard] },
+  { path: 'characters/:id', component: CharacterPageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard] },
 
   { path: 'games', component: GamesPageComponent },
-  { path: 'games/:id', component: GamePageComponent,  resolve: { 'ctx': DefaultGuard }  },
-  { path: 'games/:id/live', component: LivePageComponent,  resolve: { 'ctx': DefaultGuard }},
+  { path: 'games/:id', component: GamePageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard]   },
+  { path: 'games/:id/live', component: LivePageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard] },
+  { path: 'games/:id/invite', component: GameInvitePageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard] },
+  { path: 'join', component: GameJoinPageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard] },
 
-  { path: 'games/:id/maps', component: MapsPageComponent,  resolve: { 'ctx': DefaultGuard }  },
-  { path: 'games/:id/maps/:id', component: MapInfoPageComponent,  resolve: { 'ctx': DefaultGuard }  },
+  { path: 'games/:id/maps', component: MapsPageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard]   },
+  { path: 'games/:id/maps/:id', component: MapInfoPageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard]   },
 
-  { path: 'games/:id/characters', component: CharactersPageComponent,  resolve: { 'ctx': DefaultGuard }  },
-  { path: 'games/:id/characters/:id', component: CharacterPageComponent,  resolve: { 'ctx': DefaultGuard }  },
+  { path: 'games/:id/characters', component: CharactersPageComponent,  resolve: { 'ctx': DefaultGuard } , canActivate : [DefaultGuard]  },
+  { path: 'games/:id/characters/:id', component: CharacterPageComponent,  resolve: { 'ctx': DefaultGuard } , canActivate : [DefaultGuard]  },
 
-  { path: 'templates', component: CharactersPageComponent,  resolve: { 'ctx': DefaultGuard } },
-  { path: 'game', component: GamePageComponent,  resolve: { 'ctx': DefaultGuard } },
-  { path: 'new-map', component: MapInfoPageComponent,  resolve: { 'ctx': DefaultGuard } },
-  { path: 'maps', component: MapsPageComponent,  resolve: { 'ctx': DefaultGuard } }
+  { path: 'templates', component: CharactersPageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard]  },
+  { path: 'game', component: GamePageComponent,  resolve: { 'ctx': DefaultGuard } , canActivate : [DefaultGuard] },
+  { path: 'new-map', component: MapInfoPageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard]  },
+  { path: 'maps', component: MapsPageComponent,  resolve: { 'ctx': DefaultGuard }, canActivate : [DefaultGuard]  }
 
 ];
 

@@ -1,0 +1,21 @@
+.page {
+    width: 100%;
+}
+
+.qrcode {
+
+}
+
+.holder {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: .5em;
+    margin-bottom: 1em;
+}
+
+.error-msg {
+    color: red;
+    font-size: 1.25em;
+    font-weight: 700;
+}
