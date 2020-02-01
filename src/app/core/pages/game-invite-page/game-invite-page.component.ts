@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteContext } from '../../model';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'game-invite-page',
@@ -11,10 +12,10 @@ import { RouteContext } from '../../model';
 export class GameInvitePageComponent implements OnInit {
   qrdata : string = 'EMPTY'
   gamename : string = 'empty'
-  sms : string
+  sms : SafeUrl
   email : string
   id : string
-  constructor(private data: DataService, private route: ActivatedRoute, private router: Router, private zone: NgZone) { }
+  constructor(private data: DataService, private route: ActivatedRoute, private router: Router, private zone: NgZone, private unsafe : DomSanitizer) { }
 
   ngOnInit() {
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
@@ -25,7 +26,7 @@ export class GameInvitePageComponent implements OnInit {
       this.data.coreDB.findId(this.id).forEach( res => {
         if (res.docs && res.docs.length >= 1) {
           this.gamename= res.docs[0]['name']
-          this.sms = encodeURI("sms:?body=Please join our game, " + this.gamename + ". Go to " + this.qrdata)
+          this.sms = this.unsafe.bypassSecurityTrustUrl(encodeURI("sms:?body=Please join our game, " + this.gamename + ". Go to " + this.qrdata))
           this.email = encodeURI("mailto:?body=Please join our game, " + this.gamename + ". Go to " + this.qrdata + "&subject=Join " + this.gamename +"&")
         }
       })

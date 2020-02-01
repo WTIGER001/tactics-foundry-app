@@ -20,7 +20,8 @@
     display: none;
     height: 90vh;
     width: calc((100vw - 1024px) / 2);
-    filter: drop-shadow(2px 2px 6px black);
+    /* filter: drop-shadow(2px 2px 6px black); */
+    filter: drop-shadow(-2px -2px 9px white);
 }
 
 .left {
