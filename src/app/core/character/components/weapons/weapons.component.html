@@ -1,8 +1,6 @@
-<div class="outter scroller scroller-dark">
-    <div class="shell">
-        <weapon [item]="weapon" [chr]="item" *ngFor="let weapon of weapons" (click)="show(weapon)"></weapon>
-        <div class="bottom-spacer"></div>
-    </div>
+<div class="shell">
+    <weapon [item]="weapon" [chr]="item" *ngFor="let weapon of weapons" (click)="show(weapon)"></weapon>
+    <div class="bottom-spacer"></div>
 </div>
 <button class="fab btn btn-primary" (click)="add()">
     <fa-icon icon="plus" size="lg"></fa-icon>

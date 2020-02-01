@@ -62,3 +62,12 @@
     text-align: center;
 }
 
+@media screen and (orientation: landscape) and (max-width: 900px)  {
+    .buttons {
+        grid-template-columns: auto 1fr 1fr;
+        grid-template-rows: 1fr;
+    }
+    .sort {
+        grid-row: 1;
+    }
+}

@@ -14,6 +14,7 @@ import { ToolsComponent } from '../../components/map/tools/tools/tools.component
 import { Session } from 'protractor';
 import { MapLayerManager } from '../../components/map/map/layer-manager';
 import { AppComponent } from 'src/app/app.component';
+import { SettingsService } from '../../settings.service';
 
 @Component({
   selector: 'live-page',
@@ -73,7 +74,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public data: DataService,
     private route: ActivatedRoute, private router: Router, private zone: NgZone,
-    private element: ElementRef, private app: AppComponent) { 
+    private element: ElementRef, private app: AppComponent, public settings: SettingsService) { 
       this.app.fw = true
     }
 

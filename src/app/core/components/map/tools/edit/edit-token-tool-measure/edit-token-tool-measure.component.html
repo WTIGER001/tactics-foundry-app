@@ -1,0 +1,17 @@
+<div class="shell">
+
+    <ng-container *ngFor="let item of configs">
+        <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch" [(ngModel)]="item.enabled"
+                (change)="item.update()"></div>
+        <color-dialog [color]="item.color" (onUpdateColor)="item.updateColor($event)"></color-dialog>
+        <label>{{item.label}}</label>
+    </ng-container>
+    <ng-container *ngIf="custom">
+        <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch"
+                [(ngModel)]="custom.enabled" (change)="custom.update()"></div>
+        <color-dialog [color]="custom.color" (onUpdateColor)="custom.updateColor($event)"></color-dialog>
+        <input type="number" min=5 step=5 placeholder="Custom" [(ngModel)]="custom.value" (change)="custom.update()"> 
+    </ng-container>
+
+
+</div>

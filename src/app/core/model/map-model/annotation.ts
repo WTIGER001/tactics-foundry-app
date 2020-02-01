@@ -68,6 +68,9 @@ export abstract class Annotation extends ObjectType {
         if (PolygonAnnotation.is(obj)) {
           rtn = new PolygonAnnotation().copyFrom(obj)
         }
+        if (PolylineAnnotation.is(obj)) {
+          rtn = new PolylineAnnotation().copyFrom(obj)
+        }
         if (ImageAnnotation.is(obj)) {
           rtn = new ImageAnnotation().copyFrom(obj)
         }
@@ -273,7 +276,7 @@ export class PolygonAnnotation extends ShapeAnnotation {
 
 export class PolylineAnnotation extends ShapeAnnotation {
     shapetype = ShapeType.Polyline
-    points: number[]
+    points: number[] = []
 
     center(): Point {
         return Geom.center(Geom.boundsXY(this.points))
@@ -281,6 +284,9 @@ export class PolylineAnnotation extends ShapeAnnotation {
 
     toShape(): Polygon {
         return new Polygon(this.points)
+    }
+    static is(obj: any): obj is PolylineAnnotation {
+        return ShapeAnnotation.is(obj) && obj.shapetype == ShapeType.Polyline
     }
 }
 

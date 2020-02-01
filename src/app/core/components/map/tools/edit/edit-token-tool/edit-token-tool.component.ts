@@ -39,7 +39,9 @@ export class EditTokenToolComponent implements OnInit, AfterContentInit, OnDestr
   }
 
   ngOnDestroy() {
-    this.watcher.cancel()
+    if (this.watcher) {
+      this.watcher.cancel()
+    }
   }
 
   // Called when something is updated

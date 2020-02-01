@@ -2,6 +2,9 @@
     height: 85%;
 }
 
+.main {
+    height: var(--detail-main-height)
+}
 
 .game-img {
     object-fit: cover;
@@ -51,4 +54,15 @@
     padding-bottom: .2em;
     color: white;
     text-shadow: 1px 1px black;
+}
+
+@media screen and (orientation: landscape) and (max-width: 900px)  {
+    .top-buttons {
+        grid-template-columns: auto 1fr 1fr;
+        grid-template-rows: 1fr;
+    }
+    .top-icons {
+        grid-row: 1;
+    }
+  
 }

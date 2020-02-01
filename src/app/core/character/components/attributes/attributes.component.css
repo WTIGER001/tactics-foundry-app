@@ -3,9 +3,9 @@
     gap: .25em;
 }
 
-.outter {
+/* .outter {
     max-height: calc(100vh - 260px);
-}
+} */
 
 .fab {
     border-radius: 50%;

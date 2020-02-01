@@ -1,6 +1,3 @@
-
-
-
 :root {
     --detail-top-bg: rgb(90, 106, 132);
     --detail-main-bg:  linear-gradient(135deg,  #97b8ff 0%,#bfd2ff 50%,#dfe8ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -17,6 +14,13 @@
     --filter-shadow: drop-shadow(1px 1px 3px #444444);
     --box-shadow: 1px 1px 5px #444444;
     --primary: rgb(220, 216, 208);
+    --detail-main-height: calc(100vh - 260px)
+}
+
+@media screen and (orientation: landscape) and (max-width: 900px)  {
+    :root {
+        --detail-main-height: calc(100vh - 140px)
+    }
 }
 
 *, *::before, *::after {

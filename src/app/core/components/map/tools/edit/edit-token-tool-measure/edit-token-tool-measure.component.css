@@ -1,0 +1,11 @@
+.shell {
+    display: grid;
+    grid-template-columns: 35px 40px 1fr 35px 40px 1fr;
+    gap: .5em;
+    padding: 1em;
+    align-items: center;
+}
+
+.shell input {
+    font-size: 1.1em;
+}

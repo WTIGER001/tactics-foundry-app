@@ -100,6 +100,9 @@ import { EditMarkerComponent } from './components/map/tools/edit/edit-marker/edi
 import { SelectMarkerDialogComponent } from './components/map/tools/edit/select-marker-dialog/select-marker-dialog.component';
 import { GameInvitePageComponent } from './pages/game-invite-page/game-invite-page.component';
 import { GameJoinPageComponent } from './pages/game-join-page/game-join-page.component';
+import { MeasureToolComponent } from './components/map/tools/measure-tool/measure-tool.component';
+import { EditTokenToolMeasureComponent } from './components/map/tools/edit/edit-token-tool-measure/edit-token-tool-measure.component';
+import { SettingsService } from './settings.service';
 
 
 @NgModule({
@@ -176,7 +179,7 @@ import { GameJoinPageComponent } from './pages/game-join-page/game-join-page.com
       SkillComponent, SkillDialogComponent, RollsComponent, RollComponent,
        RollDialogComponent, WeaponsComponent, WeaponComponent, 
        WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent,
-        EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent
+        EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent
   ],
   imports: [
     CommonModule,
@@ -193,7 +196,8 @@ import { GameJoinPageComponent } from './pages/game-join-page/game-join-page.com
     NgQRCodeReaderModule
   ],
   providers: [
-    DataService
+    DataService, 
+    SettingsService
   ],
   entryComponents: [
     ToolDialogComponent,

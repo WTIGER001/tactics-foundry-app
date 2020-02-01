@@ -55,7 +55,7 @@
 }
 
 .span2 {
-    grid-column: span 2;
+    grid-column: 1/-1;
 }
 
 .buttons .btn {
@@ -115,4 +115,18 @@
     font-family: 'Courier New', Courier, monospace;
     text-align: right;
     font-size: .8em;
+}
+
+@media screen and (orientation: landscape) and (max-width: 900px) {
+    .top-buttons {
+        grid-template-columns: auto 1fr 1fr;
+        grid-template-rows:   1fr;
+        bottom: 10px;
+    }
+    .top-icons {
+        grid-row: 1;
+    }
+    .buttons {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }

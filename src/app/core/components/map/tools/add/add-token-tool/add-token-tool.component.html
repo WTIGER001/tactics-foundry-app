@@ -12,7 +12,7 @@
         <div class="result-area dark-scroller scroller">
             <div *ngFor="let item of items" class="card">
                 <figure [class.selected]="isSelected(item)" (click)="select(item)">
-                    <img [src]="item.url">
+                    <img [src]="item.url?item.url:'/assets/sprites/sample-token.png'">
                     <figcaption>{{item.name}}</figcaption>
                 </figure>
             </div>

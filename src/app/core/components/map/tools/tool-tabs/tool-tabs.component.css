@@ -31,6 +31,7 @@
     background: var(--detail-top-bg);
     color: white;
     text-shadow: 1px 1px black;
+    grid-template-columns: auto 1fr;
 }
 
 .tool-tabs .active .icon {
@@ -41,7 +42,7 @@
     display: grid;
     padding: .5em;
     gap: .5em;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto;
     align-items: center;
     margin-left: .5em;
     background: rgb(133, 149 ,170);

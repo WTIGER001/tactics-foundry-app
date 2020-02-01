@@ -4,8 +4,9 @@ import { MapData, Annotation, TokenAnnotation, TokenBar, CircleAnnotation, Shape
 import { Point, Graphics, Sprite, Container, DisplayObject } from 'pixi.js';
 import { Aura } from 'src/app/core/model/aura';
 import { LangUtil } from 'src/app/core/util/LangUtil';
-import { AnnotationPlugin, Handle } from './annotation-plugin';
+import { AnnotationPlugin } from './annotation-plugin';
 import {ShockwaveFilter} from '@pixi/filter-shockwave';
+import { Handle } from './basic-plugin';
 
 /**
  * This plugin is used to create, edit and display

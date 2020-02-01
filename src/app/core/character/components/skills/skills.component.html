@@ -1,8 +1,6 @@
-<div class="outter scroller scroller-dark">
-    <div class="shell">
-        <skill [item]="skill" [chr]="item" *ngFor="let skill of skills" (click)="show(skill)"></skill>
-        <div class="bottom-spacer"></div>
-    </div>
+<div class="shell">
+    <skill [item]="skill" [chr]="item" *ngFor="let skill of skills" (click)="show(skill)"></skill>
+    <div class="bottom-spacer"></div>
 </div>
 <button class="fab btn btn-primary" (click)="add()">
     <fa-icon icon="plus" size="lg"></fa-icon>

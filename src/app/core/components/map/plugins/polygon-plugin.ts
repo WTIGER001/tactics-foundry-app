@@ -1,18 +1,19 @@
 import { Plugin } from "pixi-viewport";
 import { MapComponent } from '../map/map.component';
-import { MapData, Annotation, TokenAnnotation, TokenBar, CircleAnnotation, ShapeAnnotation, Distance, Geom, RectangleAnnotation, Formatted, PolygonAnnotation } from 'src/app/core/model';
-import { Point, Graphics, Sprite, Container, DisplayObject, interaction } from 'pixi.js';
+import { MapData, Annotation, TokenAnnotation, TokenBar, CircleAnnotation, ShapeAnnotation, Distance, Geom, RectangleAnnotation, Formatted, PolygonAnnotation, PolylineAnnotation } from 'src/app/core/model';
+import { Point, Graphics, Sprite, Container, DisplayObject, interaction, Polygon } from 'pixi.js';
 import { Aura } from 'src/app/core/model/aura';
 import { LangUtil } from 'src/app/core/util/LangUtil';
-import { AnnotationPlugin, Handle } from './annotation-plugin';
+import { AnnotationPlugin } from './annotation-plugin';
 import { ShockwaveFilter } from '@pixi/filter-shockwave';
 import { runInThisContext } from 'vm';
 import { ThrowStmt } from '@angular/compiler';
+import { Handle } from './basic-plugin';
 
 /**
  * This plugin is used to create, edit and display
  */
-export class PathPlugin extends AnnotationPlugin<PolygonAnnotation> {
+export class PathPlugin extends AnnotationPlugin<PolygonAnnotation | PolylineAnnotation> {
     selected = true
     enabled = true
     editable = true
@@ -114,6 +115,10 @@ export class PathPlugin extends AnnotationPlugin<PolygonAnnotation> {
                 // }
                 this.insertHandles.push(handle)
                 this.container.addChild(handle.handle)
+
+                if (PolylineAnnotation.is(this.annotation) && i == num-1) {
+                    handle.handle.visible = false
+                } 
             }
         }
 
@@ -176,17 +181,18 @@ export class PathPlugin extends AnnotationPlugin<PolygonAnnotation> {
         this.handles.forEach((h, i) => {
             this.annotation.points[i * 2] = h.x
             this.annotation.points[i * 2 + 1] = h.y
-
             h.update(this, editing)
         })
 
         this.insertHandles.forEach((h, i) => {
             let x1, y1, x2, y2: number
             if (this.annotation.points.length - 1 == i * 2) {
+                if (PolygonAnnotation.is(this.annotation)) {
                 x1 = this.annotation.points[0]
                 y1 = this.annotation.points[1]
                 x2 = this.annotation.points[i * 2]
                 y2 = this.annotation.points[i * 2 + 1]
+                }
             } else {
                 x1 = this.annotation.points[i * 2]
                 y1 = this.annotation.points[i * 2 + 1]
@@ -204,6 +210,15 @@ export class PathPlugin extends AnnotationPlugin<PolygonAnnotation> {
 
         this.updateLinestyle(this.annotation, this.sprite)
 
+
+        if (PolylineAnnotation.is(this.annotation)) {
+            this.drawPolyline()
+        } else if (PolygonAnnotation.is(this.annotation)) {
+            this.drawPolygon()
+        }
+
+    }
+    drawPolygon() {
         let pts = this.annotation.points
 
         if (this.annotation.points.length >= 6) {
@@ -233,7 +248,45 @@ export class PathPlugin extends AnnotationPlugin<PolygonAnnotation> {
                 this.sprite.lineTo(pt.x, pt.y)
             }
         }
+    }
 
+
+    drawPolyline() {
+        let pts = this.annotation.points
+
+        this.sprite.moveTo(this.annotation.points[0], this.annotation.points[1])
+        for (let i=2; i < pts.length; i+=2) {
+            this.sprite.lineTo(this.annotation.points[i], this.annotation.points[i+1])
+        }
+
+        //Now draw the construction lines to the mouse (we use the first handle and the last handle)
+        if (!this.saved) {
+            let mouse = this.map.app.renderer.plugins.interaction.mouse.global
+            let pt = this.map.viewport.toWorld(mouse)
+
+            // this.sprite.lineStyle(1, 0, 1, 0.5, false)
+            if (pts.length > 0) {
+                this.sprite.moveTo(pts[pts.length-2], pts[pts.length-1])
+                this.sprite.lineTo(pt.x, pt.y)
+            }
+        }
+
+        /// Now for the complicated part. We need to draw a polygon that is the hit area for the line
+        // for now we are going to keep x constant
+        let polyPoints = []
+        const buffersize = 5 
+        for (let i=0; i<pts.length; i+=2) {
+            polyPoints.push(pts[i])
+            polyPoints.push(pts[i+1] -buffersize)
+        }
+        for (let i=pts.length-2; i>=0; i-=2) {
+            polyPoints.push(pts[i])
+            polyPoints.push(pts[i+1] +buffersize)
+        }
+        // this.updateFill(this.annotation, this.sprite)
+        // this.sprite.drawPolygon(polyPoints)
+        // this.finishFill(this.annotation, this.sprite)
+        this.sprite.hitArea = new Polygon(polyPoints)
     }
 
     down(event: PIXI.interaction.InteractionEvent): void {

@@ -3,10 +3,6 @@
     gap: .25em;
 }
 
-.outter {
-    max-height: calc(100vh - 260px);
-}
-
 .fab {
     border-radius: 50%;
     filter: drop-shadow(1px 1px 3px #444444);
@@ -20,8 +16,6 @@
 .bottom-spacer {
     height: 100px;
 }
-
-
 
 @media screen and (min-width: 500px) {
     .shell {

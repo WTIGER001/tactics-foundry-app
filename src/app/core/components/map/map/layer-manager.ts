@@ -1,4 +1,4 @@
-import { MapData, CircleAnnotation, ShapeAnnotation, ShapeType, PolygonAnnotation, TokenAnnotation, TokenBar, Annotation, Distance, RectangleAnnotation, MarkerTypeAnnotation } from 'src/app/core/model';
+import { MapData, CircleAnnotation, ShapeAnnotation, ShapeType, PolygonAnnotation, TokenAnnotation, TokenBar, Annotation, Distance, RectangleAnnotation, MarkerTypeAnnotation, PolylineAnnotation } from 'src/app/core/model';
 import { MapComponent } from './map.component'
 import { GraphicsGeometry, Graphics, SpriteMaskFilter, Rectangle, Sprite, Container, DisplayObject, Polygon, Point } from 'pixi.js';
 import { LangUtil } from 'src/app/core/util/LangUtil';
@@ -21,6 +21,7 @@ import { FogPlugin } from '../plugins/fog-plugin';
 import { PathPlugin } from '../plugins/polygon-plugin';
 import { FlagPlugin } from '../plugins/flag-plugin';
 import { MarkerPlugin } from '../plugins/marker-plugin';
+import { TokenMeasurePlugin } from '../plugins/token-measure-plugin';
 
 /**
  * The Map Manager is responsible for managing the layers and the contents of a map. 
@@ -65,7 +66,7 @@ export class MapLayerManager {
         // this.fogPlugin =  new FogPlugin(this)
         // this.fogPlugin.add()
         this.flagPlugin = new FlagPlugin(this)
-
+        new TokenMeasurePlugin(this, this.session.settings).add()
 
         this.selection$.pipe(pairwise()).subscribe(item => {
             let color = LangUtil.colorNum("#BBBBBB")
@@ -107,14 +108,15 @@ export class MapLayerManager {
         const proposedLocation: Point = map.getCenter()
 
         let gridSquare = map.grid.getGridCell(proposedLocation)
-        let finder = new GridSearchCircularPattern()
+        // let finder = new GridSearchCircularPattern()
+        let finder = new SpiralPattern()
         finder.start(gridSquare)
         let limit = 100
         let cnt = 9
-        while (this.hasToken(gridSquare) || cnt >= limit) {
+        while (this.hasToken(gridSquare) && cnt < limit) {
             gridSquare = finder.next()
             cnt++
-        }  
+        }
 
         t.x = gridSquare.x
         t.y = gridSquare.y
@@ -122,10 +124,13 @@ export class MapLayerManager {
 
     public hasToken(gridSquare: Rectangle): boolean {
         let found = false
-        this.modelMap.forEach( (k, a) => {
+        this.modelMap.forEach((k, a) => {
+            const diffX =   Math.abs(a.x - gridSquare.x)
+            const diffY =  Math.abs(a.y - gridSquare.y)
+
             if (
-                Math.abs(a.x) - Math.abs(gridSquare.x) < 0.001 &&
-                Math.abs(a.y) - Math.abs(gridSquare.y) < 0.001 
+                Math.abs(a.x - gridSquare.x) < 0.001 &&
+                Math.abs(a.y - gridSquare.y) < 0.001
             ) {
                 found = true
             }
@@ -158,6 +163,8 @@ export class MapLayerManager {
             return new PathPlugin(this)
         } else if (MarkerTypeAnnotation.is(annotation)) {
             return new MarkerPlugin(this)
+        } else if (PolylineAnnotation.is(annotation)) {
+            return new PathPlugin(this)
         }
         console.log("Invalid Annotation Type " + annotation.type)
     }
@@ -234,50 +241,59 @@ export class MapLayerManager {
     }
 }
 
+class SpiralPattern {
+    layer = 1
+    leg = 0
+    x = 0
+    y = 0
+    center: Rectangle
 
-class GridSearchCircularPattern {
-    private center: Rectangle
-    level = 0
-    locCnt = 0
-    location = 0
     start(center: Rectangle) {
         this.center = center
-        this.level = 0
-        this.locCnt = 0
-        this.location = 0
+        this.layer = 1
+        this.leg = this.x = this.y = 0
+    }
+
+    nextUnit() {
+        switch (this.leg) {
+            case 0: ++this.x; if (this.x == this.layer)++this.leg; break;
+            case 1: ++this.y; if (this.y == this.layer)++this.leg; break;
+            case 2: --this.x; if (-this.x == this.layer)++this.leg; break;
+            case 3: --this.y; if (-this.y == this.layer) { this.leg = 0; ++this.layer; } break;
+        }
     }
 
     next(): Rectangle {
-        if (this.locCnt >= 8 * this.level - 1) {
-            this.level += 1;
-            this.locCnt = 0
-        } else {
-            this.locCnt += 1
-        }
-        let x, y : number
+        this.nextUnit()
 
-        // Now get the square
-        if (this.locCnt == 0) {
-            // Upper right
-            x = this.center.x + this.center.width * this.level
-            y = this.center.y - this.center.height * this.level
-            this.locCnt+=1
-        } else if (this.locCnt <= this.level * 2 ) {
-            // Go Left
-            // Upper
-            y = this.center.y - this.center.height * this.level
-            //Left
-            x = this.center.x + (this.center.width * this.level) - (this.center.width * this.locCnt)
-        } else if (this.locCnt <= this.level * 4+1) {
-            // Go Down
-            let cnt = this.locCnt  - this.level*2
-            x = this.center.x - (this.center.width * this.level)
-            y = this.center.y - (this.center.height * (this.level -1)) + (this.center.height * (cnt -1))
-        } else {
-            // GO RIGHT
-            let cnt = this.locCnt - this.level*4
-            x = this.center.x - (this.center.width * (this.level -1)) + (this.center.width * (cnt-1))
-        }
-        return new Rectangle(x, y, this.center.width, this.center.height)
+        const realX = this.center.x + (this.x * this.center.width)
+        const realY = this.center.y + (this.y * this.center.height)
+        return new Rectangle(realX, realY, this.center.width, this.center.height)
+    }
+}
+
+class PlusPattern {
+    pattern = new SpiralPattern()
+    start(center: Rectangle) {
+        this.pattern.start(center)
+    }
+
+    next() : Rectangle {
+        this.pattern.next()
+        return this.pattern.next()
+    }
+}
+
+
+class XPattern {
+    pattern = new SpiralPattern()
+    start(center: Rectangle) {
+        this.pattern.start(center)
+        this.pattern.next()
+    }
+
+    next() : Rectangle {
+        this.pattern.next()
+        return this.pattern.next()
     }
 }

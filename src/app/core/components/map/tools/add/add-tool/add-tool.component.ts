@@ -5,7 +5,7 @@ import { PlaceholderDirective } from 'src/app/core/directives/placeholder.direct
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
 import { ToolsComponent } from '../../tools/tools.component';
 import { ImageUtil } from 'src/app/core/util/ImageUtil';
-import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation, MarkerTypeAnnotation } from 'src/app/core/model';
+import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation } from 'src/app/core/model';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
 import { MapComponent } from '../../../map/map.component';
@@ -99,7 +99,16 @@ export class AddToolComponent implements OnInit {
 
     plugin.add()
   }
-  startLine() { }
+  startLine() { 
+    // Enter the mode where we are editing initially
+    const plugin = new PathPlugin(this.session.layerMgr)
+    plugin.saved = false
+    const annotation = new PolylineAnnotation()
+    this.defaultFormat(annotation)
+    annotation.layer = this.session.currentLayer
+    plugin.setAnnotation(annotation)
+    plugin.add()
+  }
 
   startMarker() {
     const center: Point = this.session.mapview.getCenter()

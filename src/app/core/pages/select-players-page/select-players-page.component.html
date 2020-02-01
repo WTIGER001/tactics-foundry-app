@@ -10,11 +10,13 @@
         </div>
     </div>
 
-    <div class="list" main>
+    <div class="container scroller scroller-dark" main>
+        <div class="list">
         <div *ngFor="let p of players" class="row" (click)="toggle(p, $event)" [class.selected]="p.selected">
             <div class="spacer"><fa-icon icon="check-square"  *ngIf="p.selected" ></fa-icon></div>
             <h4 >{{p.displayName}}</h4>
             <h4 class="id" >{{p._id}}</h4>
         </div>
+    </div>
     </div>
 </detail-page>

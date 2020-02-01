@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormatToolDialogComponent } from '../../format-tool-dialog/format-tool-dialog.component';
 import { ToolTabsComponent } from '../../tool-tabs/tool-tabs.component';
-import { PolygonAnnotation } from 'src/app/core/model';
+import { PolygonAnnotation, PolylineAnnotation } from 'src/app/core/model';
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
 import { DataService } from 'src/app/core/data.service';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
@@ -13,7 +13,7 @@ import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.compon
 })
 export class EditPolygonComponent implements OnInit {
   @ViewChild(ToolDialogComponent, {static :false}) formatDialog: ToolDialogComponent
-  @Input() item : PolygonAnnotation = new PolygonAnnotation()
+  @Input() item : PolygonAnnotation | PolylineAnnotation = new PolygonAnnotation()
 
   constructor(private tabs : ToolTabsComponent, private data : DataService, private session : LivePageComponent) { 
 

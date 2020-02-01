@@ -1,8 +1,6 @@
-<div class="outter scroller scroller-dark">
-    <div class="shell">
-        <attribute [item]="att"  *ngFor="let att of item.attributes" (click)="show(att)"></attribute>
-        <div class="bottom-spacer"></div>
-    </div>
+<div class="shell">
+    <attribute [item]="att"  *ngFor="let att of item.attributes" (click)="show(att)"></attribute>
+    <div class="bottom-spacer"></div>
 </div>
 <button class="fab btn btn-primary" (click)="add()">
     <fa-icon icon="plus" size="lg"></fa-icon>

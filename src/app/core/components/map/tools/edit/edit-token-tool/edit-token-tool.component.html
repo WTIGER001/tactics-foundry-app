@@ -1,14 +1,17 @@
 <tool-tabs (onClose)="close()">
-    <tool-tab label="Personal" >
+    <tool-tab label="Personal" icon="user-shield">
         <edit-token-tool-personal [item]="item" (onUpdate)="updated()"></edit-token-tool-personal>
     </tool-tab>
-    <tool-tab label="Bars" >
+    <tool-tab label="Bars" icon="tasks-alt" >
         <edit-token-tool-bars [item]="item" [chr]="chr" (onUpdate)="updated()"></edit-token-tool-bars>
     </tool-tab>
-    <tool-tab label="Aura" >
+    <tool-tab label="Aura" icon="universal-access">
         <edit-token-tool-auras [item]="item"  (onUpdate)="updated()"></edit-token-tool-auras>
     </tool-tab>
-    <tool-tab label="more..." >
+    <tool-tab label="Movement" icon="walking">
+        <edit-token-tool-measure ></edit-token-tool-measure>
+    </tool-tab>
+    <tool-tab label="Image" icon="image" >
         <edit-token-tool-image [item]="item"  (onUpdate)="updated()"></edit-token-tool-image>
     </tool-tab>
 </tool-tabs>
