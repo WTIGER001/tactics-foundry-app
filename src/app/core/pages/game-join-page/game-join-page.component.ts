@@ -48,6 +48,11 @@ export class GameJoinPageComponent implements OnInit {
     }
   }
 
+  onBack() {
+    this.router.navigate(["/games"])
+  }
+
+
   submit() {
     this.error = undefined
     // Look for game

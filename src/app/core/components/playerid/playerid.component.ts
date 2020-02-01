@@ -51,7 +51,7 @@ export class PlayeridComponent implements OnInit {
     this.onUpdate.emit(this.playerid)
   }
 
-  canceEdit() {
+  cancelEdit() {
     this.editting = false
   }
 }

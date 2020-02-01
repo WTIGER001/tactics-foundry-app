@@ -130,9 +130,6 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateGame(g :Game) {
-    //TODO: Check if the person is still part of the game. 
-    console.log("LOADING GAME: ", g);
-    
     this.game = Game.to(g)
     this.game$.next(this.game)
   }
@@ -149,13 +146,11 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event : KeyboardEvent) {
-    console.log("KEY DOWN ", event.key)
     // this.keyhandler.keydown(event)
   }
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event : KeyboardEvent) {
-    console.log("KEY DOWN ", event.key)
     
   }
 

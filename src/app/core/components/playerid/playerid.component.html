@@ -1,7 +1,7 @@
 
 <div class="centered-row m-1 pid">
     <span class="id m-1">ID:</span> 
-    <span class="playerid" [contenteditable]="editting" (keydown.enter)="commit($event)" (blur)="commit($event)" (keydown.esc)="cancelEdit()" [class.editting]="editting" [(ngModel)]="playerid">{{playerid}}</span>
+    <span class="playerid" [contenteditable]="editting" (keydown.enter)="commit()" (blur)="commit()" (keydown.esc)="cancelEdit()" [class.editting]="editting" [(ngModel)]="playerid">{{playerid}}</span>
     <fa-icon class="clickable m-1" icon="sign-out-alt" (click)="signout()" *ngIf="showSignOut"></fa-icon>
 </div>
 <div class="error" *ngIf="error">{{error}}</div>

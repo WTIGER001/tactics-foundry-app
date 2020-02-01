@@ -82,12 +82,13 @@ export class WelcomeComponent implements OnInit {
     }
   }
 
+  cancelEdit() {
+    this.editting = false
+  }
+
   generate() {
     this.playerid = generate()
     this.error = undefined
   }
 
-  canceEdit() {
-    this.editting = false
-  }
 }

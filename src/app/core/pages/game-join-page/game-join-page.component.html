@@ -1,5 +1,5 @@
 <div class="welcome-page page" *ngIf="player">
-    <button *ngIf="showBack" class="back-nav " (click)='onBack()'><img src="/assets/components/back.png"></button>
+    <button class="back-nav " (click)='onBack()'><img src="/assets/components/back.png"></button>
 
     <div class="welcome-logo">
         <h2>Join A Game In</h2>
@@ -18,7 +18,7 @@
 
         <app-upload-button #upload (choice)="scanImage($event)" accept='image/*' capture='environment'></app-upload-button>
 
-        <ng2-qrcode-reader (result)="done($event)" qrr-show="false" [qrr-value]="qrcodefile" [qrr-type]="elementType"></ng2-qrcode-reader>
+        <ng2-qrcode-reader (result)="done($event)" qrr-show="false" [qrr-value]="qrcodefile" [class.hide]='true'></ng2-qrcode-reader>
 
     </div> 
 </div>

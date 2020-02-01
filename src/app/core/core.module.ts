@@ -173,13 +173,13 @@ import { SettingsService } from './settings.service';
     BannerComponent,
     CharacterPageComponent,
     AbilityScoresComponent,
-    AbilityScoreComponent, 
+    AbilityScoreComponent,
     PlusPipe, AttributeComponent,
-     AttributesComponent, AttributeDialogComponent, SkillsComponent,
-      SkillComponent, SkillDialogComponent, RollsComponent, RollComponent,
-       RollDialogComponent, WeaponsComponent, WeaponComponent, 
-       WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent,
-        EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent
+    AttributesComponent, AttributeDialogComponent, SkillsComponent,
+    SkillComponent, SkillDialogComponent, RollsComponent, RollComponent,
+    RollDialogComponent, WeaponsComponent, WeaponComponent,
+    WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent,
+    EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent
   ],
   imports: [
     CommonModule,
@@ -190,19 +190,19 @@ import { SettingsService } from './settings.service';
     RouterModule,
     ColorPickerModule,
     EmojifyModule,
-    PlatformModule, 
+    PlatformModule,
     ImageCropperModule,
-    QRCodeModule, 
+    QRCodeModule,
     NgQRCodeReaderModule
   ],
   providers: [
-    DataService, 
+    DataService,
     SettingsService
   ],
   entryComponents: [
     ToolDialogComponent,
     FormatToolDialogComponent,
-    AddTokenToolComponent, 
+    AddTokenToolComponent,
     SelectMarkerDialogComponent
   ]
 })
