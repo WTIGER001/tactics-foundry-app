@@ -66,6 +66,9 @@ export class MapLayerManager {
         // this.fogPlugin =  new FogPlugin(this)
         // this.fogPlugin.add()
         this.flagPlugin = new FlagPlugin(this)
+        this.flagPlugin.planted.subscribe( msg => {
+            this.session.data.sendMessage(this.session.game._id, msg)
+        })
         new TokenMeasurePlugin(this, this.session.settings).add()
 
         this.selection$.pipe(pairwise()).subscribe(item => {

@@ -66,12 +66,12 @@ export class TokenMeasurePlugin extends BasicPlugin {
     }
 
     add() {
-        this.viewport.plugins.add("measure", this)
+        this.viewport.plugins.add("tokenmeasure", this)
         this.viewport.addChild(this.container)
     }
 
     done() {
-        this.viewport.plugins.remove("measure")
+        this.viewport.plugins.remove("tokenmeasure")
     }
 
     update() {

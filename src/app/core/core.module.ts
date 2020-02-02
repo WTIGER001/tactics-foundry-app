@@ -103,6 +103,11 @@ import { GameJoinPageComponent } from './pages/game-join-page/game-join-page.com
 import { MeasureToolComponent } from './components/map/tools/measure-tool/measure-tool.component';
 import { EditTokenToolMeasureComponent } from './components/map/tools/edit/edit-token-tool-measure/edit-token-tool-measure.component';
 import { SettingsService } from './settings.service';
+import { MeasurementMessageComponent } from './components/chat/measurement-message/measurement-message.component';
+import { TokenCarouselComponent } from './encounter/token-carousel/token-carousel.component';
+import { EncounterBuilderComponent } from './encounter/encounter-builder/encounter-builder.component';
+import { NumberSpinnerComponent } from './components/number-spinner/number-spinner.component';
+import { EncounterToolComponent } from './components/map/tools/gm/encounter-tool/encounter-tool.component';
 
 
 @NgModule({
@@ -179,7 +184,7 @@ import { SettingsService } from './settings.service';
     SkillComponent, SkillDialogComponent, RollsComponent, RollComponent,
     RollDialogComponent, WeaponsComponent, WeaponComponent,
     WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent,
-    EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent
+    EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent, MeasurementMessageComponent, TokenCarouselComponent, EncounterBuilderComponent, NumberSpinnerComponent, EncounterToolComponent
   ],
   imports: [
     CommonModule,

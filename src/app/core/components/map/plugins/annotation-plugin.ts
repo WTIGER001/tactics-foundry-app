@@ -1,6 +1,6 @@
 import { Plugin, Viewport } from 'pixi-viewport';
 import { Annotation, MapData, Geom, Formatted } from 'src/app/core/model';
-import { Container, DisplayObject, Graphics, interaction } from 'pixi.js';
+import { Container, DisplayObject, Graphics, interaction, Sprite, Text, Texture } from 'pixi.js';
 import { MapLayerManager } from '../map/layer-manager';
 import { MapComponent } from '../map/map.component';
 import { LangUtil } from 'src/app/core/util/LangUtil';
@@ -223,4 +223,29 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     
     }
 }
+
+export class TextBox extends Container{
+    public bg : Sprite
+    public txt : Text
+    public padding: number = 3
+    public bgColor : number = 0x000000
+    
+    constructor(texture: Texture) {
+        super();
+        this.txt = new Text("   ")
+        this.bg = new Sprite(texture)
+        this.bg.alpha= 0.7
+        this.addChild(this.bg, this.txt)
+    }
+
+
+    update() {
+        this.bg.x = this.txt.x - this.padding
+        this.bg.y = this.txt.y - this.padding
+        this.bg.width = this.txt.width + this.padding +this.padding
+        this.bg.height = this.txt.height + this.padding +this.padding
+        this.bg.tint = this.bgColor
+    }
+}
+
 

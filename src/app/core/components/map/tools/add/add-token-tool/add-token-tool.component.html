@@ -4,7 +4,7 @@
         <div class="header">
             <div class="input-holder">
                 <input type="text" [(ngModel)]="searchTerm" placeholder="Enter Search"
-                    (input)="onSearchChange($event.target.value)">
+                    (keydown)="onSearchChange($event.target.value)">
                 <fa-icon class="search-x" icon="times" size="lg" (click)="clearSearch()"></fa-icon>
             </div>
             <button class="icon-btn"><fa-icon class="icon-shadow white" icon="sliders-h" size="2x" (click)="showFilter()"></fa-icon></button>

@@ -1,1 +1,7 @@
-<p>measure-tool works!</p>
+<div class="shell">
+    <div class="text">{{distance}}</div>
+    <button class="btn btn-undo" (click)="snap()"><fa-icon [icon]="snapStyle()" [fixedWidth]='true'></fa-icon></button>
+    <button class="btn btn-undo" (click)="pause()"><fa-icon [icon]="isPaused()?'play':'pause'" [fixedWidth]='true'></fa-icon></button>
+    <button class="btn btn-close" (click)="cancel()"><fa-icon icon="times" [fixedWidth]='true'></fa-icon></button>
+    <button class="btn btn-send" (click)="send()"><fa-icon icon="paper-plane" [fixedWidth]='true'></fa-icon></button>
+</div>

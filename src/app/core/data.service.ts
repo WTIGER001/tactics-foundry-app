@@ -4,7 +4,7 @@
 
 import { Injectable } from '@angular/core';
 import { DatabaseManager } from './database-manager';
-import { Player, MapData, Game, Annotation, ObjectType } from './model';
+import { Player, MapData, Game, Annotation, ObjectType, ChatRecord, PingMessage, MeasureMessage, Message } from './model';
 import { BehaviorSubject, ReplaySubject, Observable, from } from 'rxjs';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { IdUtil } from './util/IdUtil';
@@ -349,4 +349,13 @@ export class DataService {
     )
   }
 
+  public sendMessage(gameId : string, msg : Message) {
+    let c =new ChatRecord()
+    c.sourceDB = gameId
+    c.record = msg
+    c.displayName = this.player.displayName
+    c.lastUpdate = new Date().valueOf()
+    c.lastUpdatedBy = this.player._id;
+    this.store(c)
+  }
 }

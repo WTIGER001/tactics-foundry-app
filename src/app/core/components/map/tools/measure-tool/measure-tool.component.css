@@ -1,0 +1,46 @@
+.shell {
+    position: fixed;
+    bottom: var(--chat-preview-height);
+    right: 0   ;
+    z-index: 10;
+    max-width: 450px;
+    width: 100%;
+    filter: drop-shadow(1px 1px 4px black);
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto;
+    gap: .75em;
+    padding: .75em;
+    background: var(--detail-top-bg);
+}
+
+.btn-undo {
+    background:var(--btn-secondary);
+    color: white;
+    box-shadow: 1px 1px 3px black;
+}
+
+.btn-close {
+    background: var(--btn-close);
+    color: white;
+    box-shadow: 1px 1px 3px black;
+}
+
+.btn-send {
+    background: var(--btn-submit);
+    color: white;
+    box-shadow: 1px 1px 3px black;
+}
+
+.text {
+    font-size: 2em;
+    color: white;
+    text-shadow: 1px 1px black;
+    align-self: center;
+}
+
+@media screen and (min-width: 1024px) {
+    .shell {
+        right: 350px;
+        bottom: 0
+    }
+}

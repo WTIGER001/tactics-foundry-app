@@ -1,0 +1,33 @@
+<tool-item (onClose)="close()" [image]="image" [imageOverlap]="imageOverlap">
+    <div class="shell">
+        <h1>Encounter Builder</h1>
+        <div class="img-area scroller scroller-dark">
+            <div class="results">
+                <div class="card" *ngFor="let item of all">
+                    <figure>
+                    <img [src]="url(item)" (click)="toggle(item)">
+                    <div class="selected" *ngIf="isChecked(item)"  (click)="toggle(item)">
+                        <fa-icon icon="times" size="3x"></fa-icon>
+                      </div>
+                    </figure>
+                    <label>{{name(item)}}</label>
+                    <number-spinner [(ngModel)]="item.initiative"></number-spinner>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="rounds">
+                <label>Current Round</label>
+                <number-spinner [(ngModel)]="encounter.round" [bgDetail]="true"></number-spinner>
+            </div>
+            <div class="buttons">
+                <button class="btn btn-secondary" (click)="sort()">Sort</button>
+                <button class="btn btn-secondary" (click)="endEncounter()">End</button>
+                <button class="btn btn-primary grid-span-2" (click)="save()">Save</button>
+            </div>
+        </div>
+        <button class="close-tool" (click)="close()">
+            <fa-icon icon="times" size="lg"></fa-icon>
+        </button>
+    </div>
+</tool-item>

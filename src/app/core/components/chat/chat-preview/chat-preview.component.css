@@ -1,7 +1,7 @@
 .preview-area {
     position: fixed;
     bottom: 0;
-    height: 120px;
+    height: var(--chat-preview-height);
     left: 0;
     right: 0;
     /* z-index: 1; */

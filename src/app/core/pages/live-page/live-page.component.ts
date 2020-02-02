@@ -15,6 +15,7 @@ import { Session } from 'protractor';
 import { MapLayerManager } from '../../components/map/map/layer-manager';
 import { AppComponent } from 'src/app/app.component';
 import { SettingsService } from '../../settings.service';
+import { Encounter } from '../../encounter/encounter';
 
 @Component({
   selector: 'live-page',
@@ -39,6 +40,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   public gm$ = new BehaviorSubject<boolean>(false)
   public mapData$ = new ReplaySubject<MapData>()
   public commands$ = new ReplaySubject<SessionCommand>()
+  public encounter$ = new BehaviorSubject<Encounter>(null)
 
   public annotation_add$ = new Subject<Annotation>()
   public annotation_update$ = new Subject<Annotation>()

@@ -1,7 +1,8 @@
 <div class="msg-header">
     <div class="uname">{{record.displayName}}</div>
-    <div class="time">{{record.lastUpdate}}</div>
+    <div class="time">{{timeFormat()}}</div>
 </div>
 <text-message *ngIf="isTextMessage()" [record]="record.record"></text-message>
 <roll-message *ngIf="isRollMessage()" [message]="record.record"></roll-message>
-<ping-message *ngIf="isPingMessage()" [message]="record.record"></ping-message>
+<ping-message *ngIf="isPingMessage()" [record]="record"></ping-message>
+<measurement-message *ngIf="isMeasureMessage()" [record]="record"></measurement-message>

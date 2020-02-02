@@ -30,6 +30,39 @@
                     "ay": 46
                 }
             ]
+        }, 
+        {
+            "name" : "City Buildings",
+            "order" : 10,
+            "markers" :[
+                { "name" : "Alchemy", "url" :"/assets/markers/alchemy.png", "h" : 44, "w" : 39, "ax" : 20, "ay" : 22 },
+                { "name" : "Blacksmith", "url" :"/assets/markers/blacksmith.png", "h" : 59, "w" : 39, "ax" : 19, "ay" : 30 },
+                { "name" : "Brothel", "url" :"/assets/markers/brothel.png", "h" : 47, "w" : 39, "ax" : 19, "ay" : 24 },
+                { "name" : "Education", "url" :"/assets/markers/education.png", "h" : 58, "w" : 39, "ax" : 19, "ay" : 29},
+                { "name" : "Entertainment", "url" :"/assets/markers/entertainment.png", "h" : 43, "w" : 39, "ax" : 20, "ay" : 22},
+                { "name" : "Estate", "url" :"/assets/markers/estate.png", "h" : 42, "w" : 39, "ax" : 20, "ay" : 21},
+                { "name" : "Food", "url" :"/assets/markers/food.png", "h" : 30, "w" : 35, "ax" : 15, "ay" : 17},
+                { "name" : "Government", "url" :"/assets/markers/government.png", "h" : 40, "w" : 39, "ax" : 20, "ay" : 20},
+                { "name" : "Hospital", "url" :"/assets/markers/hospital.png", "h" : 45, "w" : 39, "ax" : 19, "ay" : 23},
+                { "name" : "Inn", "url" :"/assets/markers/inn.png", "h" : 39, "w" : 39, "ax" : 20, "ay" : 20},
+                { "name" : "Jail", "url" :"/assets/markers/jail.png", "h" : 48, "w" : 39, "ax" : 20, "ay" : 24},
+                { "name" : "Leatherwork", "url" :"/assets/markers/leatherwork.png", "h" : 44, "w" : 39, "ax" : 20, "ay" : 22},
+                { "name" : "Magic", "url" :"/assets/markers/magic.png", "h" : 42, "w" : 39, "ax" : 19, "ay" : 21},
+                { "name" : "Military", "url" :"/assets/markers/military.png", "h" : 43, "w" : 39, "ax" : 19, "ay" : 22},
+                { "name" : "Orphanage", "url" :"/assets/markers/orphanage.png", "h" : 45, "w" : 39, "ax" : 20, "ay" : 23},
+                { "name" : "Religious", "url" :"/assets/markers/religious.png", "h" : 39, "w" : 29, "ax" : 16, "ay" : 19},
+                { "name" : "Residence", "url" :"/assets/markers/residence.png", "h" : 38, "w" : 27, "ax" : 16, "ay" : 19},
+                { "name" : "Store", "url" :"/assets/markers/store.png", "h" : 43, "w" : 27, "ax" : 20, "ay" : 33},
+                { "name" : "Tavern", "url" :"/assets/markers/tavern.png", "h" : 40, "w" : 39, "ax" : 20, "ay" : 20},
+                { "name" : "Zoo", "url" :"/assets/markers/zoo.png", "h" : 43, "w" : 39, "ax" : 20, "ay" : 22}
+            ]
+        }, 
+        {
+            "name" : "Cities and Towns",
+            "order" : 20,
+            "markers" :[
+                { "name" : "Alchemy", "url" :"/assets/markers/town.png", "h" : 64, "w" : 64, "ax" : 30, "ay" : 30 }
+            ]
         }
     ]
 }

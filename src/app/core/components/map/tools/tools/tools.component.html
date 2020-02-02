@@ -2,6 +2,7 @@
 <ng-container *ngIf="session.mapdata">
 
 <div class="map-tools" [class.hide]="shown" [class.hide-toolbar]="!session.showToolbar">
+    <fa-icon class="map-tool-icon clickable" icon="user-shield"  size="lg" (click)="toggleEncounter()" [class.map-tool-icon-active]="showEncounter"></fa-icon>
     <fa-icon class="map-tool-icon clickable" icon="expand"  size="lg" (click)="zoomExtents()"></fa-icon>
     <fa-icon class="map-tool-icon clickable" icon="tools"  size="lg" (click)="showGmTools()" *ngIf="isGM()"></fa-icon>
     <fa-icon class="map-tool-icon clickable" icon="location" size="lg" (click)="recenter()" *ngIf="needsRecenter()"></fa-icon>
@@ -29,7 +30,12 @@
         <calibrate-tool [mapdata]="session.mapdata" [mapview]="session.mapview" (update)="updateCalibrate($event)" #calibrate>
         </calibrate-tool>
     </tool-tab>
+    <tool-tab label="Encounter" icon="swords">
+        <encounter-tool></encounter-tool>
+    </tool-tab>
 </tool-tabs>
+
+<measure-tool *ngIf="shown==='measure'"  (onClose)="closeTab()"></measure-tool>
 
 <!-- SELECTION TABS -->
 
@@ -70,5 +76,10 @@
 <add-token-tool *ngIf="shown==='addtoken'" (onClose)="closeTab()" type='token'></add-token-tool>
 <add-token-tool *ngIf="shown==='addcharacter'" (onClose)="closeTab()" type='character'></add-token-tool>
 <add-token-tool *ngIf="shown==='addmonster'" (onClose)="closeTab()" type='monster'></add-token-tool>
+
+<!-- Encounter -->
+<token-carousel *ngIf="showEncounter" ></token-carousel>
+
+<encounter-builder *ngIf="shown==='encounterbuilder'" (onClose)="closeTab()"></encounter-builder>
 
 </ng-container>

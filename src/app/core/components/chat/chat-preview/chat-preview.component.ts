@@ -16,7 +16,7 @@ export class ChatPreviewComponent implements OnInit {
 
   gameid
   watcher : DbWatcher
-  messages : ChatRecord[] = []
+  messages : ChatRecord<any>[] = []
   showroller = false
 
   constructor(private data : DataService, private route : ActivatedRoute, private zone : NgZone, private session : LivePageComponent) { }
@@ -74,6 +74,15 @@ export class ChatPreviewComponent implements OnInit {
 
   dblClick() {
 
+  }
+
+  toggleSize() {
+    this.large = !this.large
+    if (this.large) {
+      document.documentElement.style.setProperty("--chat-preview-height", '50vh')
+    } else {
+      document.documentElement.style.setProperty("--chat-preview-height", '120px')
+    }
   }
 
 

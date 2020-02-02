@@ -291,7 +291,7 @@ export class DatabaseManager<T extends ObjectType> {
       selector: {
         type: { $eq: type }
       },
-      aggregate: true
+      aggregate: false
     }, zone);
   }
 
@@ -305,7 +305,7 @@ export class DatabaseManager<T extends ObjectType> {
       selector: {
         _id: { $eq: id }
       },
-      aggregate: true
+      aggregate: false
     }
 
     let watcher = new DbWatcher(this.localdb, query, zone);
@@ -320,7 +320,7 @@ export class DatabaseManager<T extends ObjectType> {
 
     console.log("WATCHING SELECTOR : ", selector)
     let query: any = {
-      aggregate: true
+      aggregate: false
     }
     query.selector = selector
 

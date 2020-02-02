@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PingMessage } from 'src/app/core/model';
+import { PingMessage, ChatRecord } from 'src/app/core/model';
+import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 
 @Component({
   selector: 'ping-message',
@@ -7,11 +8,15 @@ import { PingMessage } from 'src/app/core/model';
   styleUrls: ['./ping-message.component.css']
 })
 export class PingMessageComponent implements OnInit {
-  @Input() message :  PingMessage
+  @Input() record :  ChatRecord<PingMessage>
 
-  constructor() { }
+  constructor(private session: LivePageComponent) { }
 
   ngOnInit() {
   }
 
+  open() {
+    this.session.layerMgr.flagPlugin.fromMessage(this.record)
+    this.session.mapview.center(this.record.record.x, this.record.record.y)
+  }
 }

@@ -56,6 +56,7 @@ export class Handle {
     w = 10 * (window.devicePixelRatio/2)
     color = 0
     downTime = 0
+    circle =  false
 
     onClick : (event : interaction.InteractionEvent) => void = () =>{}
     onMove : (event : interaction.InteractionEvent) => void = () =>{}
@@ -85,8 +86,12 @@ export class Handle {
 
             this.handle.beginFill(this.color, 1)
             this.handle.lineStyle(1, 0xFFFFFF, 1, 1, true)
-            const r = Geom.centerHandle(this.x, this.y, this.w / plugin.scale)
-            this.handle.drawShape(r)
+            if (this.circle) {
+                this.handle.drawCircle(this.x, this.y, this.w / plugin.scale )
+            } else {
+                const r = Geom.centerHandle(this.x, this.y, this.w / plugin.scale)
+                this.handle.drawShape(r)
+            }
             this.handle.endFill()
         }
     }

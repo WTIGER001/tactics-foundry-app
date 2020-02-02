@@ -4,6 +4,7 @@ import { ToolDialogComponent } from '../tool-dialog/tool-dialog.component';
 import { ToolTabsComponent } from '../tool-tabs/tool-tabs.component';
 import { Annotation, TokenAnnotation, CircleAnnotation, RectangleAnnotation, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation } from 'src/app/core/model';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
+import { MeasurePlugin } from '../../plugins/measure-plugin';
 
 @Component({
   selector: 'tools',
@@ -18,6 +19,7 @@ export class ToolsComponent  {
   addtools = false
   dialogShown = false
   contextName =''
+  showEncounter = false
 
   selected : Annotation
   constructor(private componentFactoryResolver: ComponentFactoryResolver, public session : LivePageComponent) { 
@@ -50,6 +52,10 @@ export class ToolsComponent  {
       const componentRef = viewContainerRef.createComponent(componentFactory);
       return componentRef.instance
     // }
+  }
+
+  toggleEncounter() {
+    this.showEncounter = !this.showEncounter
   }
 
   setTool(tool : string) {
@@ -97,7 +103,8 @@ export class ToolsComponent  {
   }
 
   startMeasure() {
-    
+    this.shown = 'measure'
+
   }
 
   addToMap() {

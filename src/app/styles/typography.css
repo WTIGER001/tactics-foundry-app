@@ -14,7 +14,12 @@
     --filter-shadow: drop-shadow(1px 1px 3px #444444);
     --box-shadow: 1px 1px 5px #444444;
     --primary: rgb(220, 216, 208);
-    --detail-main-height: calc(100vh - 260px)
+    --detail-main-height: calc(100vh - 260px);
+    --btn-close: rgb(191, 144, 0);
+    --btn-submit: green;
+    --btn-secondary: grey;
+    --chat-preview-height: 120px;
+    --mygrey: rgb(89,89,89);
 }
 
 @media screen and (orientation: landscape) and (max-width: 900px)  {

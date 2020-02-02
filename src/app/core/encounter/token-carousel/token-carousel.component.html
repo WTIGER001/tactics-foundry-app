@@ -1,0 +1,10 @@
+<div class="encounter-shell scroller scroller-hide" #scroller (wheel)="scroll($event)">
+    <div class="holder">
+        <div class="card" *ngFor="let item of items">
+            <div class="indicator" [class.hide-indicator]="item != currentTurn"></div>
+            <figure [class.selected]="isSelected(item)" [id]="item.token._id" (click)="select(item)">
+                <img [src]="item.url">
+            </figure> 
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-<div class="preview-area" (dblclick)="dblClick()" [class.large]="large">
+<div class="preview-area" (dblclick)="dblClick()">
     <dice-canvas #dice (diceroll)="diceRolled($event)"></dice-canvas>
     <div class="chat-area">
         <div class="chat-message-area scroller-dark">
@@ -21,7 +21,7 @@
         </div>
     </div>
     <chat-text class="chatbox" [size]="chatTextSize" [dice]="dice" (toggleDiceDialog)="toggleRoller()" #chat></chat-text>
-    <fa-icon class="upper-right" size="lg" [icon]="large?'chevron-down':'chevron-up'" (click)="large = !large">
+    <fa-icon class="upper-right" size="lg" [icon]="large?'chevron-down':'chevron-up'" (click)="toggleSize()">
     </fa-icon>
     <div class="roller" [class.hide]="!showroller">
         <dice-dialog (onClose)="toggleRoller()" (onComplete)="chat.roll($event)"></dice-dialog>

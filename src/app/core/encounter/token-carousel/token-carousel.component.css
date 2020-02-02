@@ -1,0 +1,91 @@
+.encounter-shell {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    position: absolute;
+    right: 0;
+    background: rgba(0,0,0,.7);
+    top: 50%;
+    transform: translatey(-50%); 
+    max-height: 50vh;
+    overflow: auto;
+}
+
+.holder {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    margin: .25em;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-items: center;
+    align-items: center;
+    grid-template-areas: "indicator figure";
+}
+
+.card img {
+    height: 50px;
+    width: 50px;
+    border-radius: 7px;
+}
+
+.card figure {
+    grid-area: figure;
+}
+
+.selected {
+    outline: 1px solid white;
+}
+
+.hide-indicator {
+    visibility: hidden;
+}
+
+.indicator {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 7px solid white;
+    border-right: 0px solid white;    
+    height: 10px;
+    width: 7px;
+    grid-column: 1;
+    grid-area: indicator;
+}
+
+@media screen and (orientation: landscape)   {
+    .encounter-shell {
+        flex-direction: column;
+        border-top-left-radius: 0px;
+        border-bottom-right-radius: 7px;
+        top: 0;
+        left: 50%;
+        transform: translatex(-50%); 
+        max-width: 50vw;
+    }
+    .card {
+        grid-template-columns: 1fr;
+        grid-template-areas: "figure" "indicator";
+
+    }
+    .holder {
+        flex-direction: row;
+    }
+
+    .indicator {
+        border-top: 0 solid white;
+        border-bottom: 7px solid white;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        height: 7px;
+        width: 10px;
+    }
+}
+
+
+@media screen and (min-width: 1024px) {
+    .card img {
+        height: 100px;
+        width: 100px;
+    }
+}

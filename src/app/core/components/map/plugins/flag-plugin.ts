@@ -1,4 +1,4 @@
-import { Annotation, MapData } from 'src/app/core/model';
+import { Annotation, MapData, PingMessage, ChatRecord } from 'src/app/core/model';
 import { AnnotationPlugin } from './annotation-plugin';
 import { MapLayerManager } from '../map/layer-manager';
 import { Plugin, Viewport } from 'pixi-viewport';
@@ -6,8 +6,10 @@ import { interaction, Sprite, Container, Graphics, Point, Text, TextStyle } from
 import { MapComponent } from '../map/map.component';
 import { ShockwaveFilter } from '@pixi/filter-shockwave';
 import { BasicPlugin } from './basic-plugin';
+import { Subject } from 'rxjs';
 
 export class FlagPlugin extends BasicPlugin {
+    planted = new Subject<PingMessage>()
     expireTime = 5000
     mouseDownStart
     icon = '/assets/icons/red-flag.png'
@@ -24,7 +26,7 @@ export class FlagPlugin extends BasicPlugin {
         this.viewport.plugins.add('flag', this)
     }
 
-    addFlag(x, y, mouse) {
+    addFlag(x, y) {
         this.adding = false
         this.container = new Container()
         this.container.x = 0
@@ -65,10 +67,6 @@ export class FlagPlugin extends BasicPlugin {
         style.fontWeight = '400'
         style.dropShadow =true
         style.dropShadowDistance =1
-        this.text = new Text("SAMPLE", style)
-        this.text.x = 25
-        this.text.y = 75
-        this.map.app.stage.addChild(this.text)
 
         this.map.app.stage.filters = [this.filter, this.filter2]
         setTimeout(() => {
@@ -92,31 +90,32 @@ export class FlagPlugin extends BasicPlugin {
             this.viewport.cursor = 'auto'
             let mouse = this.map.app.renderer.plugins.interaction.mouse.global
             let pt = this.map.viewport.toWorld(mouse)
-            this.addFlag(pt.x, pt.y, mouse)
+            this.addFlag(pt.x, pt.y)
 
             // let flag = new Flag
+            const msg = new PingMessage()
+            msg.map = this.mapData._id
+            msg.mapname = this.mapData.name
+            msg.x = pt.x;
+            msg.y = pt.y
+            this.planted.next(msg)
+        }
+    }
+
+    fromMessage(msg : ChatRecord<any>) {
+        if (msg && PingMessage.is(msg.record) && this.mapData._id === msg.record.map) {
+            this.addFlag(msg.record.x, msg.record.y)
         }
     }
 
     update() {
         if (this.filter) {
-
-
             let offsetX = -this.viewport.left
             let offsetY = -this.viewport.top
             let screen = this.viewport.toScreen(this.sprite.x, this.sprite.y)
             let moust = this.map.app.renderer.plugins.interaction.mouse.global
             moust = this.viewport.toWorld(moust)
-            console.log(this.viewport.left)
-
-
-            // let center = [ screen.x - offsetX, screen.y - offsetY]
             let center = [ screen.x , screen.y ]
-
-            this.text.text = `X: ${this.sprite.x}, Y: ${this.sprite.y}\n Offset X: ${this.viewport.left}, Offset Y: ${this.viewport.top}\n toGlobal X:${screen.x} y:${screen.y}, Scale: ${this.scale}\n Mouse ${moust.x}, ${moust.y}`
-
-            // let pt = this.map.viewport.toWorld(this.sprite.x, this.sprite.y)
-            // let pt = [this.sprite.x , this.sprite.y ]
 
             this.sprite.width = Math.min(105/this.scale, (this.mapData.width /10) * 350/400)
             this.sprite.height = Math.min(120/this.scale, this.mapData.width /10)
