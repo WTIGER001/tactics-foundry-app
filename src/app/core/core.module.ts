@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgxBarcodeModule } from 'ngx-barcode';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
 import { PlatformModule } from '@angular/cdk/platform';
@@ -192,7 +191,6 @@ import { EncounterInfoComponent } from './encounter/encounter-info/encounter-inf
     CommonModule,
     FormsModule,
     FontAwesomeModule,
-    NgxBarcodeModule,
     ContenteditableModule,
     RouterModule,
     ColorPickerModule,

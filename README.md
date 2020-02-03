@@ -25,3 +25,15 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+https://stackoverflow.com/questions/59531305/call-retries-were-exceeded-exception-while-ng-
+
+The recommended remedy is to:
+
+update node to the latest version e.g. 12.14.0
+increase the memory for the build process:
+in your package.json change the "build" script to: node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build
+in this case the memory is increased to 4GB
+depending on the size of your project you may need more
+As a quick workaround it could also work to use older versions of angular/cli and build-angular:

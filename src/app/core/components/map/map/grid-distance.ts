@@ -1,5 +1,4 @@
 import { Plugin } from 'pixi-viewport'
-import {polygon as pt_poly} from 'polygon-tools';
 import { Texture, Graphics, Renderer, SCALE_MODES } from 'pixi.js';
 
 export class GridDistanceUtil {
