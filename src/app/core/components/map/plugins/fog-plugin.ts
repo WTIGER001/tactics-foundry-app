@@ -87,7 +87,6 @@ export class FogPlugin extends BasicPlugin {
 
     drawShapes(ctx: CanvasRenderingContext2D) {
         this.fow.reveals.forEach(r => {
-          console.log("Processing Reveal / Hide ", r)
           if (r.hide) {
             ctx.globalCompositeOperation = 'source-over'
             ctx.fillStyle = '#fff'
