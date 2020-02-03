@@ -51,6 +51,7 @@ All Done!
 
 ### Character
 - [+++] Upload a character from PCGen
+- [+++] Change button away from the FAB
 
 ### Tokens
 In general tokens are needed but the abilty to have the token libary prepopulated is not high. As long as there is an easy way to add a token during planning or game
@@ -73,7 +74,6 @@ Monsters are not required right away. They can be replicated with tokens. Most o
 
 ### Games
 - [++] Filtering
-- [++] Player selection bug fix
 
 ## Settings
 - [+++] Settings framework
