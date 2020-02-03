@@ -9,49 +9,43 @@ Legend
 ## Overall
 
 - [+] Get restrictions working correctly
+- [+] Restrictions Dialog
 - [++] Progressive Web App
+- [+++] FavIcon
 
 ## Login Experirence
-
-- [+] Make the edit button on the player id allow someone to replace the current player. This will have to remove the incorrect databases and sync. 
-- [++] Make the 'Join Active Session' button work
+All Done!
 
 ## Live Session
+- [++] Presence
+
+## Game 
+- [++] Add GM Banner on games that the user is a GM
+- [++] Filtering and Sorting (May actually not be needed)
+- [+] Get rid of user table. Hide the unique ids
 
 ### Map
-- [+++] Add Polyline
 - [++] Add monster
-- [+++] Add marker
-- [+++] Add flag
 - [++] Add image
 - [++] Add Text
-- [+++] Fog Of War
-- [+++] Auto pan / zoom + Recenter (on gm action)
 - [++] Scale Bar 
-- [+++] Encounter display
-- [+++] Encounter GM Control
-- [+++] Long press flag
-- [+] Flag Ripple effect (tried this. Should be pretty easy)
+- [+] Long press flag
 - [+] Audio effects
 - [++] Restrict Dialog
 - [+++] Favorite Dialog
 - [+++] GM / Debug Layer Control, show all plugins per layer (layers are just containers)
+- [++] Proposed Movement
 
 ### Chat
 - [+] Images in chat
-- [+++] Flag Chat Message
 - [++] Targets in Rolls
 - [+++] Roll Favorites
-- [+++] Roll Screen (for mobile)
-- [+++] Message formatting
 - [+++] Favorite a roll
 - [++] GM Roll / private (e.g not sent) 
 - [+] Challenge Response (roll request)
-- [+] Challenge Response (poll)
-- [+] Commands: 
--- toggle fog --> /fog
--- Clear fog --> /fog clear
--- set layer --> /layer player | gm | background
+- [+] Challenge Response (poll) (Yes / No)
+- [+] Challenge Response (poll) (Multiple Choice)
+- [+] Commands
  
 ## Game Data Management
 
@@ -74,17 +68,12 @@ Monsters are not required right away. They can be replicated with tokens. Most o
 - [++] Add monster UI
 
 ### Favorites
-- [++] Add a favorite
+- [++] Add a favorite Annotation
 - [++] Favorites UI
-- [++] Store favorites
 
 ### Games
 - [++] Filtering
-- [+++] Join / Invite logic
-- [++] Invite QR Code
 - [++] Player selection bug fix
 
 ## Settings
 - [+++] Settings framework
-
-
