@@ -1,6 +1,7 @@
 <tool-item (onClose)="close()" [image]="image" [imageOverlap]="imageOverlap">
     <div class="shell">
-        <h1>Encounter Builder</h1>
+        <h1 *ngIf="encounter._id">Modify Encounter</h1>
+        <h1 *ngIf="!encounter._id">Create New Encounter</h1>
         <div class="img-area scroller scroller-dark">
             <div class="results">
                 <div class="card" *ngFor="let item of all">

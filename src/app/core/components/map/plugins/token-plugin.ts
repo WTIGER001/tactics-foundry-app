@@ -50,8 +50,6 @@ export class TokenPlugin extends AnnotationPlugin<TokenAnnotation> {
     }
 
     updatePositionFromDrag(x, y) {
-        console.log("DRagging Still", x, y);
-        
         this.annotation.x = x
         this.annotation.y = y
 
@@ -60,8 +58,6 @@ export class TokenPlugin extends AnnotationPlugin<TokenAnnotation> {
             let gridSquare = this.layerMgr.session.mapview.grid.getGridCell(pt)
             this.annotation.x = gridSquare.x
             this.annotation.y = gridSquare.y
-            // this.annotation.location.width = gridSquare.width
-            // this.annotation.location.height = gridSquare.height
         }
     }
 

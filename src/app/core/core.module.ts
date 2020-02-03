@@ -108,6 +108,8 @@ import { TokenCarouselComponent } from './encounter/token-carousel/token-carouse
 import { EncounterBuilderComponent } from './encounter/encounter-builder/encounter-builder.component';
 import { NumberSpinnerComponent } from './components/number-spinner/number-spinner.component';
 import { EncounterToolComponent } from './components/map/tools/gm/encounter-tool/encounter-tool.component';
+import { RoundCounterComponent } from './encounter/round-counter/round-counter.component';
+import { EncounterInfoComponent } from './encounter/encounter-info/encounter-info.component';
 
 
 @NgModule({
@@ -184,7 +186,7 @@ import { EncounterToolComponent } from './components/map/tools/gm/encounter-tool
     SkillComponent, SkillDialogComponent, RollsComponent, RollComponent,
     RollDialogComponent, WeaponsComponent, WeaponComponent,
     WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent,
-    EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent, MeasurementMessageComponent, TokenCarouselComponent, EncounterBuilderComponent, NumberSpinnerComponent, EncounterToolComponent
+    EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent, MeasurementMessageComponent, TokenCarouselComponent, EncounterBuilderComponent, NumberSpinnerComponent, EncounterToolComponent, RoundCounterComponent, EncounterInfoComponent
   ],
   imports: [
     CommonModule,

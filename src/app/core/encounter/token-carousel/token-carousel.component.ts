@@ -13,17 +13,25 @@ export class TokenCarouselComponent implements OnInit {
   encounter : Encounter
   items : Item[] = []
   all : Item[] = []
-  currentTurn
   selected
 
   constructor(private session : LivePageComponent) { 
 
   }
 
+  get currentTurn() {
+    if (this.encounter) {
+      return this.encounter.turn.annoationId
+    }
+    return undefined
+  }
+
   scrollTo(item : Annotation) {
     if (this.scroller && item && item._id) {
       const el =  document.getElementById(item._id)
-      el.scrollIntoView()
+      if (el) {
+        el.scrollIntoView()
+      }
     }
   }
 
@@ -42,8 +50,7 @@ export class TokenCarouselComponent implements OnInit {
 
   select(item : Item) {
     this.session.mapview.center(item.token.x, item.token.y)
-    this.session.layerMgr.selection$.next(item.token)
-    this.currentTurn = item
+    this.session.layerMgr.select(item.token)
   }
 
   ngOnInit() {
@@ -62,7 +69,7 @@ export class TokenCarouselComponent implements OnInit {
         this.filter()
       }
     })
-    this.session.annotation_remove$.subscribe( a=> {
+    this.session.annotation_update$.subscribe( a=> {
       if (TokenAnnotation.is(a)) {
         let indx = this.all.findIndex(aa => aa.token._id == a._id)
         if (indx >=0) {
@@ -71,7 +78,7 @@ export class TokenCarouselComponent implements OnInit {
         }
       }
     })
-    this.session.annotation_update$.subscribe( a =>{
+    this.session.annotation_remove$.subscribe( a =>{
       let indx = this.all.findIndex(aa => aa.token._id == a._id)
       if (indx >=0) {
         this.all.splice(indx, 1)
@@ -99,7 +106,7 @@ export class TokenCarouselComponent implements OnInit {
       })
       this.items.sort( (a,b) => b.initative - a.initative)
     } else {
-      this.items = [...this.all]
+      this.items = this.all.filter( item => item.token.layer === 'player' || this.session.isGM())
     }
   }
 }

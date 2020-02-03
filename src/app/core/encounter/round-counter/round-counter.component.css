@@ -1,0 +1,31 @@
+.shell {
+    position: fixed;
+    top : 0;
+    right: 0;
+    display: grid;
+    color: white;
+    justify-content: center;
+    background: rgba(0,0,0,.7);
+}
+
+.shell h1 {
+    text-align: center;
+    margin: 0;
+    padding: 0 .25em;
+    line-height: 1.0;
+    font-weight: 200;
+}
+
+.shell h2 {
+    text-align: center;
+    margin: 0;
+    padding: 0 .25em;
+    font-weight: 200;
+    font-size: 1em;
+}
+
+@media screen and (min-width: 1024px) {
+    .shell {
+        right: 350px
+    }
+}

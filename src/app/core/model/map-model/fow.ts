@@ -8,12 +8,11 @@ export class FogOfWar {
     public static readonly FOLDER = 'fow'
   
     enabled = false
-    color: string = '#000'
-    gmcolor: string = '#242424e0'
     blur: number = 7
     reveals: FowShape[] = []
     hideAll = true;
     lastUpdate : number = 0
+    gmAlpha: number = .7
 
     add( item : FowShape)  {
       this.reveals.push(item)

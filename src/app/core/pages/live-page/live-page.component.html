@@ -5,5 +5,10 @@
     <full-chat *ngIf="!chatPreview" class="chat"></full-chat>
     <button class="detail-page-back" (click)='onBack()'><img src="/assets/components/back.png"></button>
     <tools ></tools>
+    <round-counter></round-counter>
+    <encounter-info></encounter-info>
 
+    <div class="dialog-anchor"  *ngIf="showCropDialog">
+        <image-crop-dialog [image]="uploadfile" (onCancel)="cancelCrop()"  (onSave)="saveImage($event)"></image-crop-dialog>
+    </div>
 </div>

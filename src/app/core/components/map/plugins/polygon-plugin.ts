@@ -76,9 +76,13 @@ export class PathPlugin extends AnnotationPlugin<PolygonAnnotation | PolylineAnn
                         } else {
                             this.viewport.cursor = 'auto'
                             this.saved = true
-                            this.remove()
+                            if (this.autostore) {
+                                this.remove()
+                            }
                         }
-                        this.layerMgr.storeAnnotation(this.annotation)
+                        if (this.autostore) {
+                            this.layerMgr.storeAnnotation(this.annotation)
+                        }
                     }
                 }
                 this.handles.push(handle)
@@ -163,20 +167,13 @@ export class PathPlugin extends AnnotationPlugin<PolygonAnnotation | PolylineAnn
         }
     }
 
-    // wheel(event: WheelEvent): void
-    // update(): void
-    // resize(): void
-    // reset(): void
-    // pause(): void
-    // resume(): void
-
     update() {
         this.sprite.clear()
 
         if (!this.enabled) {
             return;
         }
-        const editing = !this.dragging && (this.layerMgr.isSelected(this.annotation) || !this.saved)
+        const editing = !this.dragging && (this.layerMgr.isSelected(this.annotation) || !this.saved || !this.autostore)
 
         this.handles.forEach((h, i) => {
             this.annotation.points[i * 2] = h.x

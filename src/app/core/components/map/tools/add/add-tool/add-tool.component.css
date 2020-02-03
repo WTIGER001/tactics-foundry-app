@@ -37,3 +37,18 @@
 .current-layer {
     color: palegreen;
 }
+
+
+.dialog-anchor-fixed {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    padding: 1em;
+    background: green;
+    backdrop-filter: blur(8px);
+}

@@ -6,6 +6,7 @@ import { Aura, AuraVisible } from '../aura';
 import { Geom } from '../util/geom';
 import { IdUtil } from '../../util/IdUtil';
 import { Marker } from '../../marker.service';
+import { LayerType } from '../../components/map/map/layer-manager';
 
 export enum AnchorPostitionChoice {
     TopLeft = 0,
@@ -37,7 +38,7 @@ export abstract class Annotation extends ObjectType {
     subtype: string
     name = "New Annotation [Please Change]"
     color = "Green"
-    layer: 'player' | 'gm' | 'background' = 'player'
+    layer: LayerType = 'player'
     // center = new CenterPoint(1, 2)
 
     sourceDB: string
@@ -206,7 +207,7 @@ export abstract class ShapeAnnotation extends Annotation {
     fill: boolean
     fillColor: string
 
-    abstract toShape(): PIXI.Circle | PIXI.Ellipse | PIXI.Polygon | PIXI.Rectangle | PIXI.RoundedRectangle
+    abstract toShape(ppf : number): PIXI.Circle | PIXI.Ellipse | PIXI.Polygon | PIXI.Rectangle | PIXI.RoundedRectangle
 
     static is(obj: any): obj is ShapeAnnotation {
         return Annotation.is(obj) && obj.subtype == ShapeAnnotation.SUBTYPE
@@ -225,8 +226,8 @@ export class CircleAnnotation extends ShapeAnnotation {
         return new Point(this.x, this.y)
     }
 
-    toShape(): Circle {
-        return new Circle(this.x, this.y, this.radius)
+    toShape(ppf : number): Circle {
+        return new Circle(this.x, this.y, this.radius*ppf)
     }
 
     static is(obj: any): obj is CircleAnnotation {
@@ -248,8 +249,8 @@ export class RectangleAnnotation extends ShapeAnnotation {
     //     return Geom.center(this.toShape())
     // }
 
-    toShape(): Rectangle {
-        return new Rectangle(this.x, this.y, this.w, this.h)
+    toShape(ppf : number): Rectangle {
+        return new Rectangle(this.x, this.y, this.w*ppf, this.h*ppf)
     }
 
     static is(obj: any): obj is CircleAnnotation {
@@ -266,7 +267,7 @@ export class PolygonAnnotation extends ShapeAnnotation {
         return Geom.center(Geom.boundsXY(this.points))
     }
 
-    toShape(): Polygon {
+    toShape(ppf : number): Polygon {
         return new Polygon(this.points)
     }
     static is(obj: any): obj is CircleAnnotation {
@@ -282,7 +283,7 @@ export class PolylineAnnotation extends ShapeAnnotation {
         return Geom.center(Geom.boundsXY(this.points))
     }
 
-    toShape(): Polygon {
+    toShape(ppf : number): Polygon {
         return new Polygon(this.points)
     }
     static is(obj: any): obj is PolylineAnnotation {

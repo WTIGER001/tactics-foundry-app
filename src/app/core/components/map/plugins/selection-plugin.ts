@@ -13,10 +13,12 @@ export class SelectionPlugin extends Plugin {
 
     up(event) {
         // console.log("DOWN ", event)
-        if (event.target) {
+        if (event.target && event.type != 'pointerout') {
 
             // Find parent
             let item : DisplayObject = event.target
+            console.log("Selection Plugin", event.type, event);
+            
             let model = this.layerMgr.getAnnotation(item)
             let cnt = 0
             let max = 100
@@ -27,12 +29,10 @@ export class SelectionPlugin extends Plugin {
             }
 
             if (!model) {
-                this.layerMgr.selection$.next(null)
+                this.layerMgr.select(null)
             } else {
-                this.layerMgr.selection$.next(model)
+                this.layerMgr.select(model)
             }
         }
-        // IT has gotten here because nothing is selected
-        // this.layerMgr.selection$.next(null)
     }
 }

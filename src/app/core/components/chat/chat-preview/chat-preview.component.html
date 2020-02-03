@@ -17,6 +17,8 @@
                     </ng-container>
                     = {{getTotal(m.record)}}
                 </ng-container>
+                <span class="text" *ngIf="isMeasure(m.record)">Measured {{m.record.total.toFixed(1)}} ft</span>
+                <span class="text" *ngIf="isPing(m.record)">Planted a Flag</span>
             </div>
         </div>
     </div>

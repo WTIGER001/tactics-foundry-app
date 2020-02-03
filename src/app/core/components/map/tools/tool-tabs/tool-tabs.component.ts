@@ -33,10 +33,6 @@ export class ToolTabsComponent implements OnInit, AfterContentInit {
     if(activeTabs.length === 0) {
       this.activate(this.tabs.first);
     }
-
-    this.tabs.forEach( t => {
-      console.log("--------------------- TAB ", t.label, " " ,t.active)
-    })
   }
 
 
@@ -63,9 +59,6 @@ export class ToolTabsComponent implements OnInit, AfterContentInit {
   }
 
   showDialog(component : any)  : any {
-    // if (this.dialogShown) {
-    //   this.dialogShown = false
-    // } else {
       this.dialogShown = true
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component)
@@ -74,7 +67,6 @@ export class ToolTabsComponent implements OnInit, AfterContentInit {
       viewContainerRef.clear()
       const componentRef = viewContainerRef.createComponent(componentFactory);
       return componentRef.instance
-    // }
   }
 
 }

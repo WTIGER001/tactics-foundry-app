@@ -217,7 +217,6 @@ export class MapComponent implements OnInit, AfterViewInit {
         this.mapLayer.addChild(this.mapSprite)
         this.mapSprite.addListener('pointerup', (event) => {
           console.log("pointer up", event);
-          // this.selection$.next(null);
         })
       }
 

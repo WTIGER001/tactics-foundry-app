@@ -3,16 +3,16 @@
         <img class="detail-page-top-image top-img" src="/assets/pages/map.png">
 
         <div class="top-buttons">
-            <button class="detail-page-top-btn" (click)="activate()">ACtivate</button>
+            <button class="detail-page-top-btn" (click)="activate()">Activate</button>
             <button class="detail-page-top-btn" (click)="delete()">Delete</button>
-            <button class="detail-page-top-btn" (click)="delete()">Restrictions</button>
+            <!-- <button class="detail-page-top-btn" (click)="delete()">Restrictions</button> -->
         </div>
 
-        <div class="tab-bar detail-tabs">
+        <!-- <div class="tab-bar detail-tabs">
             <div class="tab" [class.tab-active]="tab==0" (click)="tab=0">Information</div>
             <div class="tab" [class.tab-active]="tab==1" (click)="tab=1">Grid</div>
             <div class="tab" [class.tab-active]="tab==2" (click)="tab=2">Fog</div>
-        </div>
+        </div> -->
     </div>
 
     <div main>
@@ -45,13 +45,6 @@
                 <button class="btn img-btn" ><fa-icon icon='lock' size="2x" class="mb-1"></fa-icon>Restrict</button>
                 <button class="btn img-btn" ><fa-icon icon='trash-alt' size="2x" class="mb-1"></fa-icon>Delete</button>
             </div> -->
-        </div>
-
-        <div *ngIf="tab==1">
-            Gridlines Tab
-        </div>
-        <div *ngIf="tab==2">
-            Fog Of War Tab
         </div>
 
 

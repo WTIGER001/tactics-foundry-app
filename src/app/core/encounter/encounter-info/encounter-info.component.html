@@ -1,0 +1,7 @@
+<div class="shell" *ngIf="encounter">
+    <div class="next">
+        <fa-icon class="icon-shadow clickable" [class.disabled]="!isMyTurn()" icon="step-forward" size="lg" (click)="nextTurn()"></fa-icon>
+    </div>
+    <div class="turn-text">{{whoseTurn}}</div>
+    <div class="my-turn-text">{{myTurn}}</div>
+</div>

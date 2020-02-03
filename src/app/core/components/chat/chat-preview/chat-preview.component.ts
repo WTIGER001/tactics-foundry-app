@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, NgZone } from '@angular/core';
 import { DbWatcher } from 'src/app/core/database-manager';
-import { ChatRecord, RouteContext, TextMessage, PingMessage, DiceRoll } from 'src/app/core/model';
+import { ChatRecord, RouteContext, TextMessage, PingMessage, DiceRoll, MeasureMessage } from 'src/app/core/model';
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
@@ -70,6 +70,10 @@ export class ChatPreviewComponent implements OnInit {
 
   isPing(m : any) {
     return m.messageType == PingMessage.MSG_TYPE
+  }
+  
+  isMeasure(m : any) {
+    return m.messageType == MeasureMessage.MSG_TYPE
   }
 
   dblClick() {

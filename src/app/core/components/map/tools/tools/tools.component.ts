@@ -81,7 +81,7 @@ export class ToolsComponent  {
   }
 
   closeSelection() {
-    this.session.layerMgr.selection$.next(null)
+    this.session.layerMgr.select(null)
   }
 
   closeTab(event ?: any) {

@@ -252,10 +252,12 @@ export class DataService {
     item.lastUpdate = new Date().valueOf()
 
     // Atempt to use the database that created this object (if we know what it is)
-    if (item['sourceDB']) {
+    if (item.sourceDB) {
       console.log("Storing in sourceDB, ", item['sourceDB']);
-
-      let sourceDB = item['sourceDB']
+      if (!item._id) {
+        item._id = (item.type + "_" + IdUtil.genid()).toLowerCase()
+      }
+      let sourceDB = item.sourceDB
       let db = this.DBs.get(sourceDB)
       if (db) {
         return db.store(item)

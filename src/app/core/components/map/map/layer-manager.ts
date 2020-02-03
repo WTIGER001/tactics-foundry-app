@@ -23,6 +23,9 @@ import { FlagPlugin } from '../plugins/flag-plugin';
 import { MarkerPlugin } from '../plugins/marker-plugin';
 import { TokenMeasurePlugin } from '../plugins/token-measure-plugin';
 
+
+export type LayerType = 'player' | 'background' |'gm' |'decal' |'fog'
+
 /**
  * The Map Manager is responsible for managing the layers and the contents of a map. 
  * 
@@ -48,6 +51,7 @@ export class MapLayerManager {
     public modelIdMap = new Map<string, Annotation>()
     public layers = new Map<string, Container>()
     public selection$ = new BehaviorSubject<Annotation>(null)
+    private selectionsSuspended = false
     fogPlugin: FogPlugin
     flagPlugin: FlagPlugin
 
@@ -56,6 +60,7 @@ export class MapLayerManager {
         this.layers.set('player', this.session.mapview.playerLayer)
         this.layers.set('gm', this.session.mapview.gmLayer)
         this.layers.set('decal', this.session.mapview.decalLayer)
+        this.layers.set('fog', this.session.mapview.fogLayer)
 
         session.annotation_add$.subscribe(a => this.addAnnotation(a))
         session.annotation_update$.subscribe(a => this.updateAnnotation(a))
@@ -63,10 +68,10 @@ export class MapLayerManager {
         session.mapData$.subscribe(m => this.clearAnnotations())
 
         new SelectionPlugin(this)
-        // this.fogPlugin =  new FogPlugin(this)
-        // this.fogPlugin.add()
+        this.fogPlugin = new FogPlugin(this)
+        this.fogPlugin.add()
         this.flagPlugin = new FlagPlugin(this)
-        this.flagPlugin.planted.subscribe( msg => {
+        this.flagPlugin.planted.subscribe(msg => {
             this.session.data.sendMessage(this.session.game._id, msg)
         })
         new TokenMeasurePlugin(this, this.session.settings).add()
@@ -104,6 +109,24 @@ export class MapLayerManager {
 
     public clearAnnotations() {
 
+
+
+    }
+
+
+    select(a: Annotation) {
+        if (this.selectionsSuspended == false) {
+            // console.log("Selecting ", a);
+            this.selection$.next(a)
+        }
+    }
+
+    suspendSelections(value: boolean) {
+        this.selectionsSuspended = value
+    }
+
+    isSelectionSuspended(): boolean {
+        return this.selectionsSuspended
     }
 
     public addToCenter(t: TokenAnnotation, avoidCollisions: boolean = true) {
@@ -128,8 +151,8 @@ export class MapLayerManager {
     public hasToken(gridSquare: Rectangle): boolean {
         let found = false
         this.modelMap.forEach((k, a) => {
-            const diffX =   Math.abs(a.x - gridSquare.x)
-            const diffY =  Math.abs(a.y - gridSquare.y)
+            const diffX = Math.abs(a.x - gridSquare.x)
+            const diffY = Math.abs(a.y - gridSquare.y)
 
             if (
                 Math.abs(a.x - gridSquare.x) < 0.001 &&
@@ -142,11 +165,8 @@ export class MapLayerManager {
     }
 
     public addAnnotation(a: Annotation) {
-        console.log("Adding Annotation ", a)
-
         // Create the correct plugin
         const plugin: AnnotationPlugin<Annotation> = this.create(a)
-        console.log("Created Plugin ", plugin)
 
         // Track the model and the item
         this.trackAnnotation(plugin, a)
@@ -196,7 +216,7 @@ export class MapLayerManager {
         // CHeck the selection 
         if (this.selection$.getValue() && this.selection$.getValue()._id == a._id) {
             // just reselect it
-            this.selection$.next(a)
+            this.select(a)
         }
 
     }
@@ -209,7 +229,7 @@ export class MapLayerManager {
         item.remove()
 
         if (this.selection$.getValue() && this.selection$.getValue()._id == a._id) {
-            this.selection$.next(null)
+            this.select(null)
         }
     }
 
@@ -232,6 +252,7 @@ export class MapLayerManager {
             case 'player': return this.session.mapview.playerLayer;
             case 'gm': return this.session.mapview.gmLayer;
             case 'decal': return this.session.mapview.decalLayer;
+            case 'fog': return this.session.mapview.fogLayer;
             default:
                 console.log("INVALID OR MISSING LAYER, defaulting to Player ", layerName)
                 return this.session.mapview.playerLayer
@@ -281,7 +302,7 @@ class PlusPattern {
         this.pattern.start(center)
     }
 
-    next() : Rectangle {
+    next(): Rectangle {
         this.pattern.next()
         return this.pattern.next()
     }
@@ -295,7 +316,7 @@ class XPattern {
         this.pattern.next()
     }
 
-    next() : Rectangle {
+    next(): Rectangle {
         this.pattern.next()
         return this.pattern.next()
     }

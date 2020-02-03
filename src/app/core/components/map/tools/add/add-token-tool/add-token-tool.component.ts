@@ -62,7 +62,7 @@ export class AddTokenToolComponent implements OnInit {
         owners.push(this.session.data.player._id)
       }
 
-      this.session.data.coreDB.findIds(owners, ['_id', 'name', 'url']).subscribe(response => {
+      this.session.data.coreDB.findIds(owners, ['_id', 'name', 'url', 'owner']).subscribe(response => {
         this.all = response.docs.map(doc => new Result(doc))
         this.filter()
       })
@@ -82,6 +82,7 @@ export class AddTokenToolComponent implements OnInit {
     // Create the token
     const t = new TokenAnnotation()
     t.name = item.name
+    t.owner = item.owner
     t.url = item.url
     t.size = 5
     t.sourceDB = this.session.game._id
@@ -155,10 +156,12 @@ class Result {
   url: string
   name: string
   _id: string
+  owner: string
   constructor(doc: any) {
     this.url = doc.url
     this.name = doc.name
     this._id = doc._id
+    this.owner = doc.owner
   }
 
 }

@@ -101,7 +101,7 @@ export class CirclePlugin extends AnnotationPlugin<CircleAnnotation> {
         this.finishFill(this.annotation, this.sprite)
 
 
-        const editing = this.dragging || this.layerMgr.isSelected(this.annotation)
+        const editing = this.dragging || this.layerMgr.isSelected(this.annotation) || !this.autostore
         this.handle.update(this, editing)
     }
 

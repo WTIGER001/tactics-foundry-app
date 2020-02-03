@@ -1,0 +1,39 @@
+.shell {
+    position: absolute;
+    top: 10px;
+    left: 105px;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: .1em;
+    color: white;
+}
+
+.shell .next {
+    grid-row: span 2;
+    font-size: 2em;
+    margin-right: .1em;
+    cursor: pointer;
+}
+
+.shell .turn-text {
+    text-shadow: 1px 1px black;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.shell .my-turn-text {
+    text-shadow: 1px 1px black;
+    font-size: .9em;
+}
+
+.shell .disabled {
+    color: grey;
+    cursor: auto;
+}
+
+@media screen and (orientation: landscape) {
+    .shell {
+        left: 10px;
+        top: 80px
+    }
+}

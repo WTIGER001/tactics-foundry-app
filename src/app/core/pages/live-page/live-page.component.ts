@@ -4,13 +4,12 @@ import { Game, RouteContext, SessionCommand, MapData, PanZoomMapCommand, GridOpt
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map/map.component';
-import { Graphics } from 'pixi.js';
+import { Graphics, Point } from 'pixi.js';
 import { Subject, ReplaySubject, BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, map, combineAll, mergeMap } from 'rxjs/operators';
 import { CalibrateToolComponent } from '../../components/map/tools/gm/calibrate-tool/calibrate-tool.component';
 import { ToolTabComponent } from '../../components/map/tools/tool-tab/tool-tab.component';
 import { ToolsComponent } from '../../components/map/tools/tools/tools.component';
-// import { ToolService } from '../../components/map/tools/tool.service';
 import { Session } from 'protractor';
 import { MapLayerManager } from '../../components/map/map/layer-manager';
 import { AppComponent } from 'src/app/app.component';
@@ -35,6 +34,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   private cmdWatcher: DbWatcher
   private mapWatcher: DbWatcher
   private annotationWatcher: DbWatcher
+  private encounterWatcher : DbWatcher
 
   public game$ = new ReplaySubject<Game>()
   public gm$ = new BehaviorSubject<boolean>(false)
@@ -52,6 +52,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   public commands: SessionCommand[] = []
   public layerMgr: MapLayerManager
   public selected: Annotation
+  public encounters : Encounter[] = []
 
   // Active tool that is being shown. Can be undefined
   public activeTool 
@@ -98,6 +99,16 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.cmdWatcher.onAdd(doc => this.processCmd(doc))
         this.cmdWatcher.onUpdate(doc => this.processCmd(doc))
         this.cmdWatcher.start()
+
+        // Watch for the encounter
+        // this.encounterWatcher = db.builder()
+        //   .add('type', Encounter.TYPE)
+        //   .watch(this.zone)
+        this.encounterWatcher = db.watchType(Encounter.TYPE, this.zone)
+        this.encounterWatcher.onAdd( doc => this.processAddEncounter(Encounter.to(doc)))
+        this.encounterWatcher.onUpdate( doc => this.processUpdateEncounter(Encounter.to(doc)))
+        this.encounterWatcher.onRemove( doc => this.removeEncounter(doc))
+        this.encounterWatcher.start()
       })
 
     })
@@ -107,9 +118,11 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe(m => {
       this.data.store(m)
     })
+
     this.limitedUpdates$.pipe(
       debounceTime(100)
     ).subscribe(m => {
+      console.log("Limited Update Triggered", m);
       this.data.store(m)
     })
 
@@ -203,6 +216,42 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  processAddEncounter(doc : Encounter) {
+    this.encounters.push(doc)
+    this.selectEncounter()
+  }
+
+  processUpdateEncounter(doc : Encounter) {
+    let indx = this.encounters.findIndex( e => e._id === doc._id)
+    if (indx >=0 ) {
+      this.encounters[indx] = doc
+    }
+    this.selectEncounter()
+  }
+
+  removeEncounter(doc : RemovedDocument) {
+    let indx = this.encounters.findIndex( e => e._id === doc._id)
+    if (indx >=0 ) {
+      this.encounters.splice(indx, 1)
+    }
+    this.selectEncounter()
+  }
+
+  selectEncounter() {
+    // Get the encounters for the current map that are active
+    let available = this.encounters.filter( e => e.map === this.mapdata._id && e.active)
+
+    // Get the newest
+    let latestTime = 0
+    let latest :Encounter
+    available.forEach( e=> {
+      if (e.lastUpdate > latestTime) {
+        latestTime = e.lastUpdate
+        latest = e
+      }
+    })
+    this.encounter$.next(latest)
+  }
 
   setCenter(x: number, y: number) {
 
@@ -252,6 +301,8 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.h = this.mapview.viewport.screenHeight
     })
 
+    this.selectEncounter()
+
     // this.layerMgr.fogPlugin.updateMap()
   }
 
@@ -292,6 +343,53 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     return ''
   }
 
+
+  newName = "New Token"
+  uploadfile : File
+  showCropDialog = false
+  uploadImg($event: File) {
+    const name = $event.name
+    const indx = name.indexOf(".")
+    if (indx >0) {
+      this.newName = $event.name.substr(0, indx-1)
+    } else {
+      this.newName = $event.name
+    }
+    this.uploadfile = $event
+    this.showCropDialog = true
+  }
+
+  saveImage($event) {
+    // Create the token
+    const t = new TokenAnnotation()
+    t.name = "New Token"
+    t.url = $event
+    t.size = 5
+    t.sourceDB = this.game._id
+    t.layer = this.currentLayer
+
+    // TODO+: Spiral around the center square until an unoccupied square is found 
+    // Place the token (start in the center and look for an open grid square)
+    const map: MapComponent = this.mapview
+    const center: Point = map.getCenter()
+    const gridSquare = map.grid.getGridCell(center)
+
+    t.x = gridSquare.x
+    t.y = gridSquare.y
+
+    // Save
+    this.layerMgr.storeAnnotation(t)
+
+
+    // this.character.url = $event
+    // this.data.store(this.character)
+    this.showCropDialog = false
+  }
+
+  cancelCrop(){
+    this.uploadfile = undefined
+    this.showCropDialog = false
+  }
 
 }
 

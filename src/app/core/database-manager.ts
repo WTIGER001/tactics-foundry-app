@@ -147,10 +147,9 @@ export class DatabaseManager<T extends ObjectType> {
       return doc
     }))
 
-
-
     obs.subscribe(res => {
-      console.log("Stored Object Successfully, ", res)
+      item._rev  = res.rev
+      // console.log("Stored Object Successfully, ", res)
     }, error => {
       console.log("ERROR ON STORE", error)
     })
@@ -328,6 +327,10 @@ export class DatabaseManager<T extends ObjectType> {
     return watcher
   }
 
+  public builder() : QueryBuilder {
+    return new QueryBuilder(this.localdb)
+  }
+
 }
 
 export class DbWatcher {
@@ -411,4 +414,71 @@ export interface RemovedDocument {
   _id: string
   _rev: string
   deleted: boolean
+}
+
+class QueryBuilder {
+  _conditions : Condition[] = []
+  _fields: string[] = []
+  _sort: SortCondition[] = []
+
+  constructor(private db : PouchDB.Database) {
+
+  }
+  public add(field: string, value : any, condition : string = '$eq') : QueryBuilder {
+    this._conditions.push(new Condition(field, value, condition))
+    return this
+  }
+
+  public fields(...field : string[])  : QueryBuilder {
+    this._fields.push(...field)
+    return this
+  }
+
+  public sort(field : string, direction : 'asc' | 'desc' = 'asc') : QueryBuilder {
+    this._sort.push(new SortCondition(field, direction))
+    return this
+  }
+
+  public buildQuery() : any {
+    let selector : any = {}
+    this._conditions.forEach( c => {
+      selector[c.field] = {}
+      selector[c.field][c.condition] = c.value
+    })
+
+    let query: any = []
+    query.selector = selector
+    if (this._fields.length > 0) {
+      query.fields = this._fields
+    }
+
+    if (this._sort.length > 0) {
+      const sortConditions = []
+      this._sort.forEach( s=> {
+        const v = {}
+        v[s.field] = s.direction
+        sortConditions.push(v)
+      })
+      query.sort = sortConditions
+    }
+    return query
+  }
+
+  public watch(zone : NgZone, aggregate: boolean = false): DbWatcher {
+    const query = this.buildQuery()
+    query.aggregate = aggregate
+
+    let watcher = new DbWatcher(this.db, query, zone);
+    return watcher
+  }
+}
+
+class Condition {
+  constructor(public field: string, public value : any, public condition : string = '$eq' ) {}
+}
+
+class SortCondition {
+  constructor(public field : string, public direction : 'asc' | 'desc' = 'asc') {
+
+  }
 }

@@ -5,9 +5,10 @@
     right: 0;
     background: rgba(0,0,0,.7);
     top: 50%;
-    transform: translatey(-50%); 
+    transform: translatey(-60%); 
     max-height: 50vh;
     overflow: auto;
+    padding: .5em 0;
 }
 
 .holder {
@@ -35,7 +36,7 @@
 }
 
 .selected {
-    outline: 1px solid white;
+    filter: drop-shadow(-1px -1px 1px white) drop-shadow(-1px 1px 1px white) drop-shadow(1px 1px 1px white) drop-shadow(1px -1px 1px white) 
 }
 
 .hide-indicator {
@@ -60,8 +61,10 @@
         border-bottom-right-radius: 7px;
         top: 0;
         left: 50%;
+        right: unset;
         transform: translatex(-50%); 
         max-width: 50vw;
+        padding: 0 .5em;
     }
     .card {
         grid-template-columns: 1fr;
@@ -83,7 +86,7 @@
 }
 
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1300px) {
     .card img {
         height: 100px;
         width: 100px;

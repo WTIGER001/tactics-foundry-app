@@ -5,12 +5,9 @@ import { Directive, ViewContainerRef, AfterViewInit, ComponentFactoryResolver } 
 })
 export class PlaceholderDirective implements AfterViewInit{
   constructor(public viewContainerRef: ViewContainerRef, private cfr : ComponentFactoryResolver) { 
-    console.log("CONSTRUT" ,this.viewContainerRef);
-    
   }
 
   ngAfterViewInit() {
-    console.log("AFTER" ,this.viewContainerRef);
   }
 
   public createHere(component : any) : any {

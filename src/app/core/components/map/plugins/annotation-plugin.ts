@@ -11,12 +11,13 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     object: DisplayObject
     layerMgr: MapLayerManager
     _saved = true
+    autostore = true
 
-    get saved() : boolean {
+    get saved(): boolean {
         return this._saved
     }
 
-    set saved(s : boolean) {
+    set saved(s: boolean) {
         this._saved = s
     }
 
@@ -50,7 +51,7 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
         return this.layerMgr.session.mapdata
     }
 
-    get scale() : number {
+    get scale(): number {
         return this.map.viewport.scale.x
     }
 
@@ -98,11 +99,11 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
 
         try {
             let index = this.layer.getChildIndex(this.object)
-            if (index >=0) {
+            if (index >= 0) {
                 this.layer.removeChildAt(index)
             }
         } catch (error) {
-            
+
         }
 
         this.viewport.plugins.remove(this.annotation._id)
@@ -167,8 +168,8 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
         this.isHovering = false
     }
 
-    onDragStart(event : interaction.InteractionEvent) {
-        this.layerMgr.selection$.next(this.annotation)
+    onDragStart(event: interaction.InteractionEvent) {
+        this.layerMgr.select(this.annotation)
 
         // Need to know the position of the mouse relative to the ur corner. That needs t be saved as an offset
         // console.log(event.data.getLocalPosition(this.object),this.annotation['x'], this.annotation['y']) 
@@ -178,9 +179,11 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
             this.offsetX = this.annotation.x - pos.x
             this.offsetY = this.annotation.y - pos.y
         } else {
-            const bounds = Geom.boundsXY(this.annotation.points)
-            this.offsetX = bounds.x - pos.x
-            this.offsetY = bounds.y - pos.y
+            if (this.annotation && this.annotation.points) {
+                const bounds = Geom.boundsXY(this.annotation.points)
+                this.offsetX = bounds.x - pos.x
+                this.offsetY = bounds.y - pos.y
+            }
         }
 
         // store a reference to the data
@@ -202,39 +205,58 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
         // this.object.alpha = 1;
         this.dragging = false;
         me.dragData = null;
-        
+
     }
 
     onDragMove(event) {
         if (this.dragging) {
-            var newPosition = this.dragData.getLocalPosition(this.object.parent);
+            const newPosition = this.dragData.getLocalPosition(this.object.parent);
             // me.position.x = newPosition.x;
             // me.position.y = newPosition.y;
-            
-            this.updatePositionFromDrag(newPosition.x + this.offsetX, newPosition.y + this.offsetY)
-            if (this.saved) {
-                this.layerMgr.session.limitedUpdates$.next(this.annotation)
+            const newX = newPosition.x + this.offsetX
+            const newY = newPosition.y + this.offsetY
+
+            this.updatePositionFromDrag(newX, newY)
+
+
+            if (this.saved && this.autostore) {
+                let x: number
+                let y: number
+                if (this.annotation.x && this.annotation.y) {
+                    x = this.annotation.x
+                    y = this.annotation.y
+                } else if (this.annotation && this.annotation.points) {
+                    const bounds = Geom.boundsXY(this.annotation.points)
+                    x = bounds.x
+                    y = bounds.y
+                }
+
+                const diff = Math.sqrt((newX - x) * (newX - x) + (newY - y) * (newY - y))
+                if (diff > 5) {
+                    console.log("DEBUG : DRAG MOVE - SAVE TRIGGERED, Diff ", diff);
+                    this.layerMgr.session.limitedUpdates$.next(this.annotation)
+                }
             }
         }
     }
 
 
     updatePositionFromDrag(x: number, y: number) {
-    
+
     }
 }
 
-export class TextBox extends Container{
-    public bg : Sprite
-    public txt : Text
+export class TextBox extends Container {
+    public bg: Sprite
+    public txt: Text
     public padding: number = 3
-    public bgColor : number = 0x000000
-    
+    public bgColor: number = 0x000000
+
     constructor(texture: Texture) {
         super();
         this.txt = new Text("   ")
         this.bg = new Sprite(texture)
-        this.bg.alpha= 0.7
+        this.bg.alpha = 0.7
         this.addChild(this.bg, this.txt)
     }
 
@@ -242,8 +264,8 @@ export class TextBox extends Container{
     update() {
         this.bg.x = this.txt.x - this.padding
         this.bg.y = this.txt.y - this.padding
-        this.bg.width = this.txt.width + this.padding +this.padding
-        this.bg.height = this.txt.height + this.padding +this.padding
+        this.bg.width = this.txt.width + this.padding + this.padding
+        this.bg.height = this.txt.height + this.padding + this.padding
         this.bg.tint = this.bgColor
     }
 }

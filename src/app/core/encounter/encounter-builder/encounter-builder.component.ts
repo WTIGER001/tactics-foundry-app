@@ -104,11 +104,11 @@ export class EncounterBuilderComponent implements OnInit {
     this.encounter.items = []
     this.encounter.round = 0
     this.encounter.turn = null
-    
   }
 
   endEncounter() {
-    this.session.encounter$.next(null)
+    this.encounter.active = false
+    this.save()
   }
 
   close() {
@@ -116,7 +116,16 @@ export class EncounterBuilderComponent implements OnInit {
   }
 
   save() {
-    this.session.encounter$.next(this.encounter)
+    // Provide the basic information
+    this.sort()
+    this.encounter.sourceDB  = this.session.game._id
+    this.encounter.map = this.session.mapdata._id
+    if (this.encounter.items.length > 0 && !this.encounter.turn) {
+      this.encounter.turn = this.encounter.items[0]
+    }
+    
+    // Store it in the database and then wait for the session to properly update
+    this.session.data.store(this.encounter)
     this.onClose.emit()
   }
 }

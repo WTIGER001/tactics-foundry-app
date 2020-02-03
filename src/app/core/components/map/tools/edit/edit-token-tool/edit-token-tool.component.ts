@@ -4,6 +4,7 @@ import { ToolTabsComponent } from '../../tool-tabs/tool-tabs.component';
 import { DataService } from 'src/app/core/data.service';
 import { Character } from 'src/app/core/character/character';
 import { DbWatcher } from 'src/app/core/database-manager';
+import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 
 @Component({
   selector: 'edit-token-tool',
@@ -18,7 +19,7 @@ export class EditTokenToolComponent implements OnInit, AfterContentInit, OnDestr
   chr : Character
   watcher :DbWatcher
 
-  constructor(private data : DataService, private zone : NgZone) { }
+  constructor(private data : DataService, private zone : NgZone, private session : LivePageComponent) { }
 
   ngOnInit() {
     if (this.item.linkType == 'character') {
@@ -33,9 +34,10 @@ export class EditTokenToolComponent implements OnInit, AfterContentInit, OnDestr
   }
 
   storeAndUpdateCharacter() {
-    this.data.store(this.chr).subscribe( rev => {
-      this.chr._rev = rev['rev']
-    })
+    // this.data.store(this.chr).subscribe( rev => {
+    //   this.chr._rev = rev['rev']
+    // })
+    this.data.store(this.chr)
   }
 
   ngOnDestroy() {
@@ -47,6 +49,7 @@ export class EditTokenToolComponent implements OnInit, AfterContentInit, OnDestr
   // Called when something is updated
   updated() {
     this.onUpdate.emit(this.item)
+    this.session.limitedUpdates$.next(this.item)
   }
 
   ngAfterContentInit() {

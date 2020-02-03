@@ -5,15 +5,17 @@ export class Encounter extends ObjectType {
     static readonly TYPE = "encounter"
     type = Encounter.TYPE
 
+    active: boolean = true
+    map: string
     items: EncounterItem[] = []
-    round: number
+    round: number = 1
     turn: EncounterItem
 
     nextTurn() : EncounterItem {
         if (this.items.length >0) {
-            let indxCurrent = 0
-            if (this.turn == undefined) {
-                indxCurrent = this.items.findIndex(item => item.annoationId == this.turn.annoationId)
+            let indxCurrent = -1
+            if (this.turn) {
+                indxCurrent = this.items.findIndex(item => item.annoationId === this.turn.annoationId)
             }
             if (indxCurrent < this.items.length-1) {
                 this.turn = this.items[++indxCurrent]
@@ -35,30 +37,11 @@ export class Encounter extends ObjectType {
         }
     }
 
-    whenIsMyTurn(annotationId : string) : number {
-        if (this.items.length == 0) {
-            return -1;
-        }
-        let indxCurrent = 0
-        if (this.turn == undefined) {
-            indxCurrent = this.items.findIndex(item => item.annoationId == this.turn.annoationId)
-        }
-        let indx = this.items.findIndex(item => item.annoationId == annotationId)
-        if (indx == -1) {
-            return -1
-        }
-        if (indxCurrent <= indx) {
-            return indx-indxCurrent
-        } else {
-            return (this.items.length - indxCurrent) + indx
-        }
-    }
-
-    is(obj : any) : obj is Encounter {
+    static is(obj : any) : obj is Encounter {
         return obj && obj.type === Encounter.TYPE
     }
 
-    to(doc : any) : Encounter {
+    static to(doc : any) : Encounter {
         const c = new Encounter()
         LangUtil.copyFrom(c, doc)
         return c

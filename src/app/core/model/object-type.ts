@@ -6,6 +6,7 @@ export abstract class ObjectType {
   public _rev: string
   public type: string
   public name: string
+  public sourceDB: string
   public lastUpdate: number
   public lastUpdatedBy: string
 

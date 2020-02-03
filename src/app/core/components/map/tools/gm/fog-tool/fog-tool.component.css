@@ -1,11 +1,15 @@
 .shell {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: auto;
     /* align-content: stretch; */
     grid-template-rows: 2fr 1fr;
     padding: .75em;
     gap: .75em;
+}
+
+.notvisible {
+    visibility: hidden;
 }
 
 .inner {
@@ -23,6 +27,7 @@
     margin-bottom: -6px;
     border-bottom: 0;
     color: #fff;
+    filter: none
 }
 
 .span-bar {
@@ -34,13 +39,21 @@
     justify-content: center;;
 }
 
+.enable {
+    display: grid;
+    justify-content: center;
+    align-content: start;
+    gap: .5em;
+}
+
 .vis {
     visibility: visible;
 }
 
 .bottom {
     display: grid;
-    grid-template-columns: auto 40px auto 40px auto 1fr;
+    grid-column: span 2;
+    grid-template-columns: auto 1fr auto 1fr;
     gap: .5em;
 }
 

@@ -43,6 +43,12 @@
 
 .card label {
     text-align: center;
+    text-overflow: ellipsis;
+    /* max-width: 120px; */
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
 }
 
 .bottom {
@@ -82,4 +88,11 @@
 
   .car img:hover .selected {
     opacity: 1;
+}
+
+
+@media screen and (max-height: 500px) {
+    .img-area {
+        max-height: 180px;
+    }
 }

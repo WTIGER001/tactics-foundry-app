@@ -37,7 +37,9 @@ export class FullChatComponent implements OnInit {
             this.sort()
 
             if (PingMessage.is(record.record)) {
-              this.session.layerMgr.flagPlugin.fromMessage(record)
+              if (new Date().getTime() - record.lastUpdate < 10000) {
+                this.session.layerMgr.flagPlugin.fromMessage(record)
+              }
             }
           })
           this.watcher.onUpdate(doc => {

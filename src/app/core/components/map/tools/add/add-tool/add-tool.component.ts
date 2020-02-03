@@ -13,6 +13,7 @@ import { Point, Rectangle, Polygon } from 'pixi.js';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 import { PathPlugin } from '../../../plugins/polygon-plugin';
 import { MarkerService } from 'src/app/core/marker.service';
+import { ShapeUtil } from '../../../map/shapeutil';
 
 @Component({
   selector: 'add-tool',
@@ -23,6 +24,9 @@ export class AddToolComponent implements OnInit {
   constructor(private tabs: ToolTabsComponent, private tools: ToolsComponent, public session: LivePageComponent,
     private route: ActivatedRoute, private data: DataService, private markers: MarkerService) { }
   gameid: string
+  uploadfile : File
+  showCropDialog = false
+  newName = "New Token"
 
   ngOnInit() {
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
@@ -31,51 +35,19 @@ export class AddToolComponent implements OnInit {
   }
 
   startCircle() {
-    const circle = new CircleAnnotation()
-    circle.x = 300
-    circle.y = 300
-    circle.border = true
-    circle.color = '#FFFFFF'
-    circle.weight = 1
-    circle.fill = true
-    circle.fillColor = "#FF000088"
-    circle.name = "TEST"
-    circle.radius = 20
-
-    const map: MapComponent = this.session.mapview
-    const center: Point = map.getCenter()
-    circle.x = center.x
-    circle.y = center.y
-
-    const bounds = map.viewport.getVisibleBounds()
-    const small = Math.min(bounds.width, bounds.height)
-    circle.radius = small / 10
-    if (circle.radius < 0) {
-      console.log("CIRCLE MATH ", bounds, " ", small)
-      circle.radius = 5
-    }
-    circle.radius = circle.radius / this.session.mapdata.ppf
+    const circle = ShapeUtil.createCircle(this.session.mapview)
     circle.layer = this.session.currentLayer
 
     this.session.layerMgr.storeAnnotation(circle)
   }
 
   startRectangle() {
-    const rect = new RectangleAnnotation()
-    this.defaultFormat(rect)
-    rect.name = "New Rectangle"
-    const center: Point = this.session.mapview.getCenter()
-    const bounds = this.session.mapview.viewport.getVisibleBounds()
-    const r = new Rectangle(0, 0, bounds.width / 10 / this.session.mapdata.ppf, bounds.height / 10 / this.session.mapdata.ppf)
-    const location = Geom.centerOn(r, center)
-    rect.x = location.x
-    rect.y = location.y
-    rect.w = location.width
-    rect.h = location.height
+    const rect = ShapeUtil.createRectangle(this.session.mapview)
     rect.layer = this.session.currentLayer
 
     this.session.layerMgr.storeAnnotation(rect)
   }
+
   startCharacter() {
     this.tools.showTabs('addcharacter')
   }
@@ -96,7 +68,6 @@ export class AddToolComponent implements OnInit {
     this.defaultFormat(annotation)
     annotation.layer = this.session.currentLayer
     plugin.setAnnotation(annotation)
-
     plugin.add()
   }
   startLine() { 
@@ -149,33 +120,92 @@ export class AddToolComponent implements OnInit {
     item.fillColor = "#FF000088"
   }
 
+  // uploadImg($event: File) {
+
+    
+  //   ImageUtil.loadImg($event, {
+  //     createThumbnail: true,
+  //     thumbnailKeepAspect: true,
+  //     thumbnailMaxHeight: 100,
+  //     thumbnailMaxWidth: 100
+  //   }).subscribe(result => {
+  //     // Create the token
+  //     const t = new TokenAnnotation()
+  //     t.name = $event.name
+  //     t.url = result.thumbDataUrl
+  //     t.size = 5
+  //     t.sourceDB = this.gameid
+  //     t.layer = this.session.currentLayer
+
+  //     // TODO+: Spiral around the center square until an unoccupied square is found 
+  //     // Place the token (start in the center and look for an open grid square)
+  //     const map: MapComponent = this.session.mapview
+  //     const center: Point = map.getCenter()
+  //     const gridSquare = map.grid.getGridCell(center)
+
+  //     t.x = gridSquare.x
+  //     t.y = gridSquare.y
+
+  //     // Save
+  //     this.session.layerMgr.storeAnnotation(t)
+  //   })
+  // }
+
+  
   uploadImg($event: File) {
-    ImageUtil.loadImg($event, {
-      createThumbnail: true,
-      thumbnailKeepAspect: true,
-      thumbnailMaxHeight: 100,
-      thumbnailMaxWidth: 100
-    }).subscribe(result => {
-      // Create the token
-      const t = new TokenAnnotation()
-      t.name = $event.name
-      t.url = result.thumbDataUrl
-      t.size = 5
-      t.sourceDB = this.gameid
-      t.layer = this.session.currentLayer
+    this.session.uploadImg($event)
+    // this.session.uploadfile = $event
 
-      // TODO+: Spiral around the center square until an unoccupied square is found 
-      // Place the token (start in the center and look for an open grid square)
-      const map: MapComponent = this.session.mapview
-      const center: Point = map.getCenter()
-      const gridSquare = map.grid.getGridCell(center)
+    // const name = $event.name
+    // const indx = name.indexOf(".")
+    // if (indx >0) {
+    //   this.newName = $event.name.substr(0, indx-1)
+    // } else {
+    //   this.newName = $event.name
+    // }
+    // this.uploadfile = $event
+    // this.showCropDialog = true
+    // ImageUtil.loadImg($event, {
+    //   createThumbnail: true,
+    //   thumbnailKeepAspect: true,
+    //   thumbnailMaxHeight: 240,
+    //   thumbnailMaxWidth: 420
+    // }).subscribe(result => {
+    //   this.character.url = result.thumbDataUrl
+    //   this.data.store(this.character)
+    // })
+  }
 
-      t.x = gridSquare.x
-      t.y = gridSquare.y
+  saveImage($event) {
+    // Create the token
+    const t = new TokenAnnotation()
+    t.name = "New Token"
+    t.url = $event
+    t.size = 5
+    t.sourceDB = this.gameid
+    t.layer = this.session.currentLayer
 
-      // Save
-      this.session.layerMgr.storeAnnotation(t)
-    })
+    // TODO+: Spiral around the center square until an unoccupied square is found 
+    // Place the token (start in the center and look for an open grid square)
+    const map: MapComponent = this.session.mapview
+    const center: Point = map.getCenter()
+    const gridSquare = map.grid.getGridCell(center)
+
+    t.x = gridSquare.x
+    t.y = gridSquare.y
+
+    // Save
+    this.session.layerMgr.storeAnnotation(t)
+
+
+    // this.character.url = $event
+    // this.data.store(this.character)
+    this.showCropDialog = false
+  }
+
+  cancelCrop(){
+    this.uploadfile = undefined
+    this.showCropDialog = false
   }
 
   setLayer(layer: 'player' | 'gm' | 'background') {
