@@ -37,7 +37,7 @@
 
             <ability-scores *ngIf="tab=='Ability Scores'" [item]="character"></ability-scores>
             <attributes *ngIf="tab=='Attributes'" [item]="character"></attributes>
-            <skills *ngIf="tab=='Skills'" [item]="character" [options]="skillOptions"></skills>
+            <skills *ngIf="tab=='Skills'" [item]="character" [options]="skillOptions" [hideUntrained]="hideUntrained"></skills>
             <rolls *ngIf="tab=='Rolls'" [item]="character"></rolls>
             <weapons *ngIf="tab=='Weapons'" [item]="character"></weapons>
         </div>

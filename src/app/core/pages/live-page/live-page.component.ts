@@ -4,13 +4,10 @@ import { Game, RouteContext, SessionCommand, MapData, PanZoomMapCommand, GridOpt
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map/map.component';
-import { Graphics, Point } from 'pixi.js';
+import {  Point } from 'pixi.js';
 import { Subject, ReplaySubject, BehaviorSubject, combineLatest } from 'rxjs';
-import { debounceTime, map, combineAll, mergeMap } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { CalibrateToolComponent } from '../../components/map/tools/gm/calibrate-tool/calibrate-tool.component';
-import { ToolTabComponent } from '../../components/map/tools/tool-tab/tool-tab.component';
-import { ToolsComponent } from '../../components/map/tools/tools/tools.component';
-import { Session } from 'protractor';
 import { MapLayerManager } from '../../components/map/map/layer-manager';
 import { AppComponent } from 'src/app/app.component';
 import { SettingsService } from '../../settings.service';
@@ -24,7 +21,6 @@ import { Encounter } from '../../encounter/encounter';
 export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('mapview', { static: true }) mapview: MapComponent
   @ViewChild('calibrate', { static: false }) calibrate: CalibrateToolComponent
-  @ViewChild(ToolsComponent, { static: false }) tools: ToolsComponent
   w = 0
   h = 0
 
@@ -316,21 +312,6 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.watcher) { this.watcher.cancel() }
   }
 
-  showGmTools() {
-    this.tools.showTabs('gmtools')
-  }
-
-  closeGmTools() {
-    this.gmtool = undefined
-    if (this.calibrate) {
-      this.calibrate.cancelCal()
-    }
-  }
-
-  closeTools() {
-    this.addtool = undefined
-  }
-
   isGM(player ?: Player): boolean {
     const p = player?player:this.data.player
     if (p) {
@@ -383,7 +364,6 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Save
     this.layerMgr.storeAnnotation(t)
-
 
     // this.character.url = $event
     // this.data.store(this.character)

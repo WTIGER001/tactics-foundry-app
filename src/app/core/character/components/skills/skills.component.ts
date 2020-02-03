@@ -9,9 +9,11 @@ import { LangUtil } from 'src/app/core/util/LangUtil';
   styleUrls: ['./skills.component.css']
 })
 export class SkillsComponent implements OnInit {
+
   @Input() item : Character
+  _hideUntrained
   @Input() options : SkillOptions = {
-    hideUntrained : false,
+    
     sortBy : 'name'
   }
   skills : Skill[] = []
@@ -24,13 +26,22 @@ export class SkillsComponent implements OnInit {
     this.sortAndFilter()
   }
 
+  @Input() set hideUntrained(value :boolean) {
+    this._hideUntrained = value
+    this.sortAndFilter()
+  }
+
+  get hideUntrained() : boolean {
+    return this._hideUntrained
+  }
+
   updateOptions() {
     this.sortAndFilter()
   }
 
   sortAndFilter() {
     let sks = [...this.item.skills]
-    if (this.options.hideUntrained) {
+    if (this.hideUntrained) {
       sks = sks.filter( s => s.ranks > 0)
     }
     sks.sort(( a, b) => {
@@ -94,6 +105,6 @@ export class SkillsComponent implements OnInit {
 
 
 export interface SkillOptions {
-  hideUntrained: boolean,
+  
   sortBy : 'name' | 'rank' | 'ability'
 }

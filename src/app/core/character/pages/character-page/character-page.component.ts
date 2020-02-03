@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { Character } from '../../character';
-import { SkillsComponent } from '../../components/skills/skills.component';
 import { DataService } from 'src/app/core/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ImageUtil } from 'src/app/core/util/ImageUtil';
@@ -23,8 +22,8 @@ export class CharacterPageComponent implements OnInit {
   uploadfile : File
   limitedUpdates$ = new Subject<Character>()
 
-  @ViewChild(SkillsComponent, {static: false}) sks : SkillsComponent;
   watcher : DbWatcher
+  hideUntrained : boolean = true
 
   skillOptions = {
     hideUntrained : true,
@@ -67,7 +66,8 @@ export class CharacterPageComponent implements OnInit {
   }
 
   updateSkills() {
-    this.sks.updateOptions()
+    // this.sks.updateOptions()
+    this.hideUntrained = !this.hideUntrained
   }
 
   import() {
