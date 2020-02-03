@@ -55,6 +55,7 @@ export class MapLayerManager {
     fogPlugin: FogPlugin
     flagPlugin: FlagPlugin
 
+
     constructor(public session: LivePageComponent) {
         this.layers.set('background', this.session.mapview.backgroundLayer)
         this.layers.set('player', this.session.mapview.playerLayer)

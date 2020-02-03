@@ -72,7 +72,9 @@ export class FogPlugin extends BasicPlugin {
         let t = Texture.from(data)
         this.fog.texture = t
         this.fog.tint = 0x000000
-        this.fog.alpha = this.fow.gmAlpha
+        if (this.layerMgr.session.isGM()) {
+            this.fog.alpha = this.fow.gmAlpha
+        }
         this.fog.x = 0
         this.fog.y = 0
         this.fog.width = m.width
