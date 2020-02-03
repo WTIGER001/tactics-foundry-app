@@ -3,13 +3,15 @@ import { Application, Container, Sprite, Graphics, interaction, Rectangle, Displ
 import { Viewport, ViewportOptions, Plugin as Plg } from 'pixi-viewport'
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MapData, TokenAnnotation, TokenBar, Distance, Geom } from 'src/app/core/model';
+import { MapData, TokenAnnotation, TokenBar, Distance, Geom, PanZoomMapCommand } from 'src/app/core/model';
 import { faTreeChristmas } from '@fortawesome/pro-solid-svg-icons';
 import { GridLayer } from './annotations/grid-layer';
 import { MapLayerManager } from './layer-manager';
 import { TokenPlugin } from '../plugins/token-plugin';
 import { AuraVisible, Aura } from 'src/app/core/model/aura';
 import { FogPlugin } from '../plugins/fog-plugin';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 /**
  * The map component is a component, based on pixijs, to display a map and let people interact with it
@@ -44,6 +46,10 @@ export class MapComponent implements OnInit, AfterViewInit {
   fogLayer: Container = new Container()
   decalLayer: Container = new Container()
 
+  followMe : boolean = false
+  moveCmds$ = new Subject<PanZoomMapCommand>()
+  ignoreFollowMe: boolean = false;
+
   constructor(
     private elementRef: ElementRef,
     private data: DataService,
@@ -57,7 +63,13 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.decalLayer.name = "Decal"
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.moveCmds$.pipe(
+      debounceTime(100)
+    ).subscribe( cmd => {
+      this.data.store(cmd)
+    })
+  }
 
 
   ngAfterViewInit(): void {
@@ -122,10 +134,30 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.viewport.addChild(this._gmLayer)
     this.app.stage.addChild(this.decalLayer)
 
-    this.viewport.on('moved', event => {
-      let viewport: Viewport = (<any>event).viewport
+    this.viewport.on('zoomed', event => {
+      console.log("Zoomed");
+      
+      this.sendFollowMeCmd()
+    })
+    this.viewport.on('moved-end', event => {
+      this.sendFollowMeCmd()
       // console.log(`MOVED  Left: ${viewport.left} Right: ${viewport.right} Top: ${viewport.top} Bottom: ${viewport.bottom} Scale: ${viewport.scale.x}`, this.viewport)
     })
+  }
+
+  private sendFollowMeCmd() {
+    
+    if (this.followMe) {
+      const center  = Geom.center(this.viewport.getVisibleBounds())
+      const cmd = new PanZoomMapCommand(
+        this.mapdata.game,
+        this.mapdata._id,
+        center.x, 
+        center.y,
+        this.viewport.scale.x
+      )
+      this.moveCmds$.next(cmd)
+    }
   }
 
   public showGmLayer(show: boolean) {
@@ -172,8 +204,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.viewport.moveCenter(new Point(x,y))
   }
 
-  public zoom(x: number, y: number) {
-
+  public zoom(scale : number) {
+    this.viewport.setZoom(scale)
   }
 
   public getCenter() {

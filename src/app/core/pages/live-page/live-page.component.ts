@@ -197,7 +197,6 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-
   processCmd(cmd: SessionCommand) {
     console.log("PROCESSING MAP COMMAND ", cmd)
     // Keep a reverse sorted list
@@ -209,10 +208,13 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.watchMap(cmd.mapId)
     }
 
-    if (cmd.command == PanZoomMapCommand.CMD) {
+    if (cmd.command == PanZoomMapCommand.CMD && !this.mapview.ignoreFollowMe) {
       let cmdPan = <PanZoomMapCommand>cmd
+
+      if (this.settings.gameMapZoomListen.value.getValue()) {
+        this.setZoom(cmdPan.zoom)
+      }
       this.setCenter(cmdPan.x, cmdPan.y)
-      this.setZoom(cmdPan.zoom)
     }
   }
 
@@ -254,11 +256,11 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setCenter(x: number, y: number) {
-
+    this.mapview.center(x, y)
   }
 
   setZoom(zoom: number) {
-
+    this.mapview.zoom(zoom)
   }
 
   watchMap(mapId) {
@@ -295,6 +297,8 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.mapdata.gridOptions = new GridOptions()
     }
     this.mapview.changeMap(mapdata)
+    this.mapview.followMe = this.isGM()
+    this.mapview.ignoreFollowMe = this.isGM()
 
     this.mapview.viewport.on('moved', event => {
       this.w = this.mapview.viewport.screenWidth
