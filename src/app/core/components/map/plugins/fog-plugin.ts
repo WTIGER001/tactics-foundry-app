@@ -1,8 +1,6 @@
-import { Plugin } from 'pixi-viewport';
 import { MapLayerManager } from '../map/layer-manager';
-import { interaction, Sprite, Rectangle, Application, Texture, Circle, Polygon, Graphics, Container, BLEND_MODES, SCALE_MODES } from 'pixi.js';
+import { Sprite, Rectangle, Application, Texture, Circle, Polygon, Container } from 'pixi.js';
 import { FogOfWar } from 'src/app/core/model/map-model/fow';
-import { LangUtil } from 'src/app/core/util/LangUtil';
 import { ImageUtil } from 'src/app/core/util/ImageUtil';
 import { BasicPlugin } from './basic-plugin';
 
