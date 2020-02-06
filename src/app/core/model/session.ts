@@ -11,10 +11,16 @@ export class LiveSession extends ObjectType {
 
 export class SessionCommand extends ObjectType {
     static readonly TYPE : string = 'session_command'
-     type = SessionCommand.TYPE
+     objType = SessionCommand.TYPE
     _id = IdUtil.saltedIdType(SessionCommand.TYPE)
     mapId : string
     public command : string
+
+    public static to(doc : any) : SessionCommand {
+         const a = new SessionCommand()
+         a.copyFrom(doc)
+         return a
+    }
 }
 
 export class ActivateMapCommand extends SessionCommand {

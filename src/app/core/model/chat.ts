@@ -5,7 +5,7 @@ import { LangUtil } from '../util/LangUtil';
 export class ChatRecord<T extends Message> extends ObjectType {
   static readonly TYPE = 'chat_message'
   _id = IdUtil.saltedIdType(ChatRecord.TYPE)
-  type = ChatRecord.TYPE
+  objType = ChatRecord.TYPE
   sourceDB: string
   displayName: string
   record: T

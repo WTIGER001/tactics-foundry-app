@@ -10,6 +10,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { IdUtil } from './util/IdUtil';
 import { map, filter, tap, take, first, mergeMap } from 'rxjs/operators';
 import { Character } from './character/character';
+import { GameDataManager } from './game-data-manager';
 
 const PLAYER_DB = 'players'
 const TOKEN_DB = 'tokens'
@@ -24,13 +25,14 @@ export class DataService {
   public newUser = true
   // public coreDB: DatabaseManager<Player | Game>
   // public gameDBs: Map<string, DatabaseManager<Game | Annotation | MapData>> = new Map()
-  public DBs: Map<string, DatabaseManager<any>> = new Map()
+  public gameDBs: Map<string, GameDataManager> = new Map()
+  private _coredb: DatabaseManager
 
   /** Holds the player Id in an observable object. Defaults to a new id */
   public playerId$: BehaviorSubject<string> = new BehaviorSubject(IdUtil.genid())
 
   /** Reference to the PouchDb database for the player */
-  public dbMgr: DatabaseManager<Player>
+  public dbMgr: DatabaseManager
 
   /** Observable subject for the current player */
   public player$: ReplaySubject<Player> = new ReplaySubject(1)
@@ -44,8 +46,8 @@ export class DataService {
 
   }
 
-  public get coreDB() : DatabaseManager<Player | Game | Character> {
-    return this.DBs.get(DataService.COREDB_NAME)
+  public get coreDB() : DatabaseManager{
+    return this._coredb
   }
 
   /**
@@ -92,8 +94,8 @@ export class DataService {
     // Write the player to the local database
     if (!this.coreDB) {
       console.log("Creating Player Database");
-      let db = new DatabaseManager<Player>(PLAYER_DB, [playerid])
-      this.DBs.set(DataService.COREDB_NAME, db)
+      this._coredb = new DatabaseManager(PLAYER_DB, [playerid])
+      
     }
     console.log("Storing Player");
     this.coreDB.store(p).subscribe(res => {
@@ -142,8 +144,8 @@ export class DataService {
   private loadPlayer(playerid: string) {
     console.log("Loading Player ", playerid)
     // Create and sync to the player database
-    let db =new DatabaseManager<Player>(DataService.COREDB_NAME, [playerid])
-    this.DBs.set(DataService.COREDB_NAME, db)
+    this._coredb =new DatabaseManager(DataService.COREDB_NAME, [playerid])
+
     // Retrieves the player (and all changes). The returned object is a Player object
     this.coreDB.get$(playerid).subscribe(player => {
       if (player === null) {
@@ -163,7 +165,7 @@ export class DataService {
     this.getGames$(playerId).subscribe(games => {
       games.forEach(game => {
         console.log("LOAD PLAYER GAME ", game._id)
-        this.DBs.set(game._id, new DatabaseManager<Game>(game._id))
+        this.gameDBs.set(game._id, new GameDataManager(game._id))
       })
     })
   }
@@ -171,10 +173,7 @@ export class DataService {
   private getGames$(playerId): Observable<Game[]> {
     return from(this.coreDB.localdb.find({
       selector: {
-
         type : Game.TYPE
-
-
       },
     })).pipe(
       map(results => {
@@ -191,46 +190,54 @@ export class DataService {
 
   }
 
-  public createDbIfNeeded(id: string) : Observable<DatabaseManager<any>>{
-    let db = this.DBs.get(id)
+  public createDbIfNeeded(id: string) : Observable<GameDataManager>{
+    if (id === DataService.COREDB_NAME) {
+      return this.coreDB.ready$.pipe(
+        filter( ready => ready),
+        tap( ready => console.log("Recieved Ready ", ready) ),
+        take(1),
+        map( ready => null)
+      )
+    } 
+
+    let db = this.gameDBs.get(id)
     if (!db) {
-      db = new DatabaseManager(id);
-      this.DBs.set(id, db)
+      db = new GameDataManager(id);
+      this.gameDBs.set(id, db)
     }
     return db.ready$.pipe(
       filter( ready => ready),
-      tap( ready => console.log("REcieved Ready ", ready) ),
+      tap( ready => console.log("Recieved Ready ", ready) ),
       take(1),
       map( ready => db)
     )
   }
 
-  public getDbById(id : string, create : boolean = false ) : DatabaseManager<any> {
-    return this.DBs.get(id)
+  public getDbById(id : string, create : boolean = false ) : GameDataManager {
+    return this.gameDBs.get(id)
   }
 
-  public getDb(item: ObjectType): DatabaseManager<any> {
+  public getDb(item: ObjectType): DatabaseManager {
     // Atempt to use the database that created this object (if we know what it is)
     if (item['sourceDB']) {
       let sourceDB = item['sourceDB']
-      let db = this.DBs.get(sourceDB)
+      let db = this.gameDBs.get(sourceDB)
       if (db) {
-        
         return db
       }
     }
 
-    if (item.type == Player.TYPE) {
+    if (item.objType == Player.TYPE) {
       return this.coreDB
     }
-    if (item.type == Game.TYPE) {
+    if (item.objType == Game.TYPE) {
       return this.coreDB
     }
-    if (item.type == Character.TYPE) {
+    if (item.objType == Character.TYPE) {
       return this.coreDB
     }
 
-    throw new Error(`CANT FIND DB for ${item.type}`)
+    throw new Error(`CANT FIND DB for ${item.objType}`)
 
   }
 
@@ -255,42 +262,42 @@ export class DataService {
     if (item.sourceDB) {
       console.log("Storing in sourceDB, ", item['sourceDB']);
       if (!item._id) {
-        item._id = (item.type + "_" + IdUtil.genid()).toLowerCase()
+        item._id = (item.objType + "_" + IdUtil.genid()).toLowerCase()
       }
       let sourceDB = item.sourceDB
-      let db = this.DBs.get(sourceDB)
+      let db = this.gameDBs.get(sourceDB)
       if (db) {
         return db.store(item)
       }
     }
 
     // Player (in CoreDB)
-    if (item.type == Player.TYPE) {
+    if (item.objType == Player.TYPE) {
       return this.coreDB.store(<Player>item)
     }
 
     // Game (in CoreDB)
-    if (item.type == Game.TYPE) {
+    if (item.objType == Game.TYPE) {
       // Games can be new
       if (!item._id) {
-        item._id = (item.type + "_" + IdUtil.genid()).toLowerCase()
+        item._id = (item.objType + "_" + IdUtil.genid()).toLowerCase()
       }
       return this.coreDB.store(<Game>item)
     }
 
-    if (item.type == Character.TYPE) {
+    if (item.objType == Character.TYPE) {
       // Games can be new
       if (!item._id) {
-        item._id = (item.type + "_" + IdUtil.genid()).toLowerCase()
+        item._id = (item.objType + "_" + IdUtil.genid()).toLowerCase()
       }
       return this.coreDB.store(<Character>item)
     }
 
-    if (item.type == MapData.TYPE) {
+    if (item.objType == MapData.TYPE) {
       // Determine the db 
       let map = <MapData>item;
       let dbName = map.parentId
-      let db = this.DBs.get(dbName)
+      let db = this.gameDBs.get(dbName)
       if (db) {
         return db.store(item)
       } else {
@@ -302,9 +309,8 @@ export class DataService {
 
   }
 
-
   public get$(databaseId: string, objectId: string): Observable<any> {
-    let dbMgr = this.DBs.get(databaseId)
+    let dbMgr = this.gameDBs.get(databaseId)
     if (dbMgr) {
       return <Observable<any>>dbMgr.get$(objectId)
     }

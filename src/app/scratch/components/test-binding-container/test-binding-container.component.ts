@@ -9,7 +9,7 @@ import { DatabaseManager } from 'src/app/core/database-manager';
 })
 export class TestBindingContainerComponent implements OnInit {
   data = new MapData()
-  dbmgr : DatabaseManager<Annotation>
+  dbmgr : DatabaseManager
   constructor() { 
     this.dbmgr = new DatabaseManager("testbinding")
   }

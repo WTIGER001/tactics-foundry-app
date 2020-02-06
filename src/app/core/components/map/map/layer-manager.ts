@@ -190,7 +190,7 @@ export class MapLayerManager {
         } else if (PolylineAnnotation.is(annotation)) {
             return new PathPlugin(this)
         }
-        console.log("Invalid Annotation Type " + annotation.type)
+        console.log("Invalid Annotation Type " + annotation.objType)
     }
 
     storeAnnotation(a: Annotation) {

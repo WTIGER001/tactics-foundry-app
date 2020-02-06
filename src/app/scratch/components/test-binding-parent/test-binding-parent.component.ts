@@ -8,7 +8,7 @@ import { Annotation, MapData, MarkerTypeAnnotation } from 'src/app/core/model';
   styleUrls: ['./test-binding-parent.component.css']
 })
 export class TestBindingParentComponent  implements OnInit, OnChanges {
-  @Input() mgr : DatabaseManager<Annotation>
+  @Input() mgr : DatabaseManager
   @Input() data : MapData
   items : Annotation[] = []
 

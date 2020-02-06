@@ -33,7 +33,7 @@ export enum ShapeType {
 export abstract class Annotation extends ObjectType {
     static readonly TYPE = 'annotation'
 
-    type = Annotation.TYPE
+    objType = Annotation.TYPE
     _id = IdUtil.saltedIdType(Annotation.TYPE)
     subtype: string
     name = "New Annotation [Please Change]"
@@ -91,7 +91,7 @@ export abstract class Annotation extends ObjectType {
 
     static is(obj: any): obj is Annotation {
         if (obj) {
-            return obj.type === Annotation.TYPE
+            return obj.objType === Annotation.TYPE
         } 
         return false
     }
@@ -190,7 +190,7 @@ export class TokenAnnotation extends Annotation {
 
     static is(obj: any): obj is TokenAnnotation {
         if (!obj) { return false }
-        return obj.type === Annotation.TYPE && obj.subtype == TokenAnnotation.SUBTYPE
+        return Annotation.is(obj)  && obj.subtype == TokenAnnotation.SUBTYPE
     }
 }
 
@@ -320,4 +320,19 @@ export interface Formatted {
     weight: number
     fill: boolean
     fillColor: string
+}
+
+export class FavoriteAnnotation extends ObjectType {
+    static readonly TYPE = "favorite"
+    objType = FavoriteAnnotation.TYPE
+    id = IdUtil.saltedIdType(FavoriteAnnotation.TYPE)
+    annotation : Annotation
+    owner : string
+
+    static to( doc : any) : FavoriteAnnotation {
+        const f = new FavoriteAnnotation()
+        f.copyFrom(doc)
+        f.annotation = Annotation.to(doc.annotation)
+        return f
+    }
 }

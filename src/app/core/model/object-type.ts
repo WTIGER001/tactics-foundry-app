@@ -4,7 +4,7 @@ import { compileFactoryFunction } from '@angular/compiler/src/render3/r3_factory
 export abstract class ObjectType {
   public _id: string
   public _rev: string
-  public type: string
+  public objType: string
   public name: string
   public sourceDB: string
   public lastUpdate: number

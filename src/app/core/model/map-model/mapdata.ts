@@ -8,7 +8,7 @@ export class MapData extends ObjectType {
 
     _id = IdUtil.saltedIdType(MapData.TYPE)
     
-    type = MapData.TYPE
+    objType = MapData.TYPE
     sourceDB
     name = "New Map"
     description = ""
@@ -28,5 +28,6 @@ export class MapData extends ObjectType {
     static to(doc: any): MapData {
         return new MapData().copyFrom(doc)
     }
+
 }
 

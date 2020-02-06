@@ -3,7 +3,7 @@ import { LangUtil } from '../util/LangUtil'
 
 export class Encounter extends ObjectType {
     static readonly TYPE = "encounter"
-    type = Encounter.TYPE
+    objType = Encounter.TYPE
 
     active: boolean = true
     map: string
@@ -38,7 +38,7 @@ export class Encounter extends ObjectType {
     }
 
     static is(obj : any) : obj is Encounter {
-        return obj && obj.type === Encounter.TYPE
+        return obj && obj.objType === Encounter.TYPE
     }
 
     static to(doc : any) : Encounter {

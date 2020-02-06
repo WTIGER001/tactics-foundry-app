@@ -6,7 +6,7 @@ export class Player extends ObjectType{
     _id = 'playerid'
 
     /** Player Type */
-    type = Player.TYPE
+    objType = Player.TYPE
 
     /** The display name for the player */
     public displayName: string 

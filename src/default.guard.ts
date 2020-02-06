@@ -52,13 +52,10 @@ export class DefaultGuard implements CanActivate, Resolve<RouteContext> {
     const sessionId = route.paramMap.get("sessionid")
     const id = route.paramMap.get("id")
 
-
-
     // Path structure
     // Patern is /game/[gameid]/[item]/[itemid] or /game/[gameid]/session/[sessionid]/[item]/[itemid]
 
     // Determine what the user is trying to look up
-    console.log("DEFAULT GUARD ", url)
     let obs$: Observable<any>
 
     let ctx = new RouteContext

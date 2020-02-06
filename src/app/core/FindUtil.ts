@@ -4,7 +4,7 @@ import { NgZone } from '@angular/core';
 import { faAngleDoubleUp } from '@fortawesome/pro-solid-svg-icons';
 
 export class FindUtil {
-    static liveOneId(id : string, db : DatabaseManager<any>) : PouchDB.LiveFind.LiveFeed {
+    static liveOneId(id : string, db : DatabaseManager) : PouchDB.LiveFind.LiveFeed {
         return db.localdb.liveFind({
             selector: {
               _id : { $eq: id}
@@ -13,14 +13,12 @@ export class FindUtil {
           })
     }
 
-    static handleLiveOneId(id : string, db : DatabaseManager<any>, zone: NgZone, handler : LiveHandler) : LiveFeedWrapper {
+    static handleLiveOneId(id : string, db : DatabaseManager, zone: NgZone, handler : LiveHandler) : LiveFeedWrapper {
         let feed = FindUtil.liveOneId(id, db)
         let wrapper = new LiveFeedWrapper(feed, zone)
         wrapper.handle(handler)
         return wrapper
     }
-
-
 
 
 }

@@ -22,9 +22,6 @@ export class FogPlugin extends BasicPlugin {
     }
 
     updateMap() {
-        this.fow.reveals.push({hide: false, type:'circle', item: new Circle(0, 0, 50)})
-        this.fow.reveals.push({hide: true, type:'circle', item: new Circle(400, 400, 50)})
-        this.updateFow()
     }
 
     add() {
@@ -113,8 +110,8 @@ export class FogPlugin extends BasicPlugin {
       }
 
     update() {
-        if (this.lastUpdate != this.fow.lastUpdate) {
-            this.updateFow()
-        }
+        // if (this.lastUpdate != this.fow.lastUpdate) {
+        //     this.updateFow()
+        // }
     }
 }

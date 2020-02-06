@@ -5,7 +5,7 @@ import { PlayerRole } from './player';
 export class Game extends ObjectType {
     static readonly TYPE = 'game'
 
-    type = Game.TYPE
+    objType = Game.TYPE
     players: PlayerRole[] = []
     name: string
     description: string

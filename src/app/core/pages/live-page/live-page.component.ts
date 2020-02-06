@@ -5,7 +5,7 @@ import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map/map.component';
 import {  Point } from 'pixi.js';
-import { Subject, ReplaySubject, BehaviorSubject, combineLatest } from 'rxjs';
+import { Subject, ReplaySubject, BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CalibrateToolComponent } from '../../components/map/tools/gm/calibrate-tool/calibrate-tool.component';
 import { MapLayerManager } from '../../components/map/map/layer-manager';
@@ -58,6 +58,8 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   public encounters : Encounter[] = []
   public gameMgr :GameDataManager
 
+  private annotationSubscription : Subscription
+
   // Active tool that is being shown. Can be undefined
   public activeTool 
   public showToolbar = true
@@ -105,6 +107,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gameMgr.annotations$.subscribe( item => {
           if (Annotation.is(item)) {
             console.log("New or Updated Annotation", item);
+            
           } else {
             console.log("Deleted Annotation", item)
           }
@@ -301,7 +304,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Watch for annotations
     this.annotationWatcher = this.data.getDbById(this.game._id)
-      .watchFields([{ field: 'type', value: Annotation.TYPE }, { field: 'map', value: mapId }], this.zone)
+      .watchFields([{ field: 'objType', value: Annotation.TYPE }, { field: 'map', value: mapId }], this.zone)
     this.annotationWatcher.onAdd(doc => {
       this.annotation_add$.next(Annotation.to(doc))
     })
@@ -310,6 +313,14 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     })
     this.annotationWatcher.onRemove(doc => this.annotation_remove$.next(doc))
     this.annotationWatcher.start()
+
+    if (this.annotationSubscription) {
+      this.annotationSubscription.unsubscribe()
+    }
+
+    this.annotationSubscription = this.gameMgr.getAnnotations$(mapId).subscribe( item => {
+
+    })
   }
 
   updateMap(mapdata: MapData) {

@@ -8,7 +8,7 @@ export class Character extends ObjectType {
     static readonly TYPE ='character'
 
     public name = 'New Character'
-    public type = Character.TYPE
+    public objType = Character.TYPE
     public owner : string
     public url : string
     public speed: string

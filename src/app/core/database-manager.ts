@@ -9,15 +9,17 @@ import { from } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { NgZone } from '@angular/core';
+import * as BlobUtil from 'blob-util'
+import { Player } from './model';
 
-export class DatabaseManager<T extends ObjectType> {
+export class DatabaseManager {
  
   public localdb: PouchDB.Database
   public remotedb: PouchDB.Database
-  private syncFilter: any
-  private syncFilterIds: string[] = []
-  private syncHandler: PouchDB.Replication.Sync<{}>
-  private changes$: Subject<any> = new Subject()
+  protected syncFilter: any
+  protected syncFilterIds: string[] = []
+  protected syncHandler: PouchDB.Replication.Sync<{}>
+  protected changes$: Subject<PouchDB.Core.IdMeta> = new Subject()
   public ready$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(public dbname: string, filteredIds: string[] = [], remoteAddressPrefix: string = environment ? environment.remoteAddress : 'https://bauerstuff.com/') {
@@ -40,11 +42,10 @@ export class DatabaseManager<T extends ObjectType> {
   }
 
   private createIndexes() {
-    console.log("Creating Index on ", this.dbname)
     // Create the type index
     this.localdb.createIndex({
       index: { 
-        fields: ['type'], 
+        fields: ['objType'], 
         name: "type-index"
       } 
     })
@@ -85,8 +86,6 @@ export class DatabaseManager<T extends ObjectType> {
 
   private startSync() {
     console.log("STARTING SYNC ON ", this.dbname)
-
-
     // Create the options for live sync
     let options: PouchDB.Replication.SyncOptions = {
       live: true,
@@ -103,16 +102,11 @@ export class DatabaseManager<T extends ObjectType> {
 
     // Create the sync handler
     this.syncHandler = this.localdb.sync(this.remotedb, options)
-      .on('change', function (change) {
-        let types = []
-        change.change.docs.forEach( (d:any)=> {
-          types.push(d.type + "-- " + d._id + " -- " + d._rev)
+      .on('change', (change) => {
+        change.change.docs.forEach( item => {
+            this.changes$.next(item)
         })
-        console.log("DATABASE SYNC CHANGE ---------------------------------------------------------", this.dbname, " ---> ", change.direction, " ", types)
-        // yo, something changed!
-        this.changes$.next(change)
       }).on('paused', function (info) {
-        // console.log("DATABASE SYNC PAUSED ---------------------------------------------------------", this.dbname, " ---> ", info)
 
         // replication was paused, usually because of a lost connection
       // }).on('active', function (info) {
@@ -124,7 +118,6 @@ export class DatabaseManager<T extends ObjectType> {
         console.log("DATABASE SYNC ERR ---------------------------------------------------------", this.dbname, " ---> ", err)
 
       });
-    // console.log("READY DATABASE MANGAGER ", this.dbname)
     this.ready$.next(true)
   }
 
@@ -132,14 +125,24 @@ export class DatabaseManager<T extends ObjectType> {
 
   }
 
+  public getAttachment(docId : string, attId : string) : Observable<Buffer |Blob> {
+   return  from(this.localdb.getAttachment(docId, attId))
+  }
+
+  public getAttachmentImgUrl(docId : string, attId : string) : Observable<string> {
+    return this.getAttachment(docId, attId).pipe(map( data => BlobUtil.createObjectURL(<Blob>data)))
+  }
+
+  public storeAttachment(doc : ObjectType, attachmentName : string, data : string | Blob, mimetype : string) : Observable<PouchDB.Core.Response>{
+    return from(this.localdb.putAttachment(doc._id, attachmentName, data, mimetype))
+  }
+
   /** Stores the item and upates the rev when complete */
-  public store(item: T): Observable<unknown> {
+  public store(item: any): Observable<unknown> {
     // Add trackikng to all items
     item.lastUpdate = new Date().valueOf()
 
-    // console.log("storing ", item)
-
-    let obs = from(this.localdb.upsert<T>(item._id, (doc: {} & T) => {
+    let obs = from(this.localdb.upsert(item._id, (doc: any) => {
       // Make Changes to the doc object and
       const rev = doc._rev
       item.copyTo(doc)
@@ -149,7 +152,6 @@ export class DatabaseManager<T extends ObjectType> {
 
     obs.subscribe(res => {
       item._rev  = res.rev
-      // console.log("Stored Object Successfully, ", res)
     }, error => {
       console.log("ERROR ON STORE", error)
     })
@@ -158,12 +160,12 @@ export class DatabaseManager<T extends ObjectType> {
   }
 
   /** Deletes an object */
-  public delete(obj: T) {
+  public delete(obj: any) {
     this.localdb.remove(obj)
 
   }
 
-  public get(id: string): Promise<T> {
+  public get(id: string): Promise<any> {
     return this.localdb.get(id)
   }
 
@@ -171,7 +173,7 @@ export class DatabaseManager<T extends ObjectType> {
    * Gets the object from the database as an observable and keeps emiting when there are changes. This never finishes. The object can be null
    * @param id Id of the object to get
    */
-  public get$(id: string): Observable<T> {
+  public get$(id: string): Observable<Player> {
     let inital = from(this.localdb.get(id))
       .pipe(
         map(doc => {
@@ -179,7 +181,7 @@ export class DatabaseManager<T extends ObjectType> {
           if (!doc) {
             return null
           }
-          return <T>converter.To(doc)
+          return Player.to(doc)
         })
       )
     let changes = this.changes$.pipe(
@@ -188,14 +190,14 @@ export class DatabaseManager<T extends ObjectType> {
       }),
       map(change => {
         /// Not sure what to do if it is deleted
-        if (change.deleted) {
+        if (change['deleted']) {
           return null
         }
-        return <T>converter.To(change.doc)
+        return null
       })
     )
 
-    return merge<T>(inital, changes)
+    return merge(inital, changes)
   }
 
   /** Restarts the Sync on the database */
@@ -229,20 +231,6 @@ export class DatabaseManager<T extends ObjectType> {
    * @param ids Complete list of ids to accept
    */
   private createIdFilter(): any {
-    // let filterFunc = function(doc, req) {
-    //   let idsToKeep : string[]= req.query.ids
-    //   return idsToKeep.findIndex(doc.id) >= 0
-    // }
-
-    // let filter = {
-    //   _id: "_design/app",
-    //   filters: {
-    //     by_id: function (doc, req) {
-
-    //       return req.query.ids.findIndex(doc.id) >= 0
-    //     }.toString()
-    //   }
-    // }
 
     let filter = {
       _id: "_design/app",
@@ -262,7 +250,6 @@ export class DatabaseManager<T extends ObjectType> {
     if (!query) {
       throw new Error("Invalid Argument, query is missing")
     }
-    console.log("WATCHING TYPE : ", query)
 
     return new DbWatcher(this.localdb, query, zone);
   }
@@ -280,15 +267,14 @@ export class DatabaseManager<T extends ObjectType> {
     return this.watchSelector(selector, zone)
   }
 
-  public watchType(type: string, zone: NgZone): DbWatcher {
+  public watchType(objType: string, zone: NgZone): DbWatcher {
 
-    if (!type) {
+    if (!objType) {
       throw new Error("Invalid Argument, ID is missing")
     }
-    console.log("WATCHING TYPE : ", type)
     return new DbWatcher(this.localdb, {
       selector: {
-        type: { $eq: type }
+        objType: { $eq: objType }
       },
       aggregate: false
     }, zone);
@@ -299,7 +285,6 @@ export class DatabaseManager<T extends ObjectType> {
     if (!id) {
       throw new Error("Invalid Argument, ID is missing")
     }
-    console.log("WATCHING ID : ", id)
     let query = {
       selector: {
         _id: { $eq: id }
@@ -317,7 +302,6 @@ export class DatabaseManager<T extends ObjectType> {
       throw new Error("Invalid Argument, selector is missing")
     }
 
-    console.log("WATCHING SELECTOR : ", selector)
     let query: any = {
       aggregate: false
     }
@@ -341,13 +325,10 @@ export class DbWatcher {
     private db: PouchDB.Database,
     private query: PouchDB.LiveFind.RequestDef<{}>,
     private zone: NgZone) {
-      console.log("QUERY: ", query.selector);
-      
   }
 
   start() {
     // Cancel previously running feed
-    console.log("WATCHING ");
     if (this.feed) { this.cancel() }
 
     // Start the new Feed
@@ -356,17 +337,14 @@ export class DbWatcher {
     this.feed.on('update', (update, aggregate) => {
       let runner = () => {
         if (update.action == 'ADD') {
-          console.log("Adding ", update.doc);
           if (this.filterFn(update.doc)) {
             this.onAddFn(update.doc)
           }
         } else if (update.action == 'UPDATE') {
-          console.log("Updating ", update.doc);
           if (this.filterFn(update.doc)) {
             this.onUpdateFn(update.doc)
           }
         } else if (update.action == 'REMOVE') {
-          console.log("Removing ", update.doc);
           if (this.filterFn(update.doc)) {
             this.onRemoveFn(update.doc)
           }
@@ -382,7 +360,6 @@ export class DbWatcher {
   }
 
   public cancel() {
-    console.log("DONE WATCHING ");
     if (this.feed) {
       this.feed.cancel()
       this.feed = undefined
@@ -406,14 +383,12 @@ export class DbWatcher {
   public filter(fn: (item: any) => boolean) {
     this.filterFn = fn
   }
-
-
 }
 
 export interface RemovedDocument {
   _id: string
   _rev: string
-  deleted: boolean
+  _deleted: boolean
 }
 
 class QueryBuilder {
