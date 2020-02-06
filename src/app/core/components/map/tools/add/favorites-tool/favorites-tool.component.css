@@ -1,5 +1,35 @@
-.color-pick {
-    height: 29px;
+.shell {
+    display: grid;
+    overflow-x: auto;
+    height: 100%;
+}
+
+.inner {
+    display: flex;
+    flex-direction: row;
+    padding: .5em;
+}
+
+.inner .card {
+    margin-right: .5em;
     cursor: pointer;
-    border-radius: 5px;
+    display: grid;
+    gap: .5em;
+    align-content: center;
+}
+
+.inner .card img {
+    height: 100px;
+    width: 100px;
+}
+
+.inner .card label {
+    color: white;
+    text-shadow: 1px 1px black;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
 }

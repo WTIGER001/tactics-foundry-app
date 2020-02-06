@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, NgZone, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
 import { DbWatcher, RemovedDocument } from '../../database-manager';
-import { Game, RouteContext, SessionCommand, MapData, PanZoomMapCommand, GridOptions, Annotation, CircleAnnotation, ObjectType, Player, TokenAnnotation, DistanceUnit, Geom } from '../../model';
+import { Game, RouteContext, SessionCommand, MapData, PanZoomMapCommand, GridOptions, Annotation, CircleAnnotation, ObjectType, Player, TokenAnnotation, DistanceUnit, Geom, FavoriteAnnotation } from '../../model';
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map/map.component';
@@ -12,6 +12,8 @@ import { MapLayerManager } from '../../components/map/map/layer-manager';
 import { AppComponent } from 'src/app/app.component';
 import { SettingsService } from '../../settings.service';
 import { Encounter } from '../../encounter/encounter';
+import { ResetableSubject } from '../../util/resetable-subject';
+import { GameDataManager } from '../../game-data-manager';
 
 @Component({
   selector: 'live-page',
@@ -31,6 +33,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   private mapWatcher: DbWatcher
   private annotationWatcher: DbWatcher
   private encounterWatcher : DbWatcher
+  private favoriteWatcher : DbWatcher
 
   public game$ = new ReplaySubject<Game>()
   public gm$ = new BehaviorSubject<boolean>(false)
@@ -42,6 +45,10 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   public annotation_update$ = new Subject<Annotation>()
   public annotation_remove$ = new Subject<RemovedDocument>()
 
+  public favorite_add$ = new ReplaySubject<FavoriteAnnotation>()
+  public favorite_update$ = new ReplaySubject<FavoriteAnnotation>()
+  public favorite_removed$ = new ReplaySubject<RemovedDocument>()
+
   public currentLayer: 'player' | 'gm' | 'background' = 'player';
   public game: Game = new Game()
   public mapdata: MapData = new MapData()
@@ -49,6 +56,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   public layerMgr: MapLayerManager
   public selected: Annotation
   public encounters : Encounter[] = []
+  public gameMgr :GameDataManager
 
   // Active tool that is being shown. Can be undefined
   public activeTool 
@@ -78,6 +86,8 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   ngOnInit() {
+    // May want to add an overall game content watcher....
+    
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
       // this.game = Game.to(<Game>data.asset)
       let id = data.ctx.id
@@ -90,6 +100,16 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.watcher.start()
 
       this.data.createDbIfNeeded(id).subscribe(db => {
+        this.gameMgr = db
+
+        this.gameMgr.annotations$.subscribe( item => {
+          if (Annotation.is(item)) {
+            console.log("New or Updated Annotation", item);
+          } else {
+            console.log("Deleted Annotation", item)
+          }
+        })
+
         // Watch for the session commands
         this.cmdWatcher = db.watchType(SessionCommand.TYPE, this.zone)
         this.cmdWatcher.onAdd(doc => this.processCmd(doc))
@@ -105,6 +125,12 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.encounterWatcher.onUpdate( doc => this.processUpdateEncounter(Encounter.to(doc)))
         this.encounterWatcher.onRemove( doc => this.removeEncounter(doc))
         this.encounterWatcher.start()
+
+        this.favoriteWatcher = db.watchType(FavoriteAnnotation.TYPE, this.zone)
+        this.favoriteWatcher.onAdd( doc => this.favorite_add$.next(FavoriteAnnotation.to(doc)))
+        this.favoriteWatcher.onUpdate( doc => this.favorite_update$.next(FavoriteAnnotation.to(doc)))
+        this.favoriteWatcher.onRemove( doc => this.favorite_removed$.next(doc))
+        this.favoriteWatcher.start()
       })
 
     })

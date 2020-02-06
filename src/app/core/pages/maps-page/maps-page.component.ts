@@ -98,7 +98,7 @@ export class MapsPageComponent implements OnInit, OnDestroy {
     map.sourceDB = this.gameid
 
     this.data.store(map).subscribe(() => {
-      this.router.navigate(['/games', map.game, 'maps', map._id, 'edit'])
+      this.router.navigate(['/games', map.game, 'maps', map._id])
     })
   }
 

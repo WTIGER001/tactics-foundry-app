@@ -24,12 +24,6 @@ export class EditCircleToolComponent implements OnInit {
 
   }
   
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log("CHANGES IN EDIT SCREEN ", changes);
-    
-  //   this.updated()
-  // }
-
   showFormatDialog() {
     const dialog : FormatToolDialogComponent = this.tabs.showDialog(FormatToolDialogComponent)
     dialog.item = this.circle
@@ -38,6 +32,8 @@ export class EditCircleToolComponent implements OnInit {
       this.save()
     })
   }
+
+  radius: number=0
 
   isFavorite() {
     return false;
@@ -48,8 +44,7 @@ export class EditCircleToolComponent implements OnInit {
   }
 
   save() {
-
-
+    this.session.limitedUpdates$.next(this.circle)
   }
 
   showFavorite() {
@@ -64,5 +59,11 @@ export class EditCircleToolComponent implements OnInit {
 
   delete() {
     this.data.delete(this.circle)
+  }
+
+  updateRadius(text : string) {
+    const num = Number(text)
+    this.circle.radius = num
+    this.updated()
   }
 }

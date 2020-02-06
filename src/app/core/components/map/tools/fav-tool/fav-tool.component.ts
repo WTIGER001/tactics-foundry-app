@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
-import { Annotation, ObjectType } from 'src/app/core/model';
+import { Annotation, ObjectType, CircleAnnotation, FavoriteAnnotation } from 'src/app/core/model';
+import { generate } from 'shortid'
+import { IdUtil } from 'src/app/core/util/IdUtil';
+import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 
 @Component({
   selector: 'fav-tool',
@@ -12,7 +15,7 @@ export class FavToolComponent implements OnInit {
   @Output() onUpdate = new EventEmitter<Annotation>()
   @Output() onDelete = new EventEmitter<boolean>()
 
-  constructor(private data : DataService) { }
+  constructor(private data : DataService, private session : LivePageComponent) { }
 
   ngOnInit() {
   }
@@ -25,13 +28,14 @@ export class FavToolComponent implements OnInit {
     return false
   }
 
-  showFavorite() {
-    // Make this a game favorite, Take a copy of this and save it with my person
-    // const copy = {}
-    // this.item.copyTo(copy)
+  saveFavorite() {
+    let copy : Annotation = Annotation.to(this.item)
+    const fav = new FavoriteAnnotation()
+    fav.annotation = copy
+    fav.sourceDB = copy.sourceDB
+    fav.owner = this.data.player._id
 
-    // this.data.coreDB.store(<ObjectType>copy)
-
+    this.data.store(fav)
   }
 
   showRestrict() {

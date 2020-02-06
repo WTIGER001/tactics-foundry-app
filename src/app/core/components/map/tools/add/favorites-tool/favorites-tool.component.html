@@ -1,1 +1,8 @@
-<p>favorites-tool works!</p>
+<div class="shell" (wheel)="scroll($event)" #scroller>
+    <div class="inner">
+        <div class="card" *ngFor="let item of items">
+            <img [src]="item.url">
+            <label>{{item.fav.annotation.name}}</label>
+        </div>
+    </div>
+</div>

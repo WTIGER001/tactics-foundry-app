@@ -87,12 +87,17 @@ export class CirclePlugin extends AnnotationPlugin<CircleAnnotation> {
         // console.log("UPDATE ", this.annotation.x, " ", this.annotation.y," ",  this.handle.x, " ", this.handle.y);
 
         // Calculate the new radius based on the location of the handle
-        const xD = (this.annotation.x - this.handle.x) / this.mapData.ppf
-        const yD = (this.annotation.y - this.handle.y) / this.mapData.ppf
-        this.annotation.radius = Math.sqrt(xD*xD + yD*yD)
-        this.annotation.radius = +(this.annotation.radius.toFixed(1))
-
-        this.handleAngle = Math.atan2(yD, xD) - Math.PI // Corrects the wierd quadrant flipping of atan2
+        if (this.handle.dragging) {
+            const xD = (this.annotation.x - this.handle.x) / this.mapData.ppf
+            const yD = (this.annotation.y - this.handle.y) / this.mapData.ppf
+            this.annotation.radius = Math.sqrt(xD*xD + yD*yD)
+            this.annotation.radius = +(this.annotation.radius.toFixed(1))
+            this.handleAngle = Math.atan2(yD, xD) - Math.PI // Corrects the wierd quadrant flipping of atan2
+        } else {
+            let rDist = this.annotation.radius * this.mapData.ppf
+            this.handle.x = this.annotation.x + Math.cos(this.handleAngle) * rDist
+            this.handle.y = this.annotation.y + Math.sin(this.handleAngle) * rDist
+        }
 
         //TODO: Maybe use the ppf
         let r = this.annotation.radius >0 ? this.annotation.radius : 5 
