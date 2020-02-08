@@ -18,8 +18,10 @@ export class GameDataManager extends DatabaseManager {
     public encounters : Encounter[] = []
 
     public cmd$ = new ReplaySubject<SessionCommand>(1) // only the latest one matters
+    public map$ = new Subject<MapData>()
     public chat$ = new Subject<ChatRecord<any>>()
-    public annotations$  = new Subject<Annotation | RemovedDocument>()
+    public annotations$  = new Subject<Annotation>()
+    public annotation_rem$ = new Subject<RemovedDocument>()
     public encounter$ = new ReplaySubject<Encounter>()
     
     /// May need to use differs to private differs: IterableDiffers, private differsKV: KeyValueDiffers
@@ -62,7 +64,7 @@ export class GameDataManager extends DatabaseManager {
     processRemove(doc : RemovedDocument) {
 
         if ( this.removeFrom(doc._id, this.annotations)) {
-            this.annotations$.next(doc)
+            this.annotation_rem$.next(doc)
             return true
         }
         if ( this.removeFrom(doc._id, this.favorites)) return true
@@ -110,6 +112,7 @@ export class GameDataManager extends DatabaseManager {
     private handleMapData(doc : ObjectType) {
         const item = MapData.to(doc)
         this.processItem(item, this.maps)
+        this.map$.next(item)
     }
 
     private handleFavorite(doc : ObjectType) {
@@ -139,16 +142,10 @@ export class GameDataManager extends DatabaseManager {
         }
     }
 
-    public getAnnotations$(mapId : string) : Observable<Annotation | RemovedDocument> {
+    public getAnnotations$(mapId : string) : Observable<Annotation> {
         return concat(from(this.annotations),this.annotations$)
             .pipe(
                 filter(a =>  (Annotation.is(a) &&a.map === mapId) || this.isRemovedDocument(a))
             )
     }
-
-    public getAnnotations2$() : ResetableSubject<any> {
-        const sub = new ResetableSubject()
-        
-    }
-
 }

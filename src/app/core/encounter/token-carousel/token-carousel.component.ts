@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, ViewChildren } from '@angu
 import { LivePageComponent } from '../../pages/live-page/live-page.component';
 import { TokenAnnotation, Annotation } from '../../model';
 import { Encounter } from '../encounter';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'token-carousel',
@@ -62,33 +63,24 @@ export class TokenCarouselComponent implements OnInit {
       this.selected = item
       this.scrollTo(item)
     })
-    this.session.annotation_add$.subscribe( a => {
+
+    this.session.mapId$.pipe( mergeMap( mapId => this.session.gameMgr.getAnnotations$(mapId))).subscribe( a => {
       if (TokenAnnotation.is(a)) {
         const item = new Item(a)
-        this.all.push(item)
+        let indx = this.all.findIndex(aa => aa.token._id == a._id)
+        if (indx >=0) {
+          this.all[indx] = item
+        } else {
+          this.all.push(item)
+        }
         this.filter()
       }
     })
-    this.session.annotation_update$.subscribe( a=> {
-      if (TokenAnnotation.is(a)) {
-        let indx = this.all.findIndex(aa => aa.token._id == a._id)
-        if (indx >=0) {
-          this.all[indx] = new Item(a)
-          this.filter()
-        }
-      }
-    })
-    this.session.annotation_remove$.subscribe( a =>{
+
+    this.session.gameMgr.annotation_rem$.subscribe( a =>{
       let indx = this.all.findIndex(aa => aa.token._id == a._id)
       if (indx >=0) {
         this.all.splice(indx, 1)
-        this.filter()
-      }
-    })
-    this.session.layerMgr.modelMap.forEach( (v, a) => {
-      if (TokenAnnotation.is(a)) {
-        const item = new Item(a)
-        this.all.push(item)
         this.filter()
       }
     })

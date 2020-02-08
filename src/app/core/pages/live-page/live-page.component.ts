@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map/map.component';
 import {  Point } from 'pixi.js';
 import { Subject, ReplaySubject, BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
 import { CalibrateToolComponent } from '../../components/map/tools/gm/calibrate-tool/calibrate-tool.component';
 import { MapLayerManager } from '../../components/map/map/layer-manager';
 import { AppComponent } from 'src/app/app.component';
@@ -35,15 +35,12 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   private encounterWatcher : DbWatcher
   private favoriteWatcher : DbWatcher
 
+  public mapId$ = new BehaviorSubject<string>(null)
   public game$ = new ReplaySubject<Game>()
   public gm$ = new BehaviorSubject<boolean>(false)
   public mapData$ = new ReplaySubject<MapData>()
   public commands$ = new ReplaySubject<SessionCommand>()
   public encounter$ = new BehaviorSubject<Encounter>(null)
-
-  public annotation_add$ = new Subject<Annotation>()
-  public annotation_update$ = new Subject<Annotation>()
-  public annotation_remove$ = new Subject<RemovedDocument>()
 
   public favorite_add$ = new ReplaySubject<FavoriteAnnotation>()
   public favorite_update$ = new ReplaySubject<FavoriteAnnotation>()
@@ -104,25 +101,12 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.data.createDbIfNeeded(id).subscribe(db => {
         this.gameMgr = db
 
-        this.gameMgr.annotations$.subscribe( item => {
-          if (Annotation.is(item)) {
-            console.log("New or Updated Annotation", item);
-            
-          } else {
-            console.log("Deleted Annotation", item)
-          }
-        })
-
-        // Watch for the session commands
-        this.cmdWatcher = db.watchType(SessionCommand.TYPE, this.zone)
-        this.cmdWatcher.onAdd(doc => this.processCmd(doc))
-        this.cmdWatcher.onUpdate(doc => this.processCmd(doc))
-        this.cmdWatcher.start()
+        this.gameMgr.cmd$.subscribe( cmd => this.processCmd(cmd))
+        this.gameMgr.map$.pipe( 
+          filter(map => map._id === this.mapId$.getValue())
+        ).subscribe( map => this.updateMap(map))
 
         // Watch for the encounter
-        // this.encounterWatcher = db.builder()
-        //   .add('type', Encounter.TYPE)
-        //   .watch(this.zone)
         this.encounterWatcher = db.watchType(Encounter.TYPE, this.zone)
         this.encounterWatcher.onAdd( doc => this.processAddEncounter(Encounter.to(doc)))
         this.encounterWatcher.onUpdate( doc => this.processUpdateEncounter(Encounter.to(doc)))
@@ -135,6 +119,8 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.favoriteWatcher.onRemove( doc => this.favorite_removed$.next(doc))
         this.favoriteWatcher.start()
       })
+
+      this.mapId$.subscribe( mapId => this.handleNewMap(mapId))
 
     })
 
@@ -168,6 +154,11 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     )
 
   }
+
+  handleNewMap(mapId: string) {
+   
+  }
+
 
   updateGame(g :Game) {
     this.game = Game.to(g)
@@ -289,6 +280,10 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   watchMap(mapId) {
+    if (!mapId || !this.game || this.mapId$.getValue() === mapId) {
+      return 
+    }
+
     if (this.mapWatcher) {
       this.mapWatcher.cancel()
     }
@@ -302,25 +297,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mapWatcher.onRemove(m => this.mapdata = new MapData())
     this.mapWatcher.start()
 
-    // Watch for annotations
-    this.annotationWatcher = this.data.getDbById(this.game._id)
-      .watchFields([{ field: 'objType', value: Annotation.TYPE }, { field: 'map', value: mapId }], this.zone)
-    this.annotationWatcher.onAdd(doc => {
-      this.annotation_add$.next(Annotation.to(doc))
-    })
-    this.annotationWatcher.onUpdate(doc => {
-      this.annotation_update$.next(Annotation.to(doc))
-    })
-    this.annotationWatcher.onRemove(doc => this.annotation_remove$.next(doc))
-    this.annotationWatcher.start()
-
-    if (this.annotationSubscription) {
-      this.annotationSubscription.unsubscribe()
-    }
-
-    this.annotationSubscription = this.gameMgr.getAnnotations$(mapId).subscribe( item => {
-
-    })
+    this.mapId$.next(mapId)
   }
 
   updateMap(mapdata: MapData) {
@@ -339,8 +316,6 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     })
 
     this.selectEncounter()
-
-    // this.layerMgr.fogPlugin.updateMap()
   }
 
 

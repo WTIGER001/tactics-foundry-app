@@ -20,8 +20,7 @@ export class EncounterInfoComponent implements OnInit {
       this.calculate()
     })
 
-    this.session.annotation_add$.subscribe( a => this.calculate())
-    this.session.annotation_update$.subscribe( a => this.calculate())
+    this.session.gameMgr.annotations$.subscribe( a => this.calculate())
   }
 
   calculate() {

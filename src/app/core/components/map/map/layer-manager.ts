@@ -5,7 +5,7 @@ import { LangUtil } from 'src/app/core/util/LangUtil';
 import { Aura, AuraVisible } from 'src/app/core/model/aura';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 import { Viewport } from 'pixi-viewport';
-import { pairwise } from 'rxjs/operators';
+import { pairwise, mergeMap } from 'rxjs/operators';
 import { AnnotationPlugin } from '../plugins/annotation-plugin';
 import { CirclePlugin } from '../plugins/circle-plugin';
 import { ReplaySubject, BehaviorSubject } from 'rxjs';
@@ -63,9 +63,12 @@ export class MapLayerManager {
         this.layers.set('decal', this.session.mapview.decalLayer)
         this.layers.set('fog', this.session.mapview.fogLayer)
 
-        session.annotation_add$.subscribe(a => this.addAnnotation(a))
-        session.annotation_update$.subscribe(a => this.updateAnnotation(a))
-        session.annotation_remove$.subscribe(a => this.removeAnnotation(a))
+        session.mapId$.pipe( mergeMap( mapId => session.gameMgr.getAnnotations$(mapId))).subscribe( a => {
+            this.updateAnnotation(a)
+        })
+        session.gameMgr.annotation_rem$.subscribe( a => this.removeAnnotation(a))
+
+
         session.mapData$.subscribe(m => this.clearAnnotations())
 
         new SelectionPlugin(this)
@@ -165,17 +168,7 @@ export class MapLayerManager {
         return found
     }
 
-    public addAnnotation(a: Annotation) {
-        // Create the correct plugin
-        const plugin: AnnotationPlugin<Annotation> = this.create(a)
-
-        // Track the model and the item
-        this.trackAnnotation(plugin, a)
-
-        // Settting the annotation
-        plugin.setAnnotation(a)
-    }
-
+    
     public create(annotation: Annotation): AnnotationPlugin<Annotation> {
         if (CircleAnnotation.is(annotation)) {
             return new CirclePlugin(this)
@@ -200,26 +193,49 @@ export class MapLayerManager {
         // this.session.data.store(a)
     }
 
+
+    public addAnnotation(a: Annotation) {
+        // Create the correct plugin
+        const plugin: AnnotationPlugin<Annotation> = this.create(a)
+
+        // Track the model and the item
+        this.trackAnnotation(plugin, a)
+
+        // Settting the annotation
+        plugin.setAnnotation(a)
+    }
+
+
     public updateAnnotation(a: Annotation) {
         // Theoretically every 'update' should have been proceeded with an 'add'
         // The new annotation will have a higher rev field that we need to keep up to 
         // date to ensure that we can continue to update the annotation in the data store. 
         let old = this.modelIdMap.get(a._id)
-        let item = this.modelMap.get(old)
-        this.modelMap.delete(old)
+        if (old) {
+            let item = this.modelMap.get(old)
+            this.modelMap.delete(old)
 
-        // Replace
-        this.trackAnnotation(item, a)
+            // Replace
+            this.trackAnnotation(item, a)
 
-        // Now update
-        item.setAnnotation(a)
+            // Now update
+            item.setAnnotation(a)
 
-        // CHeck the selection 
-        if (this.selection$.getValue() && this.selection$.getValue()._id == a._id) {
-            // just reselect it
-            this.select(a)
+            // CHeck the selection 
+            if (this.selection$.getValue() && this.selection$.getValue()._id == a._id) {
+                // just reselect it
+                this.select(a)
+            }
+        } else {
+            // Create the correct plugin
+            const plugin: AnnotationPlugin<Annotation> = this.create(a)
+
+            // Track the model and the item
+            this.trackAnnotation(plugin, a)
+
+            // Settting the annotation
+            plugin.setAnnotation(a)
         }
-
     }
 
     public removeAnnotation(a: RemovedDocument) {
