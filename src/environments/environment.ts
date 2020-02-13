@@ -4,10 +4,12 @@
 
 export const environment = {
   production: false, 
-  remoteAddress : 'https://bauerstuff.com/'
+  // remoteAddress : 'https://bauerstuff.com/'
+  remoteAddress : '/api/'
 
   // remoteAddress : 'http://localhost:5984/'
   // remoteAddress : 'http://localhost:5989/'
+  // remoteAddress : 'http://bauerstuff.com:5989/'
   // remoteAddress : 'http://69.133.98.109:5984/'
   // remoteAddress : 'http://open:open@69.133.98.109:5984/'
   // remoteAddress : 'http://db.bauerstuff.com/'

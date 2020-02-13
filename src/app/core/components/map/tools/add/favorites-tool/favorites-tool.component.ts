@@ -16,25 +16,11 @@ export class FavoritesToolComponent implements OnInit {
   constructor(private session : LivePageComponent) { }
 
   ngOnInit() {
-    this.session.favorite_add$.pipe( 
-      filter( f => f.owner == this.session.data.player._id)
-    ).subscribe( f => {
+
+    let favs = this.session.gameMgr.favorites.filter(f => f.owner === this.session.data.player._id)
+    favs.forEach(f => {
       this.handleNew(f)
-    })
-    
-    this.session.favorite_update$.pipe( 
-      filter( f => f.owner == this.session.data.player._id)
-    ).subscribe( f => {
-      this.handleUpdate(f)
-    })
-
-    this.session.favorite_removed$.subscribe( f => {
-      let indx = this.items.findIndex(item => item.fav._id === f._id )
-      if (indx >=0 ) {
-        this.items.splice(indx, 1)
-      }
-    })
-
+    });
   }
 
   handleNew(f : FavoriteAnnotation) {

@@ -14,4 +14,5 @@
         <label>Temp Modifier</label>
     </div>
     <ability-score *ngFor="let score of item.abilityScores" [score]="score"></ability-score>
+    <label class="cost-label">Point Cost: {{pointcost()}}</label>
 </div>

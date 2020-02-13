@@ -29,6 +29,10 @@
     font-size: .8em;
 }
 
+.cost-label {
+    text-align: center;
+}
+
 @media screen and (max-height: 450px) {
     .shell {
         grid-template-columns: 1fr 1fr;

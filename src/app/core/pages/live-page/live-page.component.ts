@@ -14,6 +14,7 @@ import { SettingsService } from '../../settings.service';
 import { Encounter } from '../../encounter/encounter';
 import { ResetableSubject } from '../../util/resetable-subject';
 import { GameDataManager } from '../../game-data-manager';
+import { faTreeChristmas } from '@fortawesome/pro-solid-svg-icons';
 
 @Component({
   selector: 'live-page',
@@ -28,6 +29,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // DB Watchers. All components that are a child of this should just subscribe to the results instead of 
   // watching on their own
+  private mapSubscription : Subscription
   private watcher: DbWatcher
   private cmdWatcher: DbWatcher
   private mapWatcher: DbWatcher
@@ -35,6 +37,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   private encounterWatcher : DbWatcher
   private favoriteWatcher : DbWatcher
 
+  public gameId : string
   public mapId$ = new BehaviorSubject<string>(null)
   public game$ = new ReplaySubject<Game>()
   public gm$ = new BehaviorSubject<boolean>(false)
@@ -84,12 +87,15 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.app.fw = true
     }
 
+
+
   ngOnInit() {
     // May want to add an overall game content watcher....
     
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
       // this.game = Game.to(<Game>data.asset)
       let id = data.ctx.id
+      this.gameId = id
 
       // Watch for the Game (not sure why... maybe permmissions)
       this.watcher = this.data.coreDB.watchId(id, this.zone)
@@ -107,21 +113,18 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe( map => this.updateMap(map))
 
         // Watch for the encounter
-        this.encounterWatcher = db.watchType(Encounter.TYPE, this.zone)
-        this.encounterWatcher.onAdd( doc => this.processAddEncounter(Encounter.to(doc)))
-        this.encounterWatcher.onUpdate( doc => this.processUpdateEncounter(Encounter.to(doc)))
-        this.encounterWatcher.onRemove( doc => this.removeEncounter(doc))
-        this.encounterWatcher.start()
+        this.gameMgr.encounter$.subscribe( doc => this.processEncounter(doc))
 
-        this.favoriteWatcher = db.watchType(FavoriteAnnotation.TYPE, this.zone)
-        this.favoriteWatcher.onAdd( doc => this.favorite_add$.next(FavoriteAnnotation.to(doc)))
-        this.favoriteWatcher.onUpdate( doc => this.favorite_update$.next(FavoriteAnnotation.to(doc)))
-        this.favoriteWatcher.onRemove( doc => this.favorite_removed$.next(doc))
-        this.favoriteWatcher.start()
+        // Watch for changes to the current map
+        this.mapSubscription = this.gameMgr.map$.pipe(
+            filter( (m : MapData) => m._id === (this.mapdata?this.mapdata._id:''))
+        ).subscribe( m => {
+          this.updateMap(m) 
+          this.mapId$.next(m._id)
+        })
       })
 
       this.mapId$.subscribe( mapId => this.handleNewMap(mapId))
-
     })
 
     this.mdUpatesSmall$.pipe(
@@ -222,6 +225,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.mapdata._id != cmd.mapId) {
       // Change the map
       this.watchMap(cmd.mapId)
+      
     }
 
     if (cmd.command == PanZoomMapCommand.CMD && !this.mapview.ignoreFollowMe) {
@@ -234,41 +238,10 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  processAddEncounter(doc : Encounter) {
-    this.encounters.push(doc)
-    this.selectEncounter()
-  }
-
-  processUpdateEncounter(doc : Encounter) {
-    let indx = this.encounters.findIndex( e => e._id === doc._id)
-    if (indx >=0 ) {
-      this.encounters[indx] = doc
-    }
-    this.selectEncounter()
-  }
-
-  removeEncounter(doc : RemovedDocument) {
-    let indx = this.encounters.findIndex( e => e._id === doc._id)
-    if (indx >=0 ) {
-      this.encounters.splice(indx, 1)
-    }
-    this.selectEncounter()
-  }
-
-  selectEncounter() {
-    // Get the encounters for the current map that are active
-    let available = this.encounters.filter( e => e.map === this.mapdata._id && e.active)
-
-    // Get the newest
-    let latestTime = 0
-    let latest :Encounter
-    available.forEach( e=> {
-      if (e.lastUpdate > latestTime) {
-        latestTime = e.lastUpdate
-        latest = e
+  processEncounter( doc : Encounter) {
+      if (doc.map === this.mapdata._id && doc.active) {
+        this.encounter$.next(doc)
       }
-    })
-    this.encounter$.next(latest)
   }
 
   setCenter(x: number, y: number) {
@@ -283,21 +256,12 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!mapId || !this.game || this.mapId$.getValue() === mapId) {
       return 
     }
-
-    if (this.mapWatcher) {
-      this.mapWatcher.cancel()
+    /// Get the correct map
+    let mapdata = this.gameMgr.maps.find(m => m._id === mapId)
+    if (mapdata) {
+      this.mapId$.next(mapId)
+      this.updateMap(mapdata)
     }
-    if (this.annotationWatcher) {
-      this.annotationWatcher.cancel()
-    }
-
-    this.mapWatcher = this.data.getDbById(this.game._id).watchId(mapId, this.zone)
-    this.mapWatcher.onAdd(m => this.updateMap(m))
-    this.mapWatcher.onUpdate(m => this.updateMap(m))
-    this.mapWatcher.onRemove(m => this.mapdata = new MapData())
-    this.mapWatcher.start()
-
-    this.mapId$.next(mapId)
   }
 
   updateMap(mapdata: MapData) {
@@ -315,7 +279,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.h = this.mapview.viewport.screenHeight
     })
 
-    this.selectEncounter()
+    // this.selectEncounter()
   }
 
 

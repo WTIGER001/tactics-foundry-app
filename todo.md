@@ -28,17 +28,15 @@ All Done!
 - [++] Add monster
 - [++] Add image
 - [++] Add Text
-- [++] Scale Bar 
-- [+] Long press flag
+- [+] Scale Bar 
 - [+] Audio effects
 - [++] Restrict Dialog
-- [+++] Favorite Dialog
-- [+++] GM / Debug Layer Control, show all plugins per layer (layers are just containers)
+- [+] GM / Debug Layer Control, show all plugins per layer (layers are just containers)
 - [++] Proposed Movement
 
 ### Chat
 - [+] Images in chat
-- [++] Targets in Rolls
+- [++] Targets in Rolls (or vs)
 - [+++] Roll Favorites
 - [+++] Favorite a roll
 - [++] GM Roll / private (e.g not sent) 
