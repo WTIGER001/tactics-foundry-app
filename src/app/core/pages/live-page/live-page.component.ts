@@ -308,6 +308,18 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   newName = "New Token"
   uploadfile : File
   showCropDialog = false
+  uploadTokenImg($event : File) {
+    const name = $event.name
+    const indx = name.indexOf(".")
+    if (indx >0) {
+      this.newName = $event.name.substr(0, indx-1)
+    } else {
+      this.newName = $event.name
+    }
+    this.uploadfile = $event
+    this.showCropDialog = true
+    
+  }
   uploadImg($event: File) {
     const name = $event.name
     const indx = name.indexOf(".")

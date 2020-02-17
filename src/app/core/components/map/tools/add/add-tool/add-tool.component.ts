@@ -5,7 +5,7 @@ import { PlaceholderDirective } from 'src/app/core/directives/placeholder.direct
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
 import { ToolsComponent } from '../../tools/tools.component';
 import { ImageUtil } from 'src/app/core/util/ImageUtil';
-import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation } from 'src/app/core/model';
+import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation, ImageAnnotation } from 'src/app/core/model';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
 import { MapComponent } from '../../../map/map.component';
@@ -70,6 +70,7 @@ export class AddToolComponent implements OnInit {
     plugin.setAnnotation(annotation)
     plugin.add()
   }
+
   startLine() { 
     // Enter the mode where we are editing initially
     const plugin = new PathPlugin(this.session.layerMgr)
@@ -103,7 +104,16 @@ export class AddToolComponent implements OnInit {
     this.session.layerMgr.flagPlugin.add()
 
   }
-  startImage() { }
+  
+  startImage() {
+    const a = new ImageAnnotation()
+    const rect =ShapeUtil.centerRect(this.session.mapview)
+    a.u
+    rect.layer = this.session.currentLayer
+
+    this.session.layerMgr.storeAnnotation(rect)
+  }
+
   startText() {
 
   }

@@ -1,4 +1,4 @@
-import { CircleAnnotation, RectangleAnnotation, Formatted, Geom } from 'src/app/core/model';
+import { CircleAnnotation, RectangleAnnotation, Formatted, Geom, ImageAnnotation } from 'src/app/core/model';
 import { MapComponent } from './map.component';
 import { Point, Rectangle } from 'pixi.js';
 
@@ -47,6 +47,16 @@ export class ShapeUtil {
         rect.h = location.height
         return rect
     }
+
+
+    static centerRect(map: MapComponent) : Rectangle {
+        const center: Point = map.getCenter()
+        const bounds = map.viewport.getVisibleBounds()
+        const r = new Rectangle(0, 0, bounds.width / 10 / map.mapdata.ppf, bounds.height / 10 / map.mapdata.ppf)
+        const location = Geom.centerOn(r, center)
+        return location
+    }
+
 
     static defaultFormat(item: Formatted) {
       item.border = true

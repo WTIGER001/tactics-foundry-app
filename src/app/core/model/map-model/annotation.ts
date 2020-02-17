@@ -7,6 +7,7 @@ import { Geom } from '../util/geom';
 import { IdUtil } from '../../util/IdUtil';
 import { Marker } from '../../marker.service';
 import { LayerType } from '../../components/map/map/layer-manager';
+import { RectangularPlugin } from '../../components/map/plugins/abstract-rectangular-plugin';
 
 export enum AnchorPostitionChoice {
     TopLeft = 0,
@@ -124,26 +125,53 @@ export class MarkerTypeAnnotation extends Annotation {
     }
 }
 
+
+export abstract class RectangularAnnotation  extends Annotation {
+    x: number
+    y: number
+    w: number
+    h: number
+    unit: string = 'ft'
+}
+
+
+export class RectangleAnnotation extends RectangularAnnotation implements Formatted{
+    readonly subtype: string = "rectangle"
+
+    // FORMATTED
+    border: boolean
+    color: string
+    weight: number
+    style: string
+    fill: boolean
+    fillColor: string
+
+    x: number
+    y: number
+    w: number
+    h: number
+    unit: string
+
+    toShape(ppf : number): Rectangle {
+        return new Rectangle(this.x, this.y, this.w*ppf, this.h*ppf)
+    }
+
+    static is(obj: any): obj is CircleAnnotation {
+        return ShapeAnnotation.is(obj) && obj.shapetype == ShapeType.Rectangle
+    }
+}
+
 /**
  * Represents a regular image sprite
  */
-export class ImageAnnotation extends Annotation {
+export class ImageAnnotation extends RectangularAnnotation {
     public static readonly SUBTYPE = 'image'
     readonly subtype: string = ImageAnnotation.SUBTYPE
 
     opacity: number = 1
     url?: string
-    displayRange: [number, number] = [-20, 200]
     aspect: number // width / height
     keepAspect: boolean = false
-    location: Rectangle
-    w : number
-    h : number
-    unit: string = 'ft'
-
-    // center(): Point {
-    //     return Geom.center(this.location)
-    // }
 
     static is(obj: any): obj is ShapeAnnotation {
         return Annotation.is(obj) && obj.subtype == ImageAnnotation.SUBTYPE
@@ -235,28 +263,6 @@ export class CircleAnnotation extends ShapeAnnotation {
     }
 }
 
-
-export class RectangleAnnotation extends ShapeAnnotation {
-    shapetype = ShapeType.Rectangle
-
-    x: number
-    y: number
-    w: number
-    h: number
-    unit: string
-
-    // center(): Point {
-    //     return Geom.center(this.toShape())
-    // }
-
-    toShape(ppf : number): Rectangle {
-        return new Rectangle(this.x, this.y, this.w*ppf, this.h*ppf)
-    }
-
-    static is(obj: any): obj is CircleAnnotation {
-        return ShapeAnnotation.is(obj) && obj.shapetype == ShapeType.Rectangle
-    }
-}
 
 
 export class PolygonAnnotation extends ShapeAnnotation {

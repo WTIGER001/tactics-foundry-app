@@ -17,9 +17,9 @@
     <fa-icon class="icon clickable mt-2" icon="signature" size="2x" (click)="startLine()"></fa-icon> 
     <fa-icon class="icon clickable mt-2" icon="draw-polygon" size="2x" (click)="startPolygon()"></fa-icon> 
     <fa-icon class="icon clickable mt-2" icon="pennant" size="2x" (click)="startFlag()"></fa-icon> 
-    <fa-icon class="icon clickable mt-2" icon="image" size="2x" (click)="startImage()"></fa-icon> 
+    <fa-icon class="icon clickable mt-2" icon="image" size="2x" (click)="uploadType='image';upload.getFile()"></fa-icon> 
     <fa-icon class="icon clickable mt-2" icon="text" size="2x" (click)="startText()"></fa-icon> 
-    <fa-icon class="icon clickable mt-2" icon="cloud-upload" size="2x" (click)="upload.getFile()"></fa-icon> 
+    <fa-icon class="icon clickable mt-2" icon="cloud-upload" size="2x" (click)="uploadType='token';upload.getFile()"></fa-icon> 
     
     <h3>Line</h3>
     <h3>Polygon</h3>
