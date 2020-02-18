@@ -5,7 +5,7 @@ import { DataService } from '../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapComponent } from '../../components/map/map/map.component';
 import {  Point } from 'pixi.js';
-import { Subject, ReplaySubject, BehaviorSubject, combineLatest, Subscription } from 'rxjs';
+import { Subject, ReplaySubject, BehaviorSubject, combineLatest, Subscription, Observable } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { CalibrateToolComponent } from '../../components/map/tools/gm/calibrate-tool/calibrate-tool.component';
 import { MapLayerManager } from '../../components/map/map/layer-manager';
@@ -15,6 +15,7 @@ import { Encounter } from '../../encounter/encounter';
 import { ResetableSubject } from '../../util/resetable-subject';
 import { GameDataManager } from '../../game-data-manager';
 import { faTreeChristmas } from '@fortawesome/pro-solid-svg-icons';
+import { ImageUtil, ImageResult } from '../../util/ImageUtil';
 
 @Component({
   selector: 'live-page',
@@ -308,6 +309,7 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
   newName = "New Token"
   uploadfile : File
   showCropDialog = false
+
   uploadTokenImg($event : File) {
     const name = $event.name
     const indx = name.indexOf(".")
@@ -318,9 +320,9 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.uploadfile = $event
     this.showCropDialog = true
-    
   }
-  uploadImg($event: File) {
+
+  uploadImg($event: File) : Observable<ImageResult> {
     const name = $event.name
     const indx = name.indexOf(".")
     if (indx >0) {
@@ -328,8 +330,10 @@ export class LivePageComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.newName = $event.name
     }
-    this.uploadfile = $event
-    this.showCropDialog = true
+    
+    return ImageUtil.loadImg($event, {
+      thumbnailKeepAspect : true
+    })
   }
 
   saveImage($event) {

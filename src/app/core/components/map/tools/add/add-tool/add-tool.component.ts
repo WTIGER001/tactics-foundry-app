@@ -4,7 +4,7 @@ import { AddTokenToolComponent } from '../add-token-tool/add-token-tool.componen
 import { PlaceholderDirective } from 'src/app/core/directives/placeholder.directive';
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
 import { ToolsComponent } from '../../tools/tools.component';
-import { ImageUtil } from 'src/app/core/util/ImageUtil';
+import { ImageUtil, ImageResult } from 'src/app/core/util/ImageUtil';
 import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation, ImageAnnotation } from 'src/app/core/model';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
@@ -27,6 +27,7 @@ export class AddToolComponent implements OnInit {
   uploadfile : File
   showCropDialog = false
   newName = "New Token"
+  uploadType = ''
 
   ngOnInit() {
     this.route.data.subscribe((data: { ctx: RouteContext }) => {
@@ -105,13 +106,18 @@ export class AddToolComponent implements OnInit {
 
   }
   
-  startImage() {
+  startImage(img : ImageResult) {
+    const rect =ShapeUtil.centerImage(this.session.mapview, img.width, img.height)
     const a = new ImageAnnotation()
-    const rect =ShapeUtil.centerRect(this.session.mapview)
-    a.u
-    rect.layer = this.session.currentLayer
+    a.aspect = img.aspect
+    a.x = rect.x
+    a.y = rect.y
+    a.w = rect.width
+    a.h = rect.height
+    a.layer = this.session.currentLayer
+    a.url = img.dataURL
 
-    this.session.layerMgr.storeAnnotation(rect)
+    this.session.layerMgr.storeAnnotation(a)
   }
 
   startText() {
@@ -163,27 +169,14 @@ export class AddToolComponent implements OnInit {
 
   
   uploadImg($event: File) {
-    this.session.uploadImg($event)
-    // this.session.uploadfile = $event
+    if (this.uploadType == 'image') {
+      this.session.uploadImg($event).subscribe(result => {
+        this.startImage(result)  
+      })
+    } else if (this.uploadType == 'token') {
+      this.session.uploadTokenImg($event)
+    }
 
-    // const name = $event.name
-    // const indx = name.indexOf(".")
-    // if (indx >0) {
-    //   this.newName = $event.name.substr(0, indx-1)
-    // } else {
-    //   this.newName = $event.name
-    // }
-    // this.uploadfile = $event
-    // this.showCropDialog = true
-    // ImageUtil.loadImg($event, {
-    //   createThumbnail: true,
-    //   thumbnailKeepAspect: true,
-    //   thumbnailMaxHeight: 240,
-    //   thumbnailMaxWidth: 420
-    // }).subscribe(result => {
-    //   this.character.url = result.thumbDataUrl
-    //   this.data.store(this.character)
-    // })
   }
 
   saveImage($event) {

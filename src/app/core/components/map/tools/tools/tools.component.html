@@ -72,6 +72,13 @@
     </tool-tab>
 </tool-tabs>
 
+
+<tool-tabs *ngIf="isImageSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
+    <tool-tab label="Image" icon="image">
+        <edit-image [item]="selected"></edit-image>
+    </tool-tab>
+</tool-tabs>
+
 <!-- ITEMS -->
 <add-token-tool *ngIf="shown==='addtoken'" (onClose)="closeTab()" type='token'></add-token-tool>
 <add-token-tool *ngIf="shown==='addcharacter'" (onClose)="closeTab()" type='character'></add-token-tool>

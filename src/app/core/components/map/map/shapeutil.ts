@@ -3,9 +3,68 @@ import { MapComponent } from './map.component';
 import { Point, Rectangle } from 'pixi.js';
 
 export class ShapeUtil {
+    /**
+     * Centers an image in the view.
+     * @param map Map
+     * @param width of Image
+     * @param height of Image
+     */
+    static centerImage(map: MapComponent, width: number, height: number): Rectangle {
+        const center: Point = map.getCenter()
+        const bounds = map.viewport.getVisibleBounds()
+
+        let w = width
+        let h = height
+        let pt = ShapeUtil.resize(width, height, bounds.width / 10 / map.mapdata.ppf, bounds.height / 10 / map.mapdata.ppf)
+        const r = new Rectangle(0, 0, pt.x, pt.y)
+        const location = Geom.centerOn(r, center)
+
+        return location
+    }
 
 
-    static createCircle(map: MapComponent) : CircleAnnotation {
+    static keepAspect( w: number, h: number, aspect : number, keepAspect : boolean) : Point {
+        if (!aspect || !keepAspect) {
+            return new Point(w, h)
+        }
+
+        const normalizedWDiff = w 
+        const normalizedHDiff = h / aspect 
+        if (normalizedWDiff > normalizedHDiff) {
+            let newW = w
+            let newH = w / aspect
+            return new Point(newW, newH)
+        } else {
+            let newW = h * aspect
+            let newH = h
+            return new Point(newW, newH)
+        }
+    }
+
+    static resize(w: number, h: number, maxW: number, maxH : number) : Point {
+        let aspect = w/h
+        let wDiff = maxW - w
+        let hDiff = maxH - h
+
+        // This is already smaller
+        if (wDiff < 0 && hDiff < 0) {
+            return new Point(w, h)
+        }
+
+        const normalizedWDiff = wDiff 
+        const normalizedHDiff = hDiff * aspect 
+        if (normalizedWDiff > normalizedHDiff) {
+            let newW = maxW
+            let newH = maxW* aspect
+            return new Point(newW, newH)
+        } else {
+            let newW = maxH / aspect
+            let newH = maxH
+            return new Point(newW, newH)
+        }
+    }
+
+    static createCircle(map: MapComponent): CircleAnnotation {
         const circle = new CircleAnnotation()
         circle.x = 300
         circle.y = 300
@@ -25,15 +84,15 @@ export class ShapeUtil {
         const small = Math.min(bounds.width, bounds.height)
         circle.radius = small / 10
         if (circle.radius < 0) {
-        console.log("CIRCLE MATH ", bounds, " ", small)
-        circle.radius = 5
+            console.log("CIRCLE MATH ", bounds, " ", small)
+            circle.radius = 5
         }
         circle.radius = circle.radius / map.mapdata.ppf
 
         return circle
     }
 
-    static createRectangle(map: MapComponent) : RectangleAnnotation {
+    static createRectangle(map: MapComponent): RectangleAnnotation {
         const rect = new RectangleAnnotation()
         this.defaultFormat(rect)
         rect.name = "New Rectangle"
@@ -49,7 +108,7 @@ export class ShapeUtil {
     }
 
 
-    static centerRect(map: MapComponent) : Rectangle {
+    static centerRect(map: MapComponent): Rectangle {
         const center: Point = map.getCenter()
         const bounds = map.viewport.getVisibleBounds()
         const r = new Rectangle(0, 0, bounds.width / 10 / map.mapdata.ppf, bounds.height / 10 / map.mapdata.ppf)
@@ -59,11 +118,11 @@ export class ShapeUtil {
 
 
     static defaultFormat(item: Formatted) {
-      item.border = true
-      item.color = '#FFFFFF'
-      item.weight = 1
-      item.fill = true
-      item.fillColor = "#FF000088"
+        item.border = true
+        item.color = '#FFFFFF'
+        item.weight = 1
+        item.fill = true
+        item.fillColor = "#FF000088"
     }
 
 }

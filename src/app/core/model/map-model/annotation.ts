@@ -30,6 +30,12 @@ export enum ShapeType {
     Polyline
 }
 
+export enum SnapMode {
+    SNAP_NONE, 
+    SNAP_CENTER, 
+    SNAP_VERTEX
+}
+
 
 export abstract class Annotation extends ObjectType {
     static readonly TYPE = 'annotation'
@@ -127,6 +133,10 @@ export class MarkerTypeAnnotation extends Annotation {
 
 
 export abstract class RectangularAnnotation  extends Annotation {
+    snapMode: number = 0
+    aspect: number // width / height
+    keepAspect: boolean = false
+
     x: number
     y: number
     w: number
@@ -136,7 +146,8 @@ export abstract class RectangularAnnotation  extends Annotation {
 
 
 export class RectangleAnnotation extends RectangularAnnotation implements Formatted{
-    readonly subtype: string = "rectangle"
+    public static readonly SUBTYPE = 'rectangle'
+    readonly subtype: string = RectangleAnnotation.SUBTYPE
 
     // FORMATTED
     border: boolean
@@ -157,7 +168,7 @@ export class RectangleAnnotation extends RectangularAnnotation implements Format
     }
 
     static is(obj: any): obj is CircleAnnotation {
-        return ShapeAnnotation.is(obj) && obj.shapetype == ShapeType.Rectangle
+        return Annotation.is(obj) && obj.subtype == RectangleAnnotation.SUBTYPE
     }
 }
 
@@ -170,8 +181,6 @@ export class ImageAnnotation extends RectangularAnnotation {
 
     opacity: number = 1
     url?: string
-    aspect: number // width / height
-    keepAspect: boolean = false
 
     static is(obj: any): obj is ShapeAnnotation {
         return Annotation.is(obj) && obj.subtype == ImageAnnotation.SUBTYPE

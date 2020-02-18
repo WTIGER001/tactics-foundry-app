@@ -4,16 +4,16 @@ import { MapComponent } from '../map/map.component'
 import { MapData, Geom } from 'src/app/core/model'
 import { Graphics, interaction } from 'pixi.js'
 
-export class BasicPlugin  extends Plugin {
-    
+export class BasicPlugin extends Plugin {
+
     layerMgr: MapLayerManager
     _saved = true
 
-    get saved() : boolean {
+    get saved(): boolean {
         return this._saved
     }
 
-    set saved(s : boolean) {
+    set saved(s: boolean) {
         this._saved = s
     }
 
@@ -34,7 +34,7 @@ export class BasicPlugin  extends Plugin {
         return this.layerMgr.session.mapdata
     }
 
-    get scale() : number {
+    get scale(): number {
         return this.map.viewport.scale.x
     }
 
@@ -53,13 +53,22 @@ export class Handle {
     public handle = new Graphics()
     x: number
     y: number
-    w = 10 * (window.devicePixelRatio/2)
+    w = 10 * (window.devicePixelRatio / 2)
     color = 0
     downTime = 0
-    circle =  false
+    circle = false
 
-    onClick : (event : interaction.InteractionEvent) => void = () =>{}
-    onMove : (event : interaction.InteractionEvent) => void = () =>{}
+    /** DRAG SUPPORT */
+    data
+    dragData
+    dragging = false
+    shift = false
+    ctrl = false
+    alt = false
+    isHovering = false
+
+    onClick: (event: interaction.InteractionEvent) => void = () => { }
+    onMove: (event: interaction.InteractionEvent) => void = () => { }
 
     constructor() {
         this.handle = new Graphics()
@@ -77,17 +86,17 @@ export class Handle {
             .on("mouseover", this.onMouseOver, this)
             .on("mouseout", this.onMouseOut, this)
             .on('click', this.click, this)
-            .on('tap',this.click, this)
+            .on('tap', this.click, this)
     }
 
-    update(plugin : BasicPlugin, enabled : boolean ) {
+    update(plugin: BasicPlugin, enabled: boolean) {
         this.handle.clear()
         if (enabled) {
 
             this.handle.beginFill(this.color, 1)
             this.handle.lineStyle(1, 0xFFFFFF, 1, 1, true)
             if (this.circle) {
-                this.handle.drawCircle(this.x, this.y, this.w / plugin.scale )
+                this.handle.drawCircle(this.x, this.y, this.w / plugin.scale)
             } else {
                 const r = Geom.centerHandle(this.x, this.y, this.w / plugin.scale)
                 this.handle.drawShape(r)
@@ -96,18 +105,14 @@ export class Handle {
         }
     }
 
-    click(event : interaction.InteractionEvent) {
+    click(event: interaction.InteractionEvent) {
         const time = new Date().getTime()
         if (time - this.downTime < 500) {
             this.onClick(event)
         }
     }
 
-    /** DRAG SUPPORT */
-    data
-    dragData
-    dragging = false
-    isHovering = false
+
 
 
     onMouseOver(event) {
@@ -138,15 +143,18 @@ export class Handle {
         let me: any = <any>this
         this.dragging = false;
         me.dragData = null;
-        
+
     }
 
     onDragMove(event) {
         if (this.dragging) {
+            this.shift = event.data.originalEvent.shiftKey
+            this.ctrl = event.data.originalEvent.ctrlKey
+            this.alt = event.data.originalEvent.altKey
             var newPosition = this.dragData.getLocalPosition(this.handle.parent);
             // me.position.x = newPosition.x;
             // me.position.y = newPosition.y;
-            
+
             this.x = newPosition.x
             this.y = newPosition.y
             this.onMove(event)

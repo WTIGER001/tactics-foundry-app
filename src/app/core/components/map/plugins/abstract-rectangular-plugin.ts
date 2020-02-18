@@ -1,7 +1,8 @@
 import { AnnotationPlugin } from './annotation-plugin';
-import { Annotation, RectangularAnnotation } from 'src/app/core/model';
-import { Container, DisplayObject, Graphics, Sprite } from 'pixi.js';
+import { Annotation, RectangularAnnotation, SnapMode, Geom } from 'src/app/core/model';
+import { Container, DisplayObject, Graphics, Sprite, Point } from 'pixi.js';
 import { Handle } from './basic-plugin';
+import { ShapeUtil } from '../map/shapeutil';
 
 export abstract class RectangularPlugin<T extends RectangularAnnotation> extends AnnotationPlugin<T> {
     selected = true
@@ -48,13 +49,27 @@ export abstract class RectangularPlugin<T extends RectangularAnnotation> extends
 
     }
 
+    snap(pt : Point,  overrideSnapVertex : boolean = false, overrideSnapCenter: boolean = false) : Point {
+        if (this.annotation.snapMode == SnapMode.SNAP_CENTER || overrideSnapCenter) {
+            let square = this.layerMgr.session.mapview.grid.getGridCell(pt)
+            let center =Geom.center(square)
+            return center
+        } else if (this.annotation.snapMode == SnapMode.SNAP_VERTEX || overrideSnapVertex) {
+            let vertex = this.layerMgr.session.mapview.grid.getGridVertex(pt)
+            return vertex
+        } 
+        return pt
+    }
+
     getMainObject() {
         return this.sprite
     }
 
     updatePositionFromDrag(x: number, y: number) {
-        this.annotation.x = x
-        this.annotation.y = y
+        let pt = this.snap(new Point(x, y), this.ctrl, this.alt)
+
+        this.annotation.x = pt.x
+        this.annotation.y = pt.y
 
         // Update the handle
         this.handletl.x = this.handlebl.x = this.annotation.x
@@ -70,22 +85,51 @@ export abstract class RectangularPlugin<T extends RectangularAnnotation> extends
 
         // Calculate the new radius based on the location of the handle
         if (this.handletl.dragging) {
-            this.annotation.x = this.handletl.x
-            this.annotation.y = this.handletl.y
+            // Need to lock the opposite point
+            // TOP LEFT
+            let pt = this.snap(new Point(this.handletl.x, this.handletl.y), this.handletl.ctrl, this.handletl.alt)
 
-            this.annotation.w = (this.handlebr.x - this.handletl.x) / this.ppf
-            this.annotation.h = (this.handlebr.y - this.handletl.y) / this.ppf
+            this.annotation.x = pt.x
+            this.annotation.y = pt.y
+            this.annotation.w = (this.handlebr.x - pt.x) / this.ppf
+            this.annotation.h = (this.handlebr.y - pt.y) / this.ppf
+
+            // Keep Aspect
+            if (this.handletl.shift || this.annotation.keepAspect) {
+                let pt2 = ShapeUtil.keepAspect(this.annotation.w, this.annotation.h, this.annotation.aspect, true)
+                this.annotation.w = pt2.x
+                this.annotation.h = pt2.y
+            }
         } else if (this.handlebr.dragging) {
-            this.annotation.w = (this.handlebr.x - this.handletl.x) / this.ppf
-            this.annotation.h = (this.handlebr.y - this.handletl.y) / this.ppf
+            // BOTTOM RIGHT
+            let pt = this.snap(new Point(this.handlebr.x, this.handlebr.y), this.handlebr.ctrl, this.handlebr.alt)
+
+            this.annotation.w = (pt.x - this.handletl.x) / this.ppf
+            this.annotation.h = (pt.y - this.handletl.y) / this.ppf
+
+            let pt2 = ShapeUtil.keepAspect(this.annotation.w, this.annotation.h, this.annotation.aspect, this.annotation.keepAspect)
+            this.annotation.w = pt2.x
+            this.annotation.h = pt2.y
+
+            if (this.handlebr.shift || this.annotation.keepAspect) {
+                let pt2 = ShapeUtil.keepAspect(this.annotation.w, this.annotation.h, this.annotation.aspect, true)
+                this.annotation.w = pt2.x
+                this.annotation.h = pt2.y
+            }
         } else if (this.handletr.dragging) {
-            this.annotation.y = this.handletr.y
-            this.annotation.w = (this.handletr.x - this.handletl.x) / this.ppf
-            this.annotation.h = (this.handlebr.y - this.handletr.y) / this.ppf
+            // TOP RIGHT
+            let pt = this.snap(new Point(this.handletr.x, this.handletr.y), this.handletr.ctrl, this.handletr.alt)
+
+            this.annotation.y = pt.y
+            this.annotation.w = (pt.x - this.handletl.x) / this.ppf
+            this.annotation.h = (this.handlebr.y - pt.y) / this.ppf
         } else if (this.handlebl.dragging) {
-            this.annotation.x = this.handlebl.x
-            this.annotation.w = (this.handlebr.x - this.handlebl.x) / this.ppf
-            this.annotation.h = (this.handlebl.y - this.handletl.y) / this.ppf
+            //BOTTOM LEFT
+            let pt = this.snap(new Point(this.handlebl.x, this.handlebl.y), this.handlebl.ctrl, this.handlebl.alt)
+
+            this.annotation.x = pt.x
+            this.annotation.w = (this.handlebr.x - pt.x) / this.ppf
+            this.annotation.h = (pt.y - this.handletl.y) / this.ppf
         }
 
         this.annotation.w = +(this.annotation.w.toFixed(1))

@@ -1,5 +1,5 @@
 import { Plugin, Viewport } from 'pixi-viewport';
-import { Annotation, MapData, Geom, Formatted } from 'src/app/core/model';
+import { Annotation, MapData, Geom, Formatted, SnapMode } from 'src/app/core/model';
 import { Container, DisplayObject, Graphics, interaction, Sprite, Text, Texture } from 'pixi.js';
 import { MapLayerManager } from '../map/layer-manager';
 import { MapComponent } from '../map/map.component';
@@ -12,6 +12,9 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     layerMgr: MapLayerManager
     _saved = true
     autostore = true
+    shift = false
+    ctrl = false
+    alt = false
 
     get saved(): boolean {
         return this._saved
@@ -210,6 +213,10 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
 
     onDragMove(event) {
         if (this.dragging) {
+            this.shift = event.data.originalEvent.shiftKey
+            this.ctrl = event.data.originalEvent.ctrlKey
+            this.alt = event.data.originalEvent.altKey
+            
             const newPosition = this.dragData.getLocalPosition(this.object.parent);
             // me.position.x = newPosition.x;
             // me.position.y = newPosition.y;
@@ -244,6 +251,8 @@ export abstract class AnnotationPlugin<T extends Annotation> extends Plugin {
     updatePositionFromDrag(x: number, y: number) {
 
     }
+
+  
 }
 
 export class TextBox extends Container {
