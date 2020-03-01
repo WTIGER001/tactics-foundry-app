@@ -1,0 +1,90 @@
+<div class='shell'>
+    <div class="color-area" [class.hide]="colorpickerhide">
+        <div #colorpick [(colorPicker)]="item.fill" cpDialogDisplay='inline' cpAlphaChannel='always'
+            cpCloseClickOutside='true' cpOutputFormat='hex' (colorPickerChange)="updateFill($event)"
+            cpDisableInput='true'>
+        </div>
+    </div>
+    <div class="color-area" [class.hide]="colorpickerhide2">
+        <div #colorpick2 [(colorPicker)]="item.stroke" cpDialogDisplay='inline' cpAlphaChannel='always'
+            cpCloseClickOutside='true' cpOutputFormat='hex' (colorPickerChange)="updateStroke($event)"
+            cpDisableInput='true'>
+        </div>
+    </div>
+    <!-- <h3>Presets</h3>
+    <div class="preset-area scroller-dark scroller">
+        <ng-container *ngIf="item">
+            <color-cell *ngFor="let item of presetItems" class="color-pick" [item]="item" (click)="usePreset(item)">
+            </color-cell>
+        </ng-container>
+        <ng-container *ngIf="!item">
+            <color-cell *ngFor="let item of presetItems" class="color-pick" [color]="item.fillColor"
+                (click)="usePreset(item)"></color-cell>
+        </ng-container>
+    </div> -->
+    <ng-container *ngIf="item">
+        <h3>Custom</h3>
+        <div class="custom-area">
+            <div class="font-row">
+                <h4>Font</h4>
+                <select id="fontFamily" class="form-control input-sm" [(ngModel)]="item.fontFamily">
+                    <option value="Arial">Arial</option>
+                    <option value="Arial Black">Arial Black</option>
+                    <option value="Comic Sans MS">Comic Sans MS</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Helvetica">Helvetica</option>
+                    <option value="Impact">Impact</option>
+                    <option value="Lato">Lato</option>
+                    <option value="Ringbearer">Ringbearer</option>
+                    <option value="Tahoma">Tahoma</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Georgia, serif">Georgia, serif</option>
+                </select>
+            </div>
+
+            <div class="color-row">
+                <h4>Size</h4>
+                <h4>Color</h4>
+                <h4>Outline</h4>
+                <h4 [class.notvisible]="!outline">Color</h4>
+                <h4 [class.notvisible]="!outline">Thickness</h4>
+
+                <input type="number" [(ngModel)]="item.fontSize" (ngModelChanges)="update()">
+
+                <color-cell class="color-pick" [color]="item.fill" (click)="colorpick.click(); colorpickerhide=false">
+                </color-cell>
+
+                <div class="switch-holder"><input type="checkbox" class="switch tab-category-switch"
+                        [(ngModel)]="outline" (change)="update()">
+                </div>
+
+                <color-cell [class.notvisible]="!outline" class="color-pick" [color]="item.stroke"
+                    (click)="colorpick2.click(); colorpickerhide2=false"></color-cell>
+
+                <input type="number" [(ngModel)]="item.strokeThickness" (ngModelChanges)="update()">
+
+            </div>
+            <div class="icon-row">
+                <button class="btn " [class.selected]="item.align=='left'" (click)="align('left')">
+                    <fa-icon icon="align-left"></fa-icon>
+                </button>
+                <button class="btn " [class.selected]="item.align=='center'" (click)="align('center')">
+                    <fa-icon icon="align-center"></fa-icon>
+                </button>
+                <button class="btn " [class.selected]="item.align=='right'" (click)="align('right')">
+                    <fa-icon icon="align-right"></fa-icon>
+                </button>
+                <div></div>
+                <button class="btn " [class.selected]="item.fontWeight=='bold'" (click)="toggleBold()">
+                    <fa-icon icon="bold"></fa-icon>
+                </button>
+                <button class="btn " [class.selected]="item.fontStyle=='italic'" (click)="toggleItalic()">
+                    <fa-icon icon="italic"></fa-icon>
+                </button>
+            </div>
+            <!-- <button class="btn">Save as Preset</button> -->
+        </div>
+    </ng-container>
+</div>

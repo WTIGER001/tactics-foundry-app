@@ -20,11 +20,32 @@
     --btn-secondary: grey;
     --chat-preview-height: 120px;
     --mygrey: rgb(89,89,89);
+
+    /* Tool Tabs */
+    --toolwidth: 100vw;
+    --toolRight: 0px;
+    --chatoffset: 0px;
+    --ck-spacing-small: 1px;
 }
 
+/* */
 @media screen and (orientation: landscape) and (max-width: 900px)  {
     :root {
         --detail-main-height: calc(100vh - 140px)
+    }
+}
+
+/* */
+
+@media screen and (min-width: 450px) {
+    :root {
+        --toolwidth: 450px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .root {
+        --toolRight: 350px;
     }
 }
 

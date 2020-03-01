@@ -80,12 +80,12 @@ export class TokenMeasurePlugin extends BasicPlugin {
             const size: number = (this.token.size || 5) / 1
             const speed: number = (this.token.speed || 30) / 1
             const reach: number = (this.token.reach / 1 || size)
-            this.updateItem(this.m1Sprite, this.move1.value.getValue().enabled, this.move1.value.getValue().color, speed, size - 5)
+            this.updateItem(this.m1Sprite, this.move1.value.getValue().enabled, this.move1.value.getValue().color, speed, 0)
             this.updateItem(this.m2Sprite, this.move2.value.getValue().enabled, this.move2.value.getValue().color, speed * 2, speed)
             this.updateItem(this.runSprite, this.run.value.getValue().enabled, this.run.value.getValue().color, speed * 4, speed * 2)
-            this.updateItem(this.reachSprite, this.reach.value.getValue().enabled, this.reach.value.getValue().color, reach, size - 5)
+            this.updateItem(this.reachSprite, this.reach.value.getValue().enabled, this.reach.value.getValue().color, reach, 0)
             this.updateItem(this.reachWeaponSprite, this.reachWeapon.value.getValue().enabled, this.reachWeapon.value.getValue().color, reach * 2, reach)
-            this.updateItem(this.customSprite, this.custom.value.getValue().enabled, this.custom.value.getValue().color, this.custom.value.getValue().distance, size - 5)
+            this.updateItem(this.customSprite, this.custom.value.getValue().enabled, this.custom.value.getValue().color, this.custom.value.getValue().distance, 0)
         } else {
             this.container.visible = false
         }

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false, 
-  // remoteAddress : 'https://bauerstuff.com/'
-  remoteAddress : '/api/'
+  remoteAddress : 'https://bauerstuff.com/'
+  // remoteAddress : '/api/'
 
   // remoteAddress : 'http://localhost:5984/'
   // remoteAddress : 'http://localhost:5989/'

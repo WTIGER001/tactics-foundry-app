@@ -1,0 +1,16 @@
+<div class="shell">
+    <fav-tool [item]="item" (onUpdate)="updated()"></fav-tool>
+
+    <div class="inner">
+        <textarea class="text-area" [(ngModel)]="item.name" (ngModelChange)="updated()"></textarea>
+
+        <!-- <span [ngStyle]="buildStyle()">Text Preview</span> -->
+        <font-preview [style]="item.style"></font-preview>
+        <button class="btn btn-sm" (click)="showStyleDialog()"><fa-icon icon='font'></fa-icon></button>
+        <!-- <div class="format" (click)="showFormatDialog()" 
+            [style.background]="item.fill?item.fillColor:''" 
+            [style.border-color]="item.border?item.color:''" 
+            [style.border-width.px]="item.border?item.weight:0"></div> -->
+    </div>
+    <layer-pick [item]="item" (updated)="updated($event)"></layer-pick>
+</div>

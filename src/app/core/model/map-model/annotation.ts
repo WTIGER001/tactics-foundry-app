@@ -1,7 +1,7 @@
 
 // import * as modelutil from '../modelutil';
 import { ObjectType } from '../object-type';
-import { Point, Rectangle, Circle, Polygon } from 'pixi.js';
+import { Point, Rectangle, Circle, Polygon, TextStyle } from 'pixi.js';
 import { Aura, AuraVisible } from '../aura';
 import { Geom } from '../util/geom';
 import { IdUtil } from '../../util/IdUtil';
@@ -49,7 +49,7 @@ export abstract class Annotation extends ObjectType {
     // center = new CenterPoint(1, 2)
 
     sourceDB: string
-    description?: string
+    notes?: string
     map: string
     owner: string
 
@@ -87,6 +87,9 @@ export abstract class Annotation extends ObjectType {
         }
         if (MarkerTypeAnnotation.is(obj)) {
             rtn = new MarkerTypeAnnotation().copyFrom(obj)
+        }
+        if (TextAnnotation.is(obj)) {
+            rtn = new TextAnnotation().copyFrom(obj)
         }
 
         if (rtn) {
@@ -153,7 +156,6 @@ export class RectangleAnnotation extends RectangularAnnotation implements Format
     border: boolean
     color: string
     weight: number
-    style: string
     fill: boolean
     fillColor: string
 
@@ -169,6 +171,28 @@ export class RectangleAnnotation extends RectangularAnnotation implements Format
 
     static is(obj: any): obj is CircleAnnotation {
         return Annotation.is(obj) && obj.subtype == RectangleAnnotation.SUBTYPE
+    }
+}
+
+/**
+ * Represents a regular image sprite
+ */
+export class TextAnnotation extends RectangularAnnotation implements Formatted {
+    public static readonly SUBTYPE = 'text'
+    readonly subtype: string = TextAnnotation.SUBTYPE
+
+    opacity: number = 1
+    style : TextStyle = new TextStyle()
+
+    // FORMATTED
+    border: boolean
+    color: string
+    weight: number
+    fill: boolean
+    fillColor: string
+
+    static is(obj: any): obj is ShapeAnnotation {
+        return Annotation.is(obj) && obj.subtype == TextAnnotation.SUBTYPE
     }
 }
 

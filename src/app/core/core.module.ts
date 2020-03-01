@@ -9,6 +9,7 @@ import { PlatformModule } from '@angular/cdk/platform';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgQRCodeReaderModule } from 'ng2-qrcode-reader';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 import { PlayerHomeComponent } from './pages/player-home/player-home.component'
@@ -110,6 +111,11 @@ import { EncounterToolComponent } from './components/map/tools/gm/encounter-tool
 import { RoundCounterComponent } from './encounter/round-counter/round-counter.component';
 import { EncounterInfoComponent } from './encounter/encounter-info/encounter-info.component';
 import { EditImageToolComponent } from './components/map/tools/edit/edit-image-tool/edit-image-tool.component';
+import { EditTextToolComponent } from './components/map/tools/edit/edit-text-tool/edit-text-tool.component';
+import { FontStyleDialogComponent } from './components/map/tools/font-style-dialog/font-style-dialog.component';
+import { FontPreviewComponent } from './components/font-preview/font-preview.component';
+import { EditNotesToolComponent } from './components/map/tools/edit/edit-notes-tool/edit-notes-tool.component';
+import { EditNotesDialogComponent } from './components/map/tools/edit-notes-dialog/edit-notes-dialog.component';
 
 
 @NgModule({
@@ -186,7 +192,7 @@ import { EditImageToolComponent } from './components/map/tools/edit/edit-image-t
     SkillComponent, SkillDialogComponent, RollsComponent, RollComponent,
     RollDialogComponent, WeaponsComponent, WeaponComponent,
     WeaponDialogComponent, ImportDialogComponent, ImageCropDialogComponent,
-    EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent, MeasurementMessageComponent, TokenCarouselComponent, EncounterBuilderComponent, NumberSpinnerComponent, EncounterToolComponent, RoundCounterComponent, EncounterInfoComponent, EditImageToolComponent
+    EditMarkerComponent, SelectMarkerDialogComponent, GameInvitePageComponent, GameJoinPageComponent, MeasureToolComponent, EditTokenToolMeasureComponent, MeasurementMessageComponent, TokenCarouselComponent, EncounterBuilderComponent, NumberSpinnerComponent, EncounterToolComponent, RoundCounterComponent, EncounterInfoComponent, EditImageToolComponent, EditTextToolComponent, FontStyleDialogComponent, FontPreviewComponent, EditNotesToolComponent, EditNotesDialogComponent
   ],
   imports: [
     CommonModule,
@@ -199,7 +205,8 @@ import { EditImageToolComponent } from './components/map/tools/edit/edit-image-t
     PlatformModule,
     ImageCropperModule,
     QRCodeModule,
-    NgQRCodeReaderModule
+    NgQRCodeReaderModule,
+    CKEditorModule
   ],
   providers: [
     DataService,
@@ -207,7 +214,9 @@ import { EditImageToolComponent } from './components/map/tools/edit/edit-image-t
   ],
   entryComponents: [
     ToolDialogComponent,
+    EditNotesDialogComponent,
     FormatToolDialogComponent,
+    FontStyleDialogComponent,
     AddTokenToolComponent,
     SelectMarkerDialogComponent
   ]

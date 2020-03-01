@@ -47,7 +47,6 @@
     </tool-tab>
 </tool-tabs>
 
-
 <tool-tabs *ngIf="isRectangleSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
     <tool-tab label="Rectangle" icon="draw-square">
         <edit-rectangle-tool [item]="selected"></edit-rectangle-tool>
@@ -72,12 +71,22 @@
     </tool-tab>
 </tool-tabs>
 
-
 <tool-tabs *ngIf="isImageSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
     <tool-tab label="Image" icon="image">
         <edit-image [item]="selected"></edit-image>
     </tool-tab>
 </tool-tabs>
+
+<tool-tabs *ngIf="isTextSelected()" (onClose)="closeSelection()" (onActivate)="onActivate($event)">
+    <tool-tab label="Text" icon="text">
+        <edit-text-tool [item]="selected"></edit-text-tool>
+    </tool-tab>
+    <tool-tab label="Notes" icon="file-alt">
+        <edit-notes-tool [item]="selected"></edit-notes-tool>
+    </tool-tab>
+</tool-tabs>
+
+<edit-notes-dialog *ngIf="shown==='notes'" [item]="selected" (onClose)="closeTab()"></edit-notes-dialog>
 
 <!-- ITEMS -->
 <add-token-tool *ngIf="shown==='addtoken'" (onClose)="closeTab()" type='token'></add-token-tool>

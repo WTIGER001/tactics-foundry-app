@@ -1,0 +1,115 @@
+.color-pick {
+    height: 30px;
+    cursor: pointer;
+    height: 40px;
+    width: 55px;
+    border: 0px solid transparent;
+    border-radius: 5px;
+}
+
+.color-area {
+    position: fixed;
+    right: 30px;
+    bottom: 150px;
+    z-index: 1;
+}
+
+.preset-area {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: .5em;
+    justify-items: center;
+    overflow: auto;
+    height: 142px;
+    /* height: 112px; */
+    max-height: 175px;
+    margin-bottom: 1em;
+    padding-right: 5px;
+    margin-right: -5px;
+}
+
+.preset-item {
+    height: 40px;
+    width: 55px;
+    border: 0px solid transparent;
+    border-radius: 5px;
+    /* height: 30px; */
+
+}
+
+.custom-area {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap : .5em;
+    padding-right: 5px;
+}
+
+.selected {
+    color: white;
+    background: grey;
+}
+
+.font-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: .5em
+}
+
+.color-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: .5em
+}
+
+.icon-row {
+    display: grid;
+    flex-direction: row;
+    grid-template-columns: repeat(6, auto);
+    justify-content: start;
+    gap: .25em;
+}
+
+.custom-color-area{
+    display: grid;
+    grid-template-columns: 75px 100px;
+    gap : .5em;
+    padding-right: 5px;
+}
+
+.shell {
+    padding-top: 30px;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+.shell h3 {
+    margin-bottom: .5em;
+}
+
+.custom-area .btn {
+    font-size: 1em;
+    max-width: 150px;
+    justify-self: right;
+}
+
+.notvisible {
+    visibility: hidden;
+}
+
+@media screen  and (max-height: 640px) {
+    .preset-area {
+        max-height: 45px;
+    }
+    .custom-area {
+        gap: unset;
+    }
+    .shell {
+        padding-top: 1em;
+    }
+}

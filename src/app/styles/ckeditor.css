@@ -1,0 +1,20 @@
+
+.toolshell .ck.ck-editor {
+    width: calc(var(--toolwidth) - 50px);
+    position: unset;
+}
+
+
+.toolshell .ck-editor__editable_inline {
+    height: 100px;
+}
+
+.tooldialog .ck.ck-editor {
+    width: calc(var(--toolwidth) - 1em);
+    position: unset;
+}
+
+
+.tooldialog .ck-editor__editable_inline {
+    height: 85vh;
+}

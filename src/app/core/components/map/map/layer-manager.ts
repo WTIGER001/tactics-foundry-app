@@ -1,4 +1,4 @@
-import { MapData, CircleAnnotation, ShapeAnnotation, ShapeType, PolygonAnnotation, TokenAnnotation, TokenBar, Annotation, Distance, RectangleAnnotation, MarkerTypeAnnotation, PolylineAnnotation, ImageAnnotation } from 'src/app/core/model';
+import { MapData, CircleAnnotation, ShapeAnnotation, ShapeType, PolygonAnnotation, TokenAnnotation, TokenBar, Annotation, Distance, RectangleAnnotation, MarkerTypeAnnotation, PolylineAnnotation, ImageAnnotation, TextAnnotation } from 'src/app/core/model';
 import { MapComponent } from './map.component'
 import { GraphicsGeometry, Graphics, SpriteMaskFilter, Rectangle, Sprite, Container, DisplayObject, Polygon, Point } from 'pixi.js';
 import { LangUtil } from 'src/app/core/util/LangUtil';
@@ -23,6 +23,7 @@ import { FlagPlugin } from '../plugins/flag-plugin';
 import { MarkerPlugin } from '../plugins/marker-plugin';
 import { TokenMeasurePlugin } from '../plugins/token-measure-plugin';
 import { ImagePlugin } from '../plugins/image-plugin';
+import { TextPlugin } from '../plugins/text-plugin';
 
 
 export type LayerType = 'player' | 'background' |'gm' |'decal' |'fog'
@@ -185,6 +186,8 @@ export class MapLayerManager {
             return new PathPlugin(this)
         } else if (ImageAnnotation.is(annotation)) {
             return new ImagePlugin(this)
+        } else if (TextAnnotation.is(annotation)) {
+            return new TextPlugin(this)
         }
         console.log("Invalid Annotation Type " + annotation.objType)
     }

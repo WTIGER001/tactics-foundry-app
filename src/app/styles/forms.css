@@ -29,6 +29,13 @@
     box-shadow: 1px 1px 5px #444444;
 }
 
+.btn-sm {
+    font-size: 1em;
+}
+.btn-vsm {
+    font-size: .9em;
+}
+
 button.btn-submit {
     border-radius: 5px;
     cursor: pointer;

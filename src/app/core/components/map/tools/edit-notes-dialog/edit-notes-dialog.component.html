@@ -1,0 +1,6 @@
+<tool-item (onClose)="close()" [image]="image" [imageOverlap]="imageOverlap">
+    <div class="shell tooldialog">
+        <h3>Notes</h3>
+        <ckeditor [editor]="Editor"  [(ngModel)]="item.notes" (NgModelChange)="update()"></ckeditor>
+    </div>
+</tool-item>

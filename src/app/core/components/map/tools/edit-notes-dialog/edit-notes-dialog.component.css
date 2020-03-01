@@ -1,0 +1,14 @@
+.shell {
+    height: 90vh;
+    max-height: 90vh;
+    max-width: calc(var(--tabswidth) - 1em);
+    padding: .5em;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: .5em
+}
+
+.shell h3 {
+    color: white;
+    text-shadow: 1px 1px black;
+}

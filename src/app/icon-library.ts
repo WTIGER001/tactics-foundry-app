@@ -1,7 +1,8 @@
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome'
 
 import {
-  faStar as SOLID_STAR, faUndo, faPause, faPlay, faBorderNone, faBorderOuter, faBorderStyleAlt, faBorderInner,
+  faStar as SOLID_STAR, faFileAlt,
+  faUndo, faPause, faPlay, faBorderNone, faBorderOuter, faBorderStyleAlt, faBorderInner, faFont, faBold, faItalic, faAlignLeft, faAlignCenter, faAlignRight,
   faFunction, faDiceD4, faDiceD6, faDiceD8, faDiceD10, faDiceD12, faCoin, faMinus, faTimesSquare, faQrcode, faWalking, faTasksAlt, faUniversalAccess, faStop,
   faText, faPennant, faPlusHexagon, faBorderAll, faFog, faTools, faMapMarkedAlt, faPaperPlane, faCheckSquare, faSortAlphaDown, faChalkboard, faPlus, faBookmark, faShield, faShieldAlt, faCopy, faCaretRight, faCaretLeft, faCaretDown, faCaretUp, faDiceSix, faDiceD20, faTrash, faTrashAlt, faArrowUp, faArrowDown, faArrowLeft, faArrowRight, faArrows, faPaperclip,
   faLayerGroup, faExpand, faTimes, faUnlink, faLink, faPencilAlt, faCheck, faPencil, faSortAmountUp, faSort, faSortAmountDown, faHome, faCog, faSlidersH, faSearch, faSignIn, faSignOut, faSignOutAlt, faSave, faLock, faUnlock, faRuler, faBroadcastTower, faEar,
@@ -30,7 +31,8 @@ export class Icons {
 
   solidPro(l: FaIconLibrary) {
     l.addIcons(
-      faBorderNone, faBorderOuter, faBorderStyleAlt, faBorderInner, faStop,
+      faFileAlt,
+      faBorderNone, faBorderOuter, faBorderStyleAlt, faBorderInner, faStop, faFont,faBold, faItalic, faAlignLeft, faAlignCenter, faAlignRight,
       faFunction, faTimesSquare, faQrcode, faWalking, faTasksAlt, faUniversalAccess, faUndo, faPause, faPlay,
       faDiceD4, faDiceD6, faDiceD8, faDiceD10, faDiceD12, faCoin, faMinus,
       faExpand,

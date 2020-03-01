@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ComponentFactoryResolver, AfterViewInit, 
 import { PlaceholderDirective } from 'src/app/core/directives/placeholder.directive';
 import { ToolDialogComponent } from '../tool-dialog/tool-dialog.component';
 import { ToolTabsComponent } from '../tool-tabs/tool-tabs.component';
-import { Annotation, TokenAnnotation, CircleAnnotation, RectangleAnnotation, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation, ImageAnnotation } from 'src/app/core/model';
+import { Annotation, TokenAnnotation, CircleAnnotation, RectangleAnnotation, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation, ImageAnnotation, TextAnnotation } from 'src/app/core/model';
 import { LivePageComponent } from 'src/app/core/pages/live-page/live-page.component';
 import { MeasurePlugin } from '../../plugins/measure-plugin';
 
@@ -144,6 +144,10 @@ export class ToolsComponent  {
   
   isImageSelected() {
     return ImageAnnotation.is(this.selected)
+  }
+
+  isTextSelected() {
+    return TextAnnotation.is(this.selected)
   }
 
   showTabs(name : string) {

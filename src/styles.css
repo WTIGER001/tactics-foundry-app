@@ -4,6 +4,7 @@
 @import 'app/styles/slider.css';
 @import 'app/styles/typography.css';
 @import 'app/styles/welcome.css';
+@import 'app/styles/ckeditor.css';
 
 @font-face {
     font-family: 'ringbearer';

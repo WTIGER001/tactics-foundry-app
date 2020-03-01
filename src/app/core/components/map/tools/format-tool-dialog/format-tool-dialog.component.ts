@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
-import { Annotation, CircleAnnotation, Formatted } from 'src/app/core/model';
+import {  Formatted } from 'src/app/core/model';
 import { ToolDialogComponent } from '../tool-dialog/tool-dialog.component';
 import { LangUtil } from 'src/app/core/util/LangUtil';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ColorPickerDirective } from 'ngx-color-picker';
 
 @Component({

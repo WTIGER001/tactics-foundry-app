@@ -76,6 +76,8 @@ export abstract class RectangularPlugin<T extends RectangularAnnotation> extends
         this.handletl.y = this.handletr.y = this.annotation.y
         this.handletr.x = this.handlebr.x = this.annotation.x + this.annotation.w * this.ppf
         this.handlebl.y = this.handlebr.y = this.annotation.y + this.annotation.h * this.ppf
+        
+        this.layerMgr.session.limitedUpdates$.next(this.annotation)
     }
 
     update() {
@@ -132,8 +134,8 @@ export abstract class RectangularPlugin<T extends RectangularAnnotation> extends
             this.annotation.h = (pt.y - this.handletl.y) / this.ppf
         }
 
-        this.annotation.w = +(this.annotation.w.toFixed(1))
-        this.annotation.h = +(this.annotation.h.toFixed(1))
+        // this.annotation.w = +(this.annotation.w.toFixed(1))
+        // this.annotation.h = +(this.annotation.h.toFixed(1))
 
         // Format and draw
         this.updateSprite()

@@ -5,7 +5,7 @@ import { PlaceholderDirective } from 'src/app/core/directives/placeholder.direct
 import { ToolDialogComponent } from '../../tool-dialog/tool-dialog.component';
 import { ToolsComponent } from '../../tools/tools.component';
 import { ImageUtil, ImageResult } from 'src/app/core/util/ImageUtil';
-import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation, ImageAnnotation } from 'src/app/core/model';
+import { TokenAnnotation, RouteContext, MapData, CircleAnnotation, RectangleAnnotation, Formatted, Geom, PolygonAnnotation, MarkerTypeAnnotation, PolylineAnnotation, ImageAnnotation, TextAnnotation } from 'src/app/core/model';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
 import { MapComponent } from '../../../map/map.component';
@@ -121,7 +121,22 @@ export class AddToolComponent implements OnInit {
   }
 
   startText() {
-
+    const center: Point = this.session.mapview.getCenter()
+    const a = new TextAnnotation()
+    a.x = center.x
+    a.y = center.y
+    a.name = "New Marker"
+    a.layer = this.session.currentLayer
+    a.owner = this.session.data.player._id
+    a.style.fontFamily ="Arial"
+    a.style.fontSize = 24
+    a.style.fill = "rgb(255,255,255)"
+    a.style.stroke = "rgb(0,0,0)"
+    a.style.strokeThickness = 4
+    a.style.lineJoin ='round'
+    a.style.align = 'left'
+    
+    this.session.layerMgr.storeAnnotation(a)
   }
 
   closeDialog() {
