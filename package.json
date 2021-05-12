@@ -53,7 +53,7 @@
     "angularx-qrcode": "^2.1.0",
     "background-check": "git+https://github.com/kennethcachia/background-check.git",
     "blob-util": "^2.0.2",
-    "mathjs": "^6.5.0",
+    "mathjs": "^7.5.1",
     "moment": "^2.24.0",
     "ng2-qrcode-reader": "0.0.1",
     "ngx-color-picker": "^8.2.0",
